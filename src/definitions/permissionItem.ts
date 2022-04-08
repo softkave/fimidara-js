@@ -1,4 +1,4 @@
-import { AppResourceType, BasicCRUDActions, IAgent } from "./system";
+import {AppResourceType, BasicCRUDActions, IAgent} from './system';
 
 export interface IPermissionItem {
   resourceId: string;
@@ -12,7 +12,7 @@ export interface IPermissionItem {
   itemResourceId?: string;
   itemResourceType: AppResourceType;
   action: BasicCRUDActions;
-  isExclusion?: boolean;
+  grantAccess?: boolean;
   isForPermissionOwner?: boolean;
   isForPermissionOwnerChildren?: boolean;
 }
@@ -21,7 +21,7 @@ export interface INewPermissionItemInput {
   permissionEntityId: string;
   permissionEntityType: AppResourceType;
   action: BasicCRUDActions;
-  isExclusion?: boolean;
+  grantAccess?: boolean;
   isForPermissionOwner?: boolean;
   permissionOwnerId: string;
   permissionOwnerType: AppResourceType;

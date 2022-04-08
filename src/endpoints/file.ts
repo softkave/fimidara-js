@@ -1,19 +1,19 @@
-import type { Blob, Response } from "node-fetch";
-import FilesConfig from "../config";
+import type {Blob, Response} from 'node-fetch';
+import FilesConfig from '../config';
 import {
   IFile,
   IFileMatcher,
   IImageTransformationParams,
   IUpdateFileDetailsInput,
   UploadFilePublicAccessActions,
-} from "../definitions/file";
-import { CredentialsNotProvidedError } from "../errors";
+} from '../definitions/file';
+import {CredentialsNotProvidedError} from '../errors';
 import {
   FormDataType,
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
+} from '../types';
 import {
   invokeEndpoint,
   invokeEndpointWithAuth,
@@ -21,23 +21,23 @@ import {
   HTTP_HEADER_AUTHORIZATION,
   setEndpointParam,
   EndpointsBase,
-} from "../utils";
+} from '../utils';
 
 const URLSearchParams =
-  require("core-js/features/url-search-params") as typeof globalThis["URLSearchParams"];
+  require('core-js/features/url-search-params') as typeof globalThis['URLSearchParams'];
 
-const baseURL = "/files";
+const baseURL = '/files';
 const deleteFileURL = `${baseURL}/deleteFile`;
 const getFileDetailsURL = `${baseURL}/getFileDetails`;
 const updateFileDetailsURL = `${baseURL}/updateFileDetails`;
 const uploadFileURL = `${baseURL}/uploadFile`;
 const getFileURL = `${baseURL}/getFile`;
 
-const UPLOAD_FILE_BLOB_FORMDATA_KEY = "data";
-const PATH_QUERY_PARAMS_KEY = "p";
-const ORG_ID_QUERY_PARAMS_KEY = "orgId";
-const IMAGE_WIDTH_QUERY_PARAMS_KEY = "w";
-const IMAGE_HEIGHT_QUERY_PARAMS_KEY = "h";
+const UPLOAD_FILE_BLOB_FORMDATA_KEY = 'data';
+const PATH_QUERY_PARAMS_KEY = 'p';
+const ORG_ID_QUERY_PARAMS_KEY = 'orgId';
+const IMAGE_WIDTH_QUERY_PARAMS_KEY = 'w';
+const IMAGE_HEIGHT_QUERY_PARAMS_KEY = 'h';
 
 function getFetchImagePath(
   orgId: string,
@@ -109,7 +109,7 @@ export type IUploadFileEndpointResult = GetEndpointResult<{
 }>;
 
 const FormDataImpl = ((globalThis as any).FormData ||
-  require("form-data")) as FormDataType;
+  require('form-data')) as FormDataType;
 
 export default class FileEndpoints extends EndpointsBase {
   async deleteFile(props: IDeleteFileEndpointParams) {
@@ -144,7 +144,7 @@ export default class FileEndpoints extends EndpointsBase {
       data: props,
       token: this.getAuthToken(props),
       returnFetchResponse: true,
-      method: "GET",
+      method: 'GET',
     });
 
     const buffer = await response.arrayBuffer();
@@ -155,14 +155,14 @@ export default class FileEndpoints extends EndpointsBase {
 
   async uploadFile(props: IUploadFileEndpointParams) {
     const formData = new FormDataImpl();
-    formData.append("organizationId", props.organizationId);
+    formData.append('organizationId', props.organizationId);
     formData.append(UPLOAD_FILE_BLOB_FORMDATA_KEY, props.data);
-    setEndpointFormData(formData, "description", props.description);
-    setEndpointFormData(formData, "fileId", props.fileId);
-    setEndpointFormData(formData, "filePath", props.filePath);
-    setEndpointFormData(formData, "encoding", props.encoding);
-    setEndpointFormData(formData, "extension", props.extension);
-    setEndpointFormData(formData, "mimetype", props.mimetype);
+    setEndpointFormData(formData, 'description', props.description);
+    setEndpointFormData(formData, 'fileId', props.fileId);
+    setEndpointFormData(formData, 'filepath', props.filepath);
+    setEndpointFormData(formData, 'encoding', props.encoding);
+    setEndpointFormData(formData, 'extension', props.extension);
+    setEndpointFormData(formData, 'mimetype', props.mimetype);
 
     const requestToken = this.getAuthToken(props);
 
