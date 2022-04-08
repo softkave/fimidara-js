@@ -2,7 +2,7 @@
 
 **Endpoints**
 
-- [organizations](#organizations)
+- [organizations](https://github.com/softkave/files-js/blob/e48d6e04d00dc22bc18adf7eb98d178fcbda1ef4/src/endpoints/clientAssignedToken.ts#L67)
   - [getOrganization](#organizationsgetorganization)
   - [updateOrganization](#organizationsupdateorganization)
 - [collaborators](#collaborators)
@@ -35,12 +35,12 @@
   - [getOrganizationTokens](#programaccesstokensgetorganizationtokens)
   - [getToken](#programaccesstokensgettoken)
   - [updateToken](#programaccesstokensupdatetoken)
-- [clientAssignedTokens](#clientassignedtokens)
-  - [addToken](#clientassignedtokensaddtoken)
-  - [deleteToken](#clientassignedtokensdeletetoken)
-  - [getOrganizationTokens](#clientassignedtokensgetorganizationtokens)
-  - [getToken](#clientassignedtokensgettoken)
-  - [updateToken](#clientassignedtokensupdatetoken)
+- [clientAssignedTokens](https://github.com/softkave/files-js/blob/e48d6e04d00dc22bc18adf7eb98d178fcbda1ef4/src/endpoints/clientAssignedToken.ts#L67)
+  - [addToken](https://github.com/softkave/files-js/blob/e48d6e04d00dc22bc18adf7eb98d178fcbda1ef4/src/endpoints/clientAssignedToken.ts#L68)
+  - [deleteToken](https://github.com/softkave/files-js/blob/e48d6e04d00dc22bc18adf7eb98d178fcbda1ef4/src/endpoints/clientAssignedToken.ts#L96)
+  - [getOrganizationTokens](https://github.com/softkave/files-js/blob/e48d6e04d00dc22bc18adf7eb98d178fcbda1ef4/src/endpoints/clientAssignedToken.ts#L76)
+  - [getToken](https://github.com/softkave/files-js/blob/e48d6e04d00dc22bc18adf7eb98d178fcbda1ef4/src/endpoints/clientAssignedToken.ts#L88)
+  - [updateToken](https://github.com/softkave/files-js/blob/e48d6e04d00dc22bc18adf7eb98d178fcbda1ef4/src/endpoints/clientAssignedToken.ts#L96)
 - [presetPermissionsGroups](#presetpermissionsgroups)
   - [addPreset](#presetpermissionsgroupsaddpreset)
   - [deletePreset](#presetpermissionsgroupsdeletepreset)
