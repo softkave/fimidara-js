@@ -1,12 +1,12 @@
-import { IGetResourceInputItem, IResource } from "../definitions/resource";
-import { GetEndpointResult, IEndpointParamsBase } from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+import {IGetResourceInputItem, IResource} from '../definitions/resource';
+import {GetEndpointResult, IEndpointParamsBase} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/resources";
+const baseURL = '/resources';
 const getResourcesURL = `${baseURL}/getResources`;
 
 export interface IGetResourcesEndpointParams extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   resources: Array<IGetResourceInputItem>;
 }
 

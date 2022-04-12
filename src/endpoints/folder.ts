@@ -1,18 +1,18 @@
-import { IFile } from "../definitions/file";
+import {IFile} from '../definitions/file';
 import {
   IFolder,
   IFolderMatcher,
   INewFolderInput,
   IUpdateFolderInput,
-} from "../definitions/folder";
+} from '../definitions/folder';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/folders";
+const baseURL = '/folders';
 const addFolderURL = `${baseURL}/addFolder`;
 const listFolderContentURL = `${baseURL}/listFolderContent`;
 const getFolderURL = `${baseURL}/getFolder`;
@@ -20,7 +20,7 @@ const deleteFolderURL = `${baseURL}/deleteFolder`;
 const updateFolderURL = `${baseURL}/updateFolder`;
 
 export interface IAddFolderEndpointParams extends IEndpointParamsBase {
-  organizationId?: string;
+  workspaceId?: string;
   folder: INewFolderInput;
 }
 

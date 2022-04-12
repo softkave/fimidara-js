@@ -2,24 +2,24 @@ import {
   INewPresetPermissionsGroupInput,
   IPresetPermissionsGroup,
   IUpdatePresetPermissionsGroupInput,
-} from "../definitions/presets";
+} from '../definitions/presets';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/presetPermissionsGroups";
+const baseURL = '/presetPermissionsGroups';
 const addPresetURL = `${baseURL}/addPreset`;
-const getOrganizationPresetsURL = `${baseURL}/getOrganizationPresets`;
+const getWorkspacePresetsURL = `${baseURL}/getWorkspacePresets`;
 const getPresetURL = `${baseURL}/getPreset`;
 const deletePresetURL = `${baseURL}/deletePreset`;
 const updatePresetURL = `${baseURL}/updatePreset`;
 
 export interface IAddPresetPermissionsGroupEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   preset: INewPresetPermissionsGroupInput;
 }
 
@@ -32,12 +32,12 @@ export interface IDeletePresetPermissionsGroupEndpointParams
   presetId: string;
 }
 
-export interface IGetOrganizationPresetPermissionsGroupEndpointParams
+export interface IGetWorkspacePresetPermissionsGroupEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
 }
 
-export type IGetOrganizationPresetPermissionsGroupEndpointResult =
+export type IGetWorkspacePresetPermissionsGroupEndpointResult =
   GetEndpointResult<{
     presets: IPresetPermissionsGroup[];
   }>;
@@ -70,12 +70,12 @@ export default class PresetPermissionsGroupEndpoints extends EndpointsBase {
     });
   }
 
-  async getOrganizationPresets(
-    props: IGetOrganizationPresetPermissionsGroupEndpointParams
+  async getWorkspacePresets(
+    props: IGetWorkspacePresetPermissionsGroupEndpointParams
   ) {
-    return await invokeEndpointWithAuth<IGetOrganizationPresetPermissionsGroupEndpointResult>(
+    return await invokeEndpointWithAuth<IGetWorkspacePresetPermissionsGroupEndpointResult>(
       {
-        path: getOrganizationPresetsURL,
+        path: getWorkspacePresetsURL,
         data: props,
         token: this.getAuthToken(props),
       }

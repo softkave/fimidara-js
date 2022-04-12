@@ -1,20 +1,20 @@
-import { IPresetInput } from "../definitions/presets";
-import { ICollaborator } from "../definitions/user";
+import {IPresetInput} from '../definitions/presets';
+import {ICollaborator} from '../definitions/user';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/collaborators";
+const baseURL = '/collaborators';
 const removeCollaboratorURL = `${baseURL}/removeCollaborator`;
-const getOrganizationCollaboratorsURL = `${baseURL}/getOrganizationCollaborators`;
+const getWorkspaceCollaboratorsURL = `${baseURL}/getWorkspaceCollaborators`;
 const getCollaboratorURL = `${baseURL}/getCollaborator`;
 const updateCollaboratorPresetsURL = `${baseURL}/updateCollaboratorPresets`;
 
 export interface IGetCollaboratorEndpointParams extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   collaboratorId: string;
 }
 
@@ -22,23 +22,23 @@ export type IGetCollaboratorEndpointResult = GetEndpointResult<{
   collaborator: ICollaborator;
 }>;
 
-export interface IGetOrganizationCollaboratorsEndpointParams
+export interface IGetWorkspaceCollaboratorsEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
 }
 
-export type IGetOrganizationCollaboratorsEndpointResult = GetEndpointResult<{
+export type IGetWorkspaceCollaboratorsEndpointResult = GetEndpointResult<{
   collaborators: ICollaborator[];
 }>;
 
 export interface IRemoveCollaboratorEndpointParams extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   collaboratorId: string;
 }
 
 export interface IUpdateCollaboratorPresetsEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   collaboratorId: string;
   presets: IPresetInput[];
 }
@@ -56,12 +56,12 @@ export default class CollaboratorEndpoints extends EndpointsBase {
     });
   }
 
-  async getOrganizationCollaborators(
-    props: IGetOrganizationCollaboratorsEndpointParams
+  async getWorkspaceCollaborators(
+    props: IGetWorkspaceCollaboratorsEndpointParams
   ) {
-    return await invokeEndpointWithAuth<IGetOrganizationCollaboratorsEndpointResult>(
+    return await invokeEndpointWithAuth<IGetWorkspaceCollaboratorsEndpointResult>(
       {
-        path: getOrganizationCollaboratorsURL,
+        path: getWorkspaceCollaboratorsURL,
         data: props,
         token: this.getAuthToken(props),
       }

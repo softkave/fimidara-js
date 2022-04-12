@@ -1,7 +1,7 @@
 export enum SessionAgentType {
-  User = "user",
-  ProgramAccessToken = "program-access-token",
-  ClientAssignedToken = "client-assigned-token",
+  User = 'user',
+  ProgramAccessToken = 'program-access-token',
+  ClientAssignedToken = 'client-assigned-token',
 }
 
 export interface IPublicAccessOpInput {
@@ -22,27 +22,27 @@ export interface IAgent {
 }
 
 export enum AppResourceType {
-  All = "*",
-  Organization = "organization",
-  CollaborationRequest = "collaboration-request",
-  ProgramAccessToken = "program-access-token",
-  ClientAssignedToken = "client-assigned-token",
-  UserToken = "user-token",
-  PresetPermissionsGroup = "preset-permissions-group",
-  PermissionItem = "permission-item",
-  Folder = "folder",
-  File = "file",
-  User = "user",
+  All = '*',
+  Workspace = 'workspace',
+  CollaborationRequest = 'collaboration-request',
+  ProgramAccessToken = 'program-access-token',
+  ClientAssignedToken = 'client-assigned-token',
+  UserToken = 'user-token',
+  PresetPermissionsGroup = 'preset-permissions-group',
+  PermissionItem = 'permission-item',
+  Folder = 'folder',
+  File = 'file',
+  User = 'user',
 }
 
 export enum BasicCRUDActions {
-  All = "*",
-  Create = "create",
-  Read = "read",
-  Update = "update",
-  Delete = "delete",
+  All = '*',
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+  Delete = 'delete',
 
-  GrantPermission = "grant-permission",
+  GrantPermission = 'grant-permission',
 }
 
 export interface IAppError extends Error {

@@ -34,28 +34,28 @@ const uploadFileURL = `${baseURL}/uploadFile`;
 const getFileURL = `${baseURL}/getFile`;
 
 const UPLOAD_FILE_BLOB_FORMDATA_KEY = 'data';
-const PATH_QUERY_PARAMS_KEY = 'p';
-const ORG_ID_QUERY_PARAMS_KEY = 'orgId';
+const PATH_QUERY_PARAMS_KEY = 'filepath';
+const WORKSPACE_ID_QUERY_PARAMS_KEY = 'workspaceId';
 const IMAGE_WIDTH_QUERY_PARAMS_KEY = 'w';
 const IMAGE_HEIGHT_QUERY_PARAMS_KEY = 'h';
 
 function getFetchImagePath(
-  orgId: string,
+  workspaceId: string,
   filepath: string,
   width: number,
   height: number
 ) {
   const params = new URLSearchParams();
-  params.append(ORG_ID_QUERY_PARAMS_KEY, orgId);
+  params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
   params.append(PATH_QUERY_PARAMS_KEY, filepath);
   setEndpointParam(params, IMAGE_WIDTH_QUERY_PARAMS_KEY, width);
   setEndpointParam(params, IMAGE_HEIGHT_QUERY_PARAMS_KEY, height);
   return getFileURL + `?${params.toString()}`;
 }
 
-function getUploadFilePath(orgId: string, filepath: string) {
+function getUploadFilePath(workspaceId: string, filepath: string) {
   const params = new URLSearchParams();
-  params.append(ORG_ID_QUERY_PARAMS_KEY, orgId);
+  params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
   params.append(PATH_QUERY_PARAMS_KEY, filepath);
   return uploadFileURL + `?${params.toString()}`;
 }
@@ -155,8 +155,8 @@ export default class FileEndpoints extends EndpointsBase {
 
   async uploadFile(props: IUploadFileEndpointParams) {
     const formData = new FormDataImpl();
-    formData.append('organizationId', props.organizationId);
     formData.append(UPLOAD_FILE_BLOB_FORMDATA_KEY, props.data);
+    setEndpointFormData(formData, 'workspaceId', props.workspaceId);
     setEndpointFormData(formData, 'description', props.description);
     setEndpointFormData(formData, 'fileId', props.fileId);
     setEndpointFormData(formData, 'filepath', props.filepath);

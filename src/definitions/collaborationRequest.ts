@@ -30,8 +30,8 @@ export interface ICollaborationRequest {
   createdBy: IAgent;
   createdAt: string;
   expiresAt?: string;
-  organizationId: string;
-  organizationName: string;
+  workspaceId: string;
+  workspaceName: string;
   lastUpdatedAt?: string;
   lastUpdatedBy?: IAgent;
   readAt?: string;

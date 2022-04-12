@@ -2,24 +2,24 @@ import {
   INewProgramAccessTokenInput,
   IProgramAccessToken,
   IUpdateProgramAccessTokenInput,
-} from "../definitions/programAccessToken";
+} from '../definitions/programAccessToken';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/programAccessTokens";
+const baseURL = '/programAccessTokens';
 const addTokenURL = `${baseURL}/addToken`;
-const getOrganizationTokensURL = `${baseURL}/getOrganizationTokens`;
+const getWorkspaceTokensURL = `${baseURL}/getWorkspaceTokens`;
 const getTokenURL = `${baseURL}/getToken`;
 const deleteTokenURL = `${baseURL}/deleteToken`;
 const updateTokenURL = `${baseURL}/updateToken`;
 
 export interface IAddProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   token: INewProgramAccessTokenInput;
 }
 
@@ -33,15 +33,14 @@ export interface IDeleteProgramAccessTokenEndpointParams
   onReferenced?: boolean;
 }
 
-export interface IGetOrganizationProgramAccessTokenEndpointParams
+export interface IGetWorkspaceProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
 }
 
-export type IGetOrganizationProgramAccessTokenEndpointResult =
-  GetEndpointResult<{
-    tokens: IProgramAccessToken[];
-  }>;
+export type IGetWorkspaceProgramAccessTokenEndpointResult = GetEndpointResult<{
+  tokens: IProgramAccessToken[];
+}>;
 
 export interface IGetProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
@@ -72,12 +71,12 @@ export default class ProgramAccessTokenEndpoints extends EndpointsBase {
     });
   }
 
-  async getOrganizationTokens(
-    props: IGetOrganizationProgramAccessTokenEndpointParams
+  async getWorkspaceTokens(
+    props: IGetWorkspaceProgramAccessTokenEndpointParams
   ) {
-    return await invokeEndpointWithAuth<IGetOrganizationProgramAccessTokenEndpointResult>(
+    return await invokeEndpointWithAuth<IGetWorkspaceProgramAccessTokenEndpointResult>(
       {
-        path: getOrganizationTokensURL,
+        path: getWorkspaceTokensURL,
         data: props,
         token: this.getAuthToken(props),
       }

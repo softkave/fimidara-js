@@ -2,17 +2,17 @@ import {
   ICollaborationRequest,
   ICollaborationRequestInput,
   IUpdateCollaborationRequestInput,
-} from "../definitions/collaborationRequest";
+} from '../definitions/collaborationRequest';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/requests";
+const baseURL = '/requests';
 const deleteRequestURL = `${baseURL}/deleteRequest`;
-const getOrganizationRequestsURL = `${baseURL}/getOrganizationRequests`;
+const getWorkspaceRequestsURL = `${baseURL}/getWorkspaceRequests`;
 const sendRequestURL = `${baseURL}/sendRequest`;
 const updateRequestURL = `${baseURL}/updateRequest`;
 const revokeRequestURL = `${baseURL}/revokeRequest`;
@@ -23,12 +23,12 @@ export interface IDeleteCollaborationRequestEndpointParams
   requestId: string;
 }
 
-export interface IGetOrganizationCollaborationRequestsEndpointParams
+export interface IGetWorkspaceCollaborationRequestsEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
 }
 
-export type IGetOrganizationCollaborationRequestsEndpointResult =
+export type IGetWorkspaceCollaborationRequestsEndpointResult =
   GetEndpointResult<{
     requests: ICollaborationRequest[];
   }>;
@@ -44,7 +44,7 @@ export type IRevokeCollaborationRequestEndpointResult = GetEndpointResult<{
 
 export interface ISendCollaborationRequestEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   request: ICollaborationRequestInput;
 }
 
@@ -80,12 +80,12 @@ export default class CollaborationRequestEndpoints extends EndpointsBase {
     });
   }
 
-  async getOrganizationRequests(
-    props: IGetOrganizationCollaborationRequestsEndpointParams
+  async getWorkspaceRequests(
+    props: IGetWorkspaceCollaborationRequestsEndpointParams
   ) {
-    return invokeEndpointWithAuth<IGetOrganizationCollaborationRequestsEndpointResult>(
+    return invokeEndpointWithAuth<IGetWorkspaceCollaborationRequestsEndpointResult>(
       {
-        path: getOrganizationRequestsURL,
+        path: getWorkspaceRequestsURL,
         data: props,
         token: this.getAuthToken(props),
       }

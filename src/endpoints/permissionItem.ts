@@ -1,23 +1,23 @@
 import {
   INewPermissionItemInput,
   IPermissionItem,
-} from "../definitions/permissionItem";
-import { AppResourceType } from "../definitions/system";
+} from '../definitions/permissionItem';
+import {AppResourceType} from '../definitions/system';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/permissionItems";
+const baseURL = '/permissionItems';
 const addItemsURL = `${baseURL}/addItems`;
 const deleteItemsByIdURL = `${baseURL}/deleteItemsById`;
 const getEntityPermissionItemsURL = `${baseURL}/getEntityPermissionItems`;
 const getResourcePermissionItemsURL = `${baseURL}/getResourcePermissionItems`;
 
 export interface IAddPermissionItemsEndpointParams extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   items: INewPermissionItemInput[];
 }
 
@@ -27,13 +27,13 @@ export type IAddPermissionItemsEndpointResult = GetEndpointResult<{
 
 export interface IDeletePermissionItemsByIdEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   itemIds: string[];
 }
 
 export interface IGetEntityPermissionItemsEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   permissionEntityId: string;
   permissionEntityType: AppResourceType;
 }
@@ -44,7 +44,7 @@ export type IGetEntityPermissionItemsEndpointResult = GetEndpointResult<{
 
 export interface IGetResourcePermissionItemsEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
   itemResourceId?: string;
   itemResourceType: AppResourceType;
   permissionOwnerId?: string;

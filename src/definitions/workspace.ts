@@ -1,6 +1,6 @@
 import {IAgent} from './system';
 
-export interface IOrganization {
+export interface IWorkspace {
   resourceId: string;
   createdBy: IAgent;
   createdAt: string;
@@ -10,9 +10,9 @@ export interface IOrganization {
   description?: string;
 }
 
-export interface INewOrganizationInput {
+export interface INewWorkspaceInput {
   name: string;
   description?: string;
 }
 
-export type IUpdateOrganizationInput = Partial<INewOrganizationInput>;
+export type IUpdateWorkspaceInput = Partial<INewWorkspaceInput>;

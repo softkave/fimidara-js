@@ -1,24 +1,24 @@
 import {
   IClientAssignedToken,
   INewClientAssignedTokenInput,
-} from "../definitions/clientAssignedToken";
+} from '../definitions/clientAssignedToken';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
-} from "../types";
-import { EndpointsBase, invokeEndpointWithAuth } from "../utils";
+} from '../types';
+import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = "/clientAssignedTokens";
+const baseURL = '/clientAssignedTokens';
 const addTokenURL = `${baseURL}/addToken`;
-const getOrganizationTokensURL = `${baseURL}/getOrganizationTokens`;
+const getWorkspaceTokensURL = `${baseURL}/getWorkspaceTokens`;
 const getTokenURL = `${baseURL}/getToken`;
 const deleteTokenURL = `${baseURL}/deleteToken`;
 const updateTokenURL = `${baseURL}/updateToken`;
 
 export interface IAddClientAssignedTokenEndpointParams
   extends IEndpointParamsBase {
-  organizationId?: string;
+  workspaceId?: string;
   token: INewClientAssignedTokenInput;
 }
 
@@ -33,12 +33,12 @@ export interface IDeleteClientAssignedTokenEndpointParams
   onReferenced?: boolean;
 }
 
-export interface IGetOrganizationClientAssignedTokensEndpointParams
+export interface IGetWorkspaceClientAssignedTokensEndpointParams
   extends IEndpointParamsBase {
-  organizationId: string;
+  workspaceId: string;
 }
 
-export type IGetOrganizationClientAssignedTokensEndpointResult =
+export type IGetWorkspaceClientAssignedTokensEndpointResult =
   GetEndpointResult<{
     tokens: IClientAssignedToken[];
   }>;
@@ -73,12 +73,12 @@ export default class ClientAssignedTokenEndpoints extends EndpointsBase {
     });
   }
 
-  async getOrganizationTokens(
-    props: IGetOrganizationClientAssignedTokensEndpointParams
+  async getWorkspaceTokens(
+    props: IGetWorkspaceClientAssignedTokensEndpointParams
   ) {
-    return await invokeEndpointWithAuth<IGetOrganizationClientAssignedTokensEndpointResult>(
+    return await invokeEndpointWithAuth<IGetWorkspaceClientAssignedTokensEndpointResult>(
       {
-        path: getOrganizationTokensURL,
+        path: getWorkspaceTokensURL,
         data: props,
         token: this.getAuthToken(props),
       }
