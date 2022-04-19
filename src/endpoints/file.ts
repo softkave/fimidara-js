@@ -1,5 +1,4 @@
 import type {Blob, Response} from 'node-fetch';
-import FilesConfig from '../config';
 import {
   IFile,
   IFileMatcher,
@@ -117,6 +116,7 @@ export default class FileEndpoints extends EndpointsBase {
       path: deleteFileURL,
       data: props,
       token: this.getAuthToken(props),
+      method: 'DELETE',
     });
   }
 

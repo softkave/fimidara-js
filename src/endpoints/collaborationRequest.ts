@@ -77,6 +77,7 @@ export default class CollaborationRequestEndpoints extends EndpointsBase {
       path: deleteRequestURL,
       data: props,
       token: this.getAuthToken(props),
+      method: 'DELETE',
     });
   }
 

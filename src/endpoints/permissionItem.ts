@@ -69,6 +69,7 @@ export default class PermissionItemEndpoints extends EndpointsBase {
       path: deleteItemsByIdURL,
       data: props,
       token: this.getAuthToken(props),
+      method: 'DELETE',
     });
   }
 

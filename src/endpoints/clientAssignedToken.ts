@@ -98,6 +98,7 @@ export default class ClientAssignedTokenEndpoints extends EndpointsBase {
       path: deleteTokenURL,
       data: props,
       token: this.getAuthToken(props),
+      method: 'DELETE',
     });
   }
 

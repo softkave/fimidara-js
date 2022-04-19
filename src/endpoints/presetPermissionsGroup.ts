@@ -97,6 +97,7 @@ export default class PresetPermissionsGroupEndpoints extends EndpointsBase {
       path: deletePresetURL,
       data: props,
       token: this.getAuthToken(props),
+      method: 'DELETE',
     });
   }
 

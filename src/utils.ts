@@ -4,7 +4,7 @@ import {fetch} from 'cross-fetch';
 import {getServerAddr} from './addr';
 import {FormDataType, IEndpointParamsBase, IEndpointResultBase} from './types';
 import {isString, omit, isBoolean} from 'lodash';
-import FilesConfig, {IConfig} from './config';
+import FimidaraConfig, {IConfig} from './config';
 import {CredentialsNotProvidedError} from './errors';
 import {IAppError} from './definitions/system';
 
@@ -37,7 +37,7 @@ export interface IInvokeEndpointParams {
   data?: any;
   path: string;
   headers?: OutgoingHttpHeaders;
-  method?: 'GET' | 'POST';
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 
   // To allow the fetch function set the header when
   // the body is multipart/form-data
@@ -87,6 +87,8 @@ export async function invokeEndpoint<T extends any = any>(
         if ((body as IEndpointResultBase)?.errors && throwOnBodyError) {
           throw (body as IEndpointResultBase).errors;
         }
+
+        return body;
       }
     }
 
@@ -116,7 +118,7 @@ export interface IInvokeEndpointWithAuthParams extends IInvokeEndpointParams {
 export async function invokeEndpointWithAuth<T extends any = any>(
   props: IInvokeEndpointWithAuthParams
 ) {
-  const requestToken = props.token || FilesConfig.getConfig().authToken;
+  const requestToken = props.token || FimidaraConfig.getConfig().authToken;
 
   if (!requestToken) {
     throw new CredentialsNotProvidedError();
@@ -164,7 +166,7 @@ export class EndpointsBase {
     return (
       params?.authToken ||
       this.config.authToken ||
-      FilesConfig.getConfig().authToken
+      FimidaraConfig.getConfig().authToken
     );
   }
 }

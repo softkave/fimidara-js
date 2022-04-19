@@ -14,7 +14,7 @@ function getConfig() {
   return config;
 }
 
-export default class FilesConfig {
+export default class FimidaraConfig {
   static setConfig = setConfig;
   static getConfig = getConfig;
 }

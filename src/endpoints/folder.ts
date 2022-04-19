@@ -87,6 +87,7 @@ export default class FolderEndpoints extends EndpointsBase {
       path: deleteFolderURL,
       data: props,
       token: this.getAuthToken(props),
+      method: 'DELETE',
     });
   }
 

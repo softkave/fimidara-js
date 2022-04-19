@@ -96,6 +96,7 @@ export default class ProgramAccessTokenEndpoints extends EndpointsBase {
       path: deleteTokenURL,
       data: props,
       token: this.getAuthToken(props),
+      method: 'DELETE',
     });
   }
 
