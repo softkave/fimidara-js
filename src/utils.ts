@@ -170,3 +170,11 @@ export class EndpointsBase {
     );
   }
 }
+
+export function cast<T>(value: any) {
+  return value as T;
+}
+
+export function getFilepath(filepath: string[]) {
+  return filepath.join('/');
+}

@@ -1,8 +1,9 @@
 import {
   INewPermissionItemInput,
   IPermissionItem,
+  PermissionItemAppliesTo,
 } from '../definitions/permissionItem';
-import {AppResourceType} from '../definitions/system';
+import {AppResourceType, BasicCRUDActions} from '../definitions/system';
 import {
   GetEndpointResult,
   IEndpointParamsBase,
@@ -15,9 +16,10 @@ const addItemsURL = `${baseURL}/addItems`;
 const deleteItemsByIdURL = `${baseURL}/deleteItemsById`;
 const getEntityPermissionItemsURL = `${baseURL}/getEntityPermissionItems`;
 const getResourcePermissionItemsURL = `${baseURL}/getResourcePermissionItems`;
+const replacePermissionItemsByEntityURL = `${baseURL}/replacePermissionItemsByEntity`;
 
 export interface IAddPermissionItemsEndpointParams extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
   items: INewPermissionItemInput[];
 }
 
@@ -27,13 +29,13 @@ export type IAddPermissionItemsEndpointResult = GetEndpointResult<{
 
 export interface IDeletePermissionItemsByIdEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
   itemIds: string[];
 }
 
 export interface IGetEntityPermissionItemsEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
   permissionEntityId: string;
   permissionEntityType: AppResourceType;
 }
@@ -44,7 +46,7 @@ export type IGetEntityPermissionItemsEndpointResult = GetEndpointResult<{
 
 export interface IGetResourcePermissionItemsEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
   itemResourceId?: string;
   itemResourceType: AppResourceType;
   permissionOwnerId?: string;
@@ -54,6 +56,28 @@ export interface IGetResourcePermissionItemsEndpointParams
 export type IGetResourcePermissionItemsEndpointResult = GetEndpointResult<{
   items: IPermissionItem[];
 }>;
+
+export interface INewPermissionItemInputByEntity {
+  permissionOwnerId: string;
+  permissionOwnerType: AppResourceType;
+  itemResourceId?: string;
+  itemResourceType: AppResourceType;
+  action: BasicCRUDActions;
+  grantAccess: boolean;
+  appliesTo: PermissionItemAppliesTo;
+}
+
+export interface IReplacePermissionItemsByEntityEndpointParams
+  extends IEndpointParamsBase {
+  // workspaceId?: string;
+  permissionEntityId: string;
+  permissionEntityType: AppResourceType;
+  items: INewPermissionItemInputByEntity[];
+}
+
+export interface IReplacePermissionItemsByEntityEndpointResult {
+  items: IPermissionItem[];
+}
 
 export default class PermissionItemEndpoints extends EndpointsBase {
   async addItems(props: IAddPermissionItemsEndpointParams) {
@@ -91,6 +115,18 @@ export default class PermissionItemEndpoints extends EndpointsBase {
     return await invokeEndpointWithAuth<IGetEntityPermissionItemsEndpointResult>(
       {
         path: getEntityPermissionItemsURL,
+        data: props,
+        token: this.getAuthToken(props),
+      }
+    );
+  }
+
+  async replacePermissionItemsByEntity(
+    props: IReplacePermissionItemsByEntityEndpointParams
+  ) {
+    return await invokeEndpointWithAuth<IReplacePermissionItemsByEntityEndpointResult>(
+      {
+        path: replacePermissionItemsByEntityURL,
         data: props,
         token: this.getAuthToken(props),
       }

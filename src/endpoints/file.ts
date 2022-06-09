@@ -93,7 +93,7 @@ export type IUpdateFileDetailsEndpointResult = GetEndpointResult<{
 }>;
 
 export interface IUploadFileEndpointParams
-  extends IFileMatcher,
+  extends Pick<IFileMatcher, 'filepath'>,
     IEndpointParamsBase {
   description?: string;
   encoding?: string;
@@ -156,9 +156,9 @@ export default class FileEndpoints extends EndpointsBase {
   async uploadFile(props: IUploadFileEndpointParams) {
     const formData = new FormDataImpl();
     formData.append(UPLOAD_FILE_BLOB_FORMDATA_KEY, props.data);
-    setEndpointFormData(formData, 'workspaceId', props.workspaceId);
+    // setEndpointFormData(formData, 'workspaceId', props.workspaceId);
     setEndpointFormData(formData, 'description', props.description);
-    setEndpointFormData(formData, 'fileId', props.fileId);
+    // setEndpointFormData(formData, 'fileId', props.fileId);
     setEndpointFormData(formData, 'filepath', props.filepath);
     setEndpointFormData(formData, 'encoding', props.encoding);
     setEndpointFormData(formData, 'extension', props.extension);

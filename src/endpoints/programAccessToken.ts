@@ -19,7 +19,7 @@ const updateTokenURL = `${baseURL}/updateToken`;
 
 export interface IAddProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
   token: INewProgramAccessTokenInput;
 }
 
@@ -35,7 +35,7 @@ export interface IDeleteProgramAccessTokenEndpointParams
 
 export interface IGetWorkspaceProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
 }
 
 export type IGetWorkspaceProgramAccessTokenEndpointResult = GetEndpointResult<{

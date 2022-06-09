@@ -4,17 +4,25 @@ export interface IConfig {
   authToken?: string;
 }
 
+export interface IFimidaraConfig {
+  setToken: (token: string) => void;
+  setConfig: (params: Partial<IConfig>) => void;
+  getConfig: () => IConfig;
+}
+
 const config: IConfig = {};
+const FimidaraConfig: IFimidaraConfig = {
+  setToken(token: string) {
+    config.authToken = token;
+  },
 
-function setConfig(params: Partial<IConfig>) {
-  merge(config, params);
-}
+  setConfig(params: Partial<IConfig>) {
+    merge(config, params);
+  },
 
-function getConfig() {
-  return config;
-}
+  getConfig() {
+    return config;
+  },
+};
 
-export default class FimidaraConfig {
-  static setConfig = setConfig;
-  static getConfig = getConfig;
-}
+export default FimidaraConfig;

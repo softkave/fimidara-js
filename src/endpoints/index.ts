@@ -1,7 +1,4 @@
 export * from './clientAssignedToken';
-export * from './resources';
-export * from './collaborationRequest';
-export * from './collaborators';
 export * from './file';
 export * from './folder';
 export * from './workspace';

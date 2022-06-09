@@ -19,7 +19,7 @@ const updatePresetURL = `${baseURL}/updatePreset`;
 
 export interface IAddPresetPermissionsGroupEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
   preset: INewPresetPermissionsGroupInput;
 }
 
@@ -34,7 +34,7 @@ export interface IDeletePresetPermissionsGroupEndpointParams
 
 export interface IGetWorkspacePresetPermissionsGroupEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
 }
 
 export type IGetWorkspacePresetPermissionsGroupEndpointResult =

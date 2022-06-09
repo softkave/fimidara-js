@@ -17,7 +17,9 @@ export interface IClientAssignedToken {
 }
 
 export interface INewClientAssignedTokenInput {
-  expires?: number;
-  presets?: IPresetInput[];
   providedResourceId?: string;
+  name?: string;
+  description?: string;
+  expires?: string;
+  presets?: IPresetInput[];
 }

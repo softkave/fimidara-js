@@ -20,7 +20,7 @@ const deleteFolderURL = `${baseURL}/deleteFolder`;
 const updateFolderURL = `${baseURL}/updateFolder`;
 
 export interface IAddFolderEndpointParams extends IEndpointParamsBase {
-  workspaceId?: string;
+  // workspaceId?: string;
   folder: INewFolderInput;
 }
 

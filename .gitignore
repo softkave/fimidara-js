@@ -104,13 +104,9 @@ dist
 
 # build folder
 build/
-email-templates/code
 
 # AWS config
 aws-config.json
 
 # Jest output
 jest-output/
-
-# WiP
-src/tests

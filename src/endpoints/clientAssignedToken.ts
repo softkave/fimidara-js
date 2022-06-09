@@ -18,7 +18,7 @@ const updateTokenURL = `${baseURL}/updateToken`;
 
 export interface IAddClientAssignedTokenEndpointParams
   extends IEndpointParamsBase {
-  workspaceId?: string;
+  // workspaceId?: string;
   token: INewClientAssignedTokenInput;
 }
 
@@ -35,7 +35,7 @@ export interface IDeleteClientAssignedTokenEndpointParams
 
 export interface IGetWorkspaceClientAssignedTokensEndpointParams
   extends IEndpointParamsBase {
-  workspaceId: string;
+  // workspaceId: string;
 }
 
 export type IGetWorkspaceClientAssignedTokensEndpointResult =

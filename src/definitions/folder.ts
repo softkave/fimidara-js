@@ -19,7 +19,7 @@ export interface IFolder {
 export interface INewFolderInput {
   folderpath: string;
   description?: string;
-  maxFileSizeInBytes?: number;
+  // maxFileSizeInBytes?: number;
   publicAccessOps?: IPublicAccessOpInput[];
 }
 
