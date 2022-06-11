@@ -1,4 +1,10 @@
-import {IAgent, IPublicAccessOp, IPublicAccessOpInput} from './system';
+import {
+  AppResourceType,
+  BasicCRUDActions,
+  IAgent,
+  IPublicAccessOp,
+  IPublicAccessOpInput,
+} from './system';
 
 export interface IFolder {
   resourceId: string;
@@ -33,4 +39,19 @@ export interface IFolderMatcher {
   folderpath?: string;
   folderId?: string;
   workspaceId?: string;
+}
+
+export function makePublicAccessOpInputs(
+  type: AppResourceType,
+  actions: BasicCRUDActions[] = [
+    BasicCRUDActions.Create,
+    BasicCRUDActions.Read,
+    BasicCRUDActions.Update,
+    BasicCRUDActions.Delete,
+  ]
+) {
+  return actions.map(action => ({
+    action,
+    resourceType: type,
+  }));
 }

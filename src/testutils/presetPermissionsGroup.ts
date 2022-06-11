@@ -1,19 +1,24 @@
 import faker from '@faker-js/faker';
-import assert = require('assert');
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {IPresetInput} from '../definitions';
 import {
   IAddPresetPermissionsGroupEndpointParams,
+  IDeletePresetPermissionsGroupEndpointParams,
+  IGetPresetPermissionsGroupEndpointParams,
   IGetWorkspaceEndpointParams,
   IGetWorkspacePresetPermissionsGroupEndpointParams,
-  IGetPresetPermissionsGroupEndpointParams,
-  IDeletePresetPermissionsGroupEndpointParams,
   IUpdatePresetPermissionsGroupEndpointParams,
 } from '../endpoints';
 import Endpoints from '../endpoints/endpoints';
 import {cast} from '../utils';
-import {ITestVars, assertEndpointResult, addToCleanupField} from './utils';
+import {
+  addToCleanupField,
+  assertEndpointResult,
+  ITestVars,
+  removeFromCleanupField,
+} from './utils';
+import assert = require('assert');
 
 export async function addPresetTest(
   endpoint: Endpoints,
@@ -22,7 +27,7 @@ export async function addPresetTest(
 ) {
   const genInput: IAddPresetPermissionsGroupEndpointParams = {
     preset: {
-      name: faker.lorem.word(),
+      name: faker.lorem.words(),
       description: faker.lorem.sentence(),
     },
   };
@@ -92,6 +97,7 @@ export async function deletePresetTest(
   };
   const result = await endpoint.presets.deletePreset(input);
   assertEndpointResult(result);
+  removeFromCleanupField(vars, 'cleanupPresetIds', presetId);
 }
 
 export async function updatePresetTest(
@@ -125,18 +131,18 @@ export async function updatePresetTest(
   const input: IUpdatePresetPermissionsGroupEndpointParams = {
     presetId,
     preset: {
-      name: faker.lorem.word(),
+      name: faker.lorem.words(),
       description: faker.lorem.sentence(),
       presets: assignedPresets,
     },
   };
-  const result = await endpoint.presets.deletePreset(input);
+  const result = await endpoint.presets.updatePreset(input);
   assertEndpointResult(result);
   return result;
 }
 
 export async function deleteManyPresets(endpoint: Endpoints, ids: string[]) {
-  await Promise.all(
+  await Promise.allSettled(
     ids.map(id => endpoint.presets.deletePreset({presetId: id}))
   );
 }

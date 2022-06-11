@@ -1,15 +1,16 @@
 import fimidara from '..';
 import {
-  updateTokenTest,
   deleteTokenTest,
   getTokenTest,
-} from '../testfns/clientAssignedToken';
+  updateTokenTest,
+} from '../testutils/clientAssignedToken';
 import {
-  getWorkspaceProgramTokensTest,
   addProgramTokenTest,
-} from '../testfns/programAccessToken';
-import {ITestVars, getTestVars, globalCleanup} from '../testfns/utils';
+  getWorkspaceProgramTokensTest,
+} from '../testutils/programAccessToken';
+import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
+jest.setTimeout(600000); // 10 minutes
 let vars: ITestVars;
 
 beforeAll(async () => {

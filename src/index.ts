@@ -1,9 +1,9 @@
-import Endpoints from './endpoints/endpoints';
 import FimidaraConfig, {IFimidaraConfig} from './config';
+import Endpoints from './endpoints/endpoints';
 
 export * from './config';
-export * from './endpoints/index';
 export * from './definitions/index';
+export * from './endpoints/index';
 
 export interface IFimidara {
   config: IFimidaraConfig;

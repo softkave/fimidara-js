@@ -2,23 +2,30 @@ import assert = require('assert');
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {
-  BasicCRUDActions,
   AppResourceType,
-  PermissionItemAppliesTo,
+  INewPermissionItemInput,
   IPermissionItem,
+  PermissionItemAppliesTo,
 } from '../definitions';
 import {
-  IGetEntityPermissionItemsEndpointParams,
-  IDeletePermissionItemsByIdEndpointParams,
   IAddPermissionItemsEndpointParams,
-  IReplacePermissionItemsByEntityEndpointParams,
+  IDeletePermissionItemsByIdEndpointParams,
+  IGetEntityPermissionItemsEndpointParams,
   IGetResourcePermissionItemsEndpointParams,
+  INewPermissionItemInputByEntity,
+  IReplacePermissionItemsByEntityEndpointParams,
+  makePermissionItemInputWithActions,
 } from '../endpoints';
 import Endpoints from '../endpoints/endpoints';
 import {cast} from '../utils';
-import {addFolderTest} from './folder';
-import {ITestVars, assertEndpointResult, addToCleanupField} from './utils';
 import {addClientTokenTest} from './clientAssignedToken';
+import {addFolderTest} from './folder';
+import {
+  addToCleanupField,
+  assertEndpointResult,
+  ITestVars,
+  removeFromCleanupField,
+} from './utils';
 
 export function getItemIds(items: IPermissionItem[]) {
   return items.map(item => item.resourceId);
@@ -32,19 +39,16 @@ export async function getEntityPermissionItemsTest(
   const folder01 = await addFolderTest(endpoint, vars);
   const folder02 = await addFolderTest(endpoint, vars);
   const items = await addItemsTest(endpoint, vars, {
-    items: [
-      {
-        action: BasicCRUDActions.All,
-        appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
-        grantAccess: true,
-        itemResourceType: AppResourceType.Folder,
-        itemResourceId: folder02.folder.resourceId,
-        permissionOwnerId: folder01.folder.resourceId,
-        permissionOwnerType: AppResourceType.Folder,
-        permissionEntityId: token.token.resourceId,
-        permissionEntityType: AppResourceType.ClientAssignedToken,
-      },
-    ],
+    items: makePermissionItemInputWithActions<INewPermissionItemInput>({
+      appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
+      grantAccess: true,
+      itemResourceType: AppResourceType.Folder,
+      itemResourceId: folder02.folder.resourceId,
+      permissionOwnerId: folder01.folder.resourceId,
+      permissionOwnerType: AppResourceType.Folder,
+      permissionEntityId: token.token.resourceId,
+      permissionEntityType: AppResourceType.ClientAssignedToken,
+    }),
   });
   const input: IGetEntityPermissionItemsEndpointParams = {
     permissionEntityId: token.token.resourceId,
@@ -63,19 +67,16 @@ export async function getResourcePermissionItemsTest(
   const folder02 = await addFolderTest(endpoint, vars);
   const token = await addClientTokenTest(endpoint, vars);
   const items = await addItemsTest(endpoint, vars, {
-    items: [
-      {
-        action: BasicCRUDActions.All,
-        appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
-        grantAccess: true,
-        itemResourceType: AppResourceType.Folder,
-        itemResourceId: folder02.folder.resourceId,
-        permissionOwnerId: folder01.folder.resourceId,
-        permissionOwnerType: AppResourceType.Folder,
-        permissionEntityId: token.token.resourceId,
-        permissionEntityType: AppResourceType.ClientAssignedToken,
-      },
-    ],
+    items: makePermissionItemInputWithActions<INewPermissionItemInput>({
+      appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
+      grantAccess: true,
+      itemResourceType: AppResourceType.Folder,
+      itemResourceId: folder02.folder.resourceId,
+      permissionOwnerId: folder01.folder.resourceId,
+      permissionOwnerType: AppResourceType.Folder,
+      permissionEntityId: token.token.resourceId,
+      permissionEntityType: AppResourceType.ClientAssignedToken,
+    }),
   });
   const input: IGetResourcePermissionItemsEndpointParams = {
     itemResourceType: AppResourceType.Folder,
@@ -107,6 +108,7 @@ export async function deleteItemsByIdTest(
   };
   const result = await endpoint.permissionItems.deleteItemsById(input);
   assertEndpointResult(result);
+  removeFromCleanupField(vars, 'cleanupPermissionItemIds', itemIds);
 }
 
 export async function addItemsTest(
@@ -117,18 +119,15 @@ export async function addItemsTest(
   const folder = await addFolderTest(endpoint, vars);
   const token = await addClientTokenTest(endpoint, vars);
   const genInput: IAddPermissionItemsEndpointParams = {
-    items: [
-      {
-        action: BasicCRUDActions.All,
-        appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
-        grantAccess: true,
-        itemResourceType: AppResourceType.File,
-        permissionOwnerId: folder.folder.resourceId,
-        permissionOwnerType: AppResourceType.Folder,
-        permissionEntityId: token.token.resourceId,
-        permissionEntityType: AppResourceType.ClientAssignedToken,
-      },
-    ],
+    items: makePermissionItemInputWithActions<INewPermissionItemInput>({
+      appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
+      grantAccess: true,
+      itemResourceType: AppResourceType.File,
+      permissionOwnerId: folder.folder.resourceId,
+      permissionOwnerType: AppResourceType.Folder,
+      permissionEntityId: token.token.resourceId,
+      permissionEntityType: AppResourceType.ClientAssignedToken,
+    }),
   };
   const inputs = merge(genInput, props);
   const result = await endpoint.permissionItems.addItems(inputs);
@@ -143,19 +142,18 @@ export async function replacePermissionItemsByEntityTest(
 ) {
   const folder = await addFolderTest(endpoint, vars);
   const token = await addClientTokenTest(endpoint, vars);
+  const items =
+    makePermissionItemInputWithActions<INewPermissionItemInputByEntity>({
+      appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
+      grantAccess: true,
+      itemResourceType: AppResourceType.File,
+      permissionOwnerId: folder.folder.resourceId,
+      permissionOwnerType: AppResourceType.Folder,
+    });
   const genInput: IReplacePermissionItemsByEntityEndpointParams = {
+    items,
     permissionEntityId: token.token.resourceId,
     permissionEntityType: AppResourceType.ClientAssignedToken,
-    items: [
-      {
-        action: BasicCRUDActions.All,
-        appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
-        grantAccess: true,
-        itemResourceType: AppResourceType.File,
-        permissionOwnerId: folder.folder.resourceId,
-        permissionOwnerType: AppResourceType.Folder,
-      },
-    ],
   };
   const inputs = merge(genInput, props);
   const result = await endpoint.permissionItems.replacePermissionItemsByEntity(

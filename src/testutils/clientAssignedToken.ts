@@ -1,5 +1,7 @@
-import {merge} from 'lodash';
 import faker from '@faker-js/faker';
+import {merge} from 'lodash';
+import {PartialDeep} from 'type-fest';
+import {IPresetInput} from '../definitions';
 import {
   IAddClientAssignedTokenEndpointParams,
   IDeleteClientAssignedTokenEndpointParams,
@@ -7,13 +9,22 @@ import {
   IGetWorkspaceClientAssignedTokensEndpointParams,
   IUpdateClientAssignedTokenEndpointParams,
 } from '../endpoints/clientAssignedToken';
-import {addToCleanupField, assertEndpointResult, ITestVars} from './utils';
-import {PartialDeep} from 'type-fest';
 import Endpoints from '../endpoints/endpoints';
 import {cast} from '../utils';
-import {IPresetInput} from '../definitions';
 import {addPresetTest} from './presetPermissionsGroup';
+import {
+  addToCleanupField,
+  assertEndpointResult,
+  ITestVars,
+  removeFromCleanupField,
+} from './utils';
 import assert = require('assert');
+
+function getTokenExpiryDate(
+  days: number = faker.datatype.number({min: 1, max: 10})
+) {
+  return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+}
 
 export async function addClientTokenTest(
   endpoint: Endpoints,
@@ -37,7 +48,7 @@ export async function addClientTokenTest(
 
   const genInput: IAddClientAssignedTokenEndpointParams = {
     token: {
-      expires: Date.now() + 10_000,
+      expires: getTokenExpiryDate(),
       providedResourceId: faker.datatype.uuid(),
       presets: assignedPresets,
     },
@@ -103,6 +114,7 @@ export async function deleteTokenTest(
   };
   const result = await endpoint.clientTokens.deleteToken(input);
   assertEndpointResult(result);
+  removeFromCleanupField(vars, 'cleanupClientTokenIds', tokenId);
 }
 
 export async function updateTokenTest(
@@ -137,7 +149,7 @@ export async function updateTokenTest(
     tokenId,
     token: {
       presets: assignedPresets,
-      expires: Date.now() + 10_000,
+      expires: getTokenExpiryDate(),
       providedResourceId: faker.datatype.uuid(),
     },
   };
@@ -150,7 +162,7 @@ export async function deleteManyClientTokens(
   endpoint: Endpoints,
   ids: string[]
 ) {
-  await Promise.all(
+  await Promise.allSettled(
     ids.map(id => endpoint.clientTokens.deleteToken({tokenId: id}))
   );
 }

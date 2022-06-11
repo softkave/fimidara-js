@@ -1,13 +1,14 @@
 import fimidara from '..';
 import {
-  replacePermissionItemsByEntityTest,
   addItemsTest,
   deleteItemsByIdTest,
-  getResourcePermissionItemsTest,
   getEntityPermissionItemsTest,
-} from '../testfns/permissionItem';
-import {ITestVars, getTestVars, globalCleanup} from '../testfns/utils';
+  getResourcePermissionItemsTest,
+  replacePermissionItemsByEntityTest,
+} from '../testutils/permissionItem';
+import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
+jest.setTimeout(600000); // 10 minutes
 let vars: ITestVars;
 
 beforeAll(async () => {

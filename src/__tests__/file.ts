@@ -1,15 +1,16 @@
-import {getTestVars, globalCleanup, ITestVars} from '../testfns/utils';
 import fimidara from '../index';
 import {
-  uploadFileTest,
+  deleteFileTest,
+  getFileDetailsTest,
   getFileTest,
   updateFileDetailsTest,
-  getFileDetailsTest,
-  deleteFileTest,
-} from '../testfns/file';
+  uploadFileTest,
+} from '../testutils/file';
+import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
 let vars: ITestVars;
 
+jest.setTimeout(600000); // 10 minutes
 beforeAll(async () => {
   vars = getTestVars();
   fimidara.config.setToken(vars.authToken);

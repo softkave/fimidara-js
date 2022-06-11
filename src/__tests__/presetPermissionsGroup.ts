@@ -1,13 +1,14 @@
 import fimidara from '..';
 import {
-  updatePresetTest,
+  addPresetTest,
   deletePresetTest,
   getPresetTest,
   getWorkspacePresetsTest,
-  addPresetTest,
-} from '../testfns/presetPermissionsGroup';
-import {ITestVars, getTestVars, globalCleanup} from '../testfns/utils';
+  updatePresetTest,
+} from '../testutils/presetPermissionsGroup';
+import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
+jest.setTimeout(600000); // 10 minutes
 let vars: ITestVars;
 
 beforeAll(async () => {

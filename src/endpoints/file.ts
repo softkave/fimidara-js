@@ -1,4 +1,5 @@
-import type {Blob, Response} from 'node-fetch';
+import type {Response} from 'node-fetch';
+import type {Readable} from 'stream';
 import {
   IFile,
   IFileMatcher,
@@ -8,20 +9,21 @@ import {
 } from '../definitions/file';
 import {CredentialsNotProvidedError} from '../errors';
 import {
-  FormDataType,
   GetEndpointResult,
   IEndpointParamsBase,
   IEndpointResultBase,
 } from '../types';
 import {
+  EndpointsBase,
+  HTTP_HEADER_AUTHORIZATION,
   invokeEndpoint,
   invokeEndpointWithAuth,
   setEndpointFormData,
-  HTTP_HEADER_AUTHORIZATION,
   setEndpointParam,
-  EndpointsBase,
 } from '../utils';
-
+// import {FormData} from 'formdata-polyfill/esm.min';
+// import FormData from"form-data"
+var FormData = require('form-data');
 const URLSearchParams =
   require('core-js/features/url-search-params') as typeof globalThis['URLSearchParams'];
 
@@ -38,14 +40,9 @@ const WORKSPACE_ID_QUERY_PARAMS_KEY = 'workspaceId';
 const IMAGE_WIDTH_QUERY_PARAMS_KEY = 'w';
 const IMAGE_HEIGHT_QUERY_PARAMS_KEY = 'h';
 
-function getFetchImagePath(
-  workspaceId: string,
-  filepath: string,
-  width: number,
-  height: number
-) {
+function getFetchFilePath(filepath: string, width?: number, height?: number) {
   const params = new URLSearchParams();
-  params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
+  // params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
   params.append(PATH_QUERY_PARAMS_KEY, filepath);
   setEndpointParam(params, IMAGE_WIDTH_QUERY_PARAMS_KEY, width);
   setEndpointParam(params, IMAGE_HEIGHT_QUERY_PARAMS_KEY, height);
@@ -72,7 +69,7 @@ export interface IDeleteFileEndpointParams
     IEndpointParamsBase {}
 
 export interface IGetFileEndpointParams
-  extends IFileMatcher,
+  extends Required<Pick<IFileMatcher, 'filepath'>>,
     IEndpointParamsBase {
   imageTranformation?: IImageTransformationParams;
 }
@@ -93,22 +90,20 @@ export type IUpdateFileDetailsEndpointResult = GetEndpointResult<{
 }>;
 
 export interface IUploadFileEndpointParams
-  extends Pick<IFileMatcher, 'filepath'>,
+  extends Required<Pick<IFileMatcher, 'filepath'>>,
     IEndpointParamsBase {
   description?: string;
   encoding?: string;
   extension?: string;
   mimetype?: string;
-  data: Blob;
+  // data: Blob;
+  data: Readable | ReadableStream;
   publicAccessActions?: UploadFilePublicAccessActions;
 }
 
 export type IUploadFileEndpointResult = GetEndpointResult<{
   file: IFile;
 }>;
-
-const FormDataImpl = ((globalThis as any).FormData ||
-  require('form-data')) as FormDataType;
 
 export default class FileEndpoints extends EndpointsBase {
   async deleteFile(props: IDeleteFileEndpointParams) {
@@ -139,14 +134,19 @@ export default class FileEndpoints extends EndpointsBase {
   async getFile(
     props: IGetFileEndpointParams
   ): Promise<IGetFileEndpointResult> {
+    const url = getFetchFilePath(
+      props.filepath,
+      props.imageTranformation?.width,
+      props.imageTranformation?.height
+    );
     const response = await invokeEndpointWithAuth<Response>({
-      path: `${baseURL}/getFile`,
-      data: props,
+      path: url,
       token: this.getAuthToken(props),
       returnFetchResponse: true,
       method: 'GET',
     });
 
+    // TODO: return blob instead of buffer
     const buffer = await response.arrayBuffer();
     return {
       buffer,
@@ -154,20 +154,35 @@ export default class FileEndpoints extends EndpointsBase {
   }
 
   async uploadFile(props: IUploadFileEndpointParams) {
-    const formData = new FormDataImpl();
+    const formData = new FormData();
     formData.append(UPLOAD_FILE_BLOB_FORMDATA_KEY, props.data);
+    formData.append('filepath', props.filepath);
     // setEndpointFormData(formData, 'workspaceId', props.workspaceId);
     setEndpointFormData(formData, 'description', props.description);
     // setEndpointFormData(formData, 'fileId', props.fileId);
-    setEndpointFormData(formData, 'filepath', props.filepath);
     setEndpointFormData(formData, 'encoding', props.encoding);
     setEndpointFormData(formData, 'extension', props.extension);
     setEndpointFormData(formData, 'mimetype', props.mimetype);
 
     const requestToken = this.getAuthToken(props);
-
     if (!requestToken) {
       throw new CredentialsNotProvidedError();
+    }
+
+    // const res = await axios({
+    //   method: 'post',
+    //   url: getServerAddr() + uploadFileURL,
+    //   // responseType: 'stream',
+    //   headers: {
+    //     [HTTP_HEADER_AUTHORIZATION]: `Bearer ${requestToken}`,
+    //   },
+    //   data: formData,
+    // });
+    // return res.data;
+
+    let hd = {};
+    if (formData.getHeaders) {
+      hd = formData.getHeaders();
     }
 
     return await invokeEndpoint<IUploadFileEndpointResult>({
@@ -175,11 +190,12 @@ export default class FileEndpoints extends EndpointsBase {
       data: formData,
       headers: {
         [HTTP_HEADER_AUTHORIZATION]: `Bearer ${requestToken}`,
+        ...hd,
       },
       omitContentTypeHeader: true,
     });
   }
 
-  public getFetchImagePath = getFetchImagePath;
+  public getFetchFilePath = getFetchFilePath;
   public getUploadFilePath = getUploadFilePath;
 }

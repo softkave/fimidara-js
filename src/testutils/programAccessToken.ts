@@ -1,19 +1,24 @@
 import faker from '@faker-js/faker';
-import assert = require('assert');
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {IPresetInput} from '../definitions';
 import {
   IAddProgramAccessTokenEndpointParams,
-  IGetWorkspaceProgramAccessTokenEndpointParams,
-  IGetProgramAccessTokenEndpointParams,
   IDeleteProgramAccessTokenEndpointParams,
+  IGetProgramAccessTokenEndpointParams,
+  IGetWorkspaceProgramAccessTokenEndpointParams,
   IUpdateProgramAccessTokenEndpointParams,
 } from '../endpoints';
 import Endpoints from '../endpoints/endpoints';
 import {cast} from '../utils';
 import {addPresetTest} from './presetPermissionsGroup';
-import {ITestVars, assertEndpointResult, addToCleanupField} from './utils';
+import {
+  addToCleanupField,
+  assertEndpointResult,
+  ITestVars,
+  removeFromCleanupField,
+} from './utils';
+import assert = require('assert');
 
 export async function addProgramTokenTest(
   endpoint: Endpoints,
@@ -103,6 +108,7 @@ export async function deleteTokenTest(
   };
   const result = await endpoint.programTokens.deleteToken(input);
   assertEndpointResult(result);
+  removeFromCleanupField(vars, 'cleanupProgramTokenIds', tokenId);
 }
 
 export async function updateTokenTest(
@@ -150,7 +156,7 @@ export async function deleteManyProgramTokens(
   endpoint: Endpoints,
   ids: string[]
 ) {
-  await Promise.all(
+  await Promise.allSettled(
     ids.map(id => endpoint.programTokens.deleteToken({tokenId: id}))
   );
 }

@@ -1,4 +1,3 @@
-import {getTestVars, globalCleanup, ITestVars} from '../testfns/utils';
 import fimidara from '../index';
 import {
   addClientTokenTest,
@@ -6,10 +5,12 @@ import {
   getTokenTest,
   getWorkspaceClientTokensTest,
   updateTokenTest,
-} from '../testfns/clientAssignedToken';
+} from '../testutils/clientAssignedToken';
+import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
 let vars: ITestVars;
 
+jest.setTimeout(600000); // 10 minutes
 beforeAll(async () => {
   vars = getTestVars();
   fimidara.config.setToken(vars.authToken);
@@ -20,7 +21,7 @@ afterAll(async () => {
 });
 
 describe('client assigned tokens', () => {
-  test('add token', async () => {
+  test('add client token', async () => {
     await addClientTokenTest(fimidara.endpoints, vars);
   });
 

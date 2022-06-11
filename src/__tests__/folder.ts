@@ -1,15 +1,16 @@
 import fimidara from '..';
 import {
   addFolderTest,
+  deleteFolderTest,
+  getFolderTest,
   listFolderContentTest,
   updateFolderTest,
-  getFolderTest,
-  deleteFolderTest,
-} from '../testfns/folder';
-import {ITestVars, getTestVars, globalCleanup} from '../testfns/utils';
+} from '../testutils/folder';
+import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
 let vars: ITestVars;
 
+jest.setTimeout(600000); // 10 minutes
 beforeAll(async () => {
   vars = getTestVars();
   fimidara.config.setToken(vars.authToken);

@@ -16,7 +16,7 @@ const addItemsURL = `${baseURL}/addItems`;
 const deleteItemsByIdURL = `${baseURL}/deleteItemsById`;
 const getEntityPermissionItemsURL = `${baseURL}/getEntityPermissionItems`;
 const getResourcePermissionItemsURL = `${baseURL}/getResourcePermissionItems`;
-const replacePermissionItemsByEntityURL = `${baseURL}/replacePermissionItemsByEntity`;
+const replacePermissionItemsByEntityURL = `${baseURL}/replaceItemsByEntity`;
 
 export interface IAddPermissionItemsEndpointParams extends IEndpointParamsBase {
   // workspaceId: string;
@@ -77,6 +77,18 @@ export interface IReplacePermissionItemsByEntityEndpointParams
 
 export interface IReplacePermissionItemsByEntityEndpointResult {
   items: IPermissionItem[];
+}
+
+export function makePermissionItemInputWithActions<T>(
+  item: Omit<T, 'action'>,
+  actions: BasicCRUDActions[] = [
+    BasicCRUDActions.Create,
+    BasicCRUDActions.Read,
+    BasicCRUDActions.Update,
+    BasicCRUDActions.Delete,
+  ]
+) {
+  return actions.map(action => ({...item, action}));
 }
 
 export default class PermissionItemEndpoints extends EndpointsBase {

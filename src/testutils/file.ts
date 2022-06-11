@@ -1,24 +1,26 @@
 import faker from '@faker-js/faker';
-import assert = require('assert');
+import {createReadStream} from 'fs';
 import {merge} from 'lodash';
-import {Blob} from 'node-fetch';
 import {PartialDeep} from 'type-fest';
 import {UploadFilePublicAccessActions} from '../definitions';
 import {
   IDeleteFileEndpointParams,
   IGetFileDetailsEndpointParams,
-  IUpdateFileDetailsEndpointParams,
   IGetFileEndpointParams,
+  IUpdateFileDetailsEndpointParams,
   IUploadFileEndpointParams,
 } from '../endpoints';
 import Endpoints from '../endpoints/endpoints';
 import {getFilepath} from '../utils';
 import {
-  ITestVars,
-  assertEndpointResult,
   addToCleanupField,
+  assertEndpointResult,
+  ITestVars,
   makeTestFilepath,
+  removeFromCleanupField,
 } from './utils';
+import assert = require('assert');
+import path = require('path');
 
 export async function deleteFileTest(
   endpoint: Endpoints,
@@ -36,7 +38,7 @@ export async function deleteFileTest(
   };
   const result = await endpoint.files.deleteFile(input);
   assertEndpointResult(result);
-  return result;
+  removeFromCleanupField(vars, 'cleanupFilepaths', filepath);
 }
 
 export async function getFileDetailsTest(
@@ -105,8 +107,10 @@ export async function uploadFileTest(
   vars: ITestVars,
   props: PartialDeep<IUploadFileEndpointParams> = {}
 ) {
+  const filepath = path.normalize(process.cwd() + vars.testFilepath);
   const genInput: IUploadFileEndpointParams = {
-    data: new Blob(Array(1024 * 1024).fill(1)),
+    // data: blobFromSync(filepath).stream(),
+    data: createReadStream(filepath),
     description: faker.lorem.sentence(),
     encoding: 'base64',
     // extension: faker.system.fileExt(),
@@ -124,11 +128,13 @@ export async function deleteManyFilesByPath(
   endpoint: Endpoints,
   filepaths: string[]
 ) {
-  await Promise.all(
+  await Promise.allSettled(
     filepaths.map(filepath => endpoint.files.deleteFile({filepath}))
   );
 }
 
 export async function deleteManyFilesById(endpoint: Endpoints, ids: string[]) {
-  await Promise.all(ids.map(fileId => endpoint.files.deleteFile({fileId})));
+  await Promise.allSettled(
+    ids.map(fileId => endpoint.files.deleteFile({fileId}))
+  );
 }

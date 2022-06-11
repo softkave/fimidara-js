@@ -1,24 +1,29 @@
 import faker from '@faker-js/faker';
-import assert = require('assert');
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
-import {BasicCRUDActions, AppResourceType} from '../definitions';
 import {
+  AppResourceType,
+  BasicCRUDActions,
+  makePublicAccessOpInputs,
+} from '../definitions';
+import {
+  IAddFolderEndpointParams,
   IDeleteFolderEndpointParams,
   IGetFolderEndpointParams,
-  IUpdateFolderEndpointParams,
   IListFolderContentEndpointParams,
-  IAddFolderEndpointParams,
+  IUpdateFolderEndpointParams,
 } from '../endpoints';
 import Endpoints from '../endpoints/endpoints';
 import {getFilepath} from '../utils';
 import {uploadFileTest} from './file';
 import {
-  ITestVars,
-  assertEndpointResult,
   addToCleanupField,
+  assertEndpointResult,
+  ITestVars,
   makeTestFilepath,
+  removeFromCleanupField,
 } from './utils';
+import assert = require('assert');
 
 export async function deleteFolderTest(
   endpoint: Endpoints,
@@ -37,7 +42,7 @@ export async function deleteFolderTest(
   };
   const result = await endpoint.folders.deleteFolder(input);
   assertEndpointResult(result);
-  return result;
+  removeFromCleanupField(vars, 'cleanupFolderpaths', folderpath);
 }
 
 export async function getFolderTest(
@@ -139,10 +144,7 @@ export async function addFolderTest(
     folder: {
       description: faker.lorem.sentence(),
       folderpath: makeTestFilepath(faker.system.directoryPath()),
-      publicAccessOps: [
-        {action: BasicCRUDActions.All, resourceType: AppResourceType.File},
-        {action: BasicCRUDActions.All, resourceType: AppResourceType.Folder},
-      ],
+      publicAccessOps: makePublicAccessOpInputs(AppResourceType.File),
     },
   };
   const inputs = merge(genInput, props);
@@ -155,7 +157,7 @@ export async function deleteManyFoldersByPath(
   endpoint: Endpoints,
   folderpaths: string[]
 ) {
-  await Promise.all(
+  await Promise.allSettled(
     folderpaths.map(folderpath => endpoint.folders.deleteFolder({folderpath}))
   );
 }
@@ -164,7 +166,7 @@ export async function deleteManyFoldersById(
   endpoint: Endpoints,
   ids: string[]
 ) {
-  await Promise.all(
+  await Promise.allSettled(
     ids.map(folderId => endpoint.folders.deleteFolder({folderId}))
   );
 }

@@ -1,12 +1,11 @@
-import {OutgoingHttpHeaders} from 'http';
-import type {Blob} from 'node-fetch';
 import {fetch} from 'cross-fetch';
+import {OutgoingHttpHeaders} from 'http';
+import {isBoolean, isString, omit} from 'lodash';
 import {getServerAddr} from './addr';
-import {FormDataType, IEndpointParamsBase, IEndpointResultBase} from './types';
-import {isString, omit, isBoolean} from 'lodash';
 import FimidaraConfig, {IConfig} from './config';
-import {CredentialsNotProvidedError} from './errors';
 import {IAppError} from './definitions/system';
+import {CredentialsNotProvidedError} from './errors';
+import {IEndpointParamsBase, IEndpointResultBase} from './types';
 
 const toAppError = (err: Error | IAppError | string): IAppError => {
   const error = isString(err) ? new Error(err) : err;
@@ -52,6 +51,7 @@ export async function invokeEndpoint<T extends any = any>(
   props: IInvokeEndpointParams
 ): Promise<T> {
   const {data, path, omitContentTypeHeader} = props;
+  const serverAddr = getServerAddr();
   const method = props.method || 'POST';
   const incomingHeaders = props.headers || {};
   const contentType = !omitContentTypeHeader
@@ -59,7 +59,9 @@ export async function invokeEndpoint<T extends any = any>(
     : undefined;
 
   const contentBody =
-    contentType === CONTENT_TYPE_APPLICATION_JSON
+    method === 'GET'
+      ? undefined
+      : contentType === CONTENT_TYPE_APPLICATION_JSON
       ? JSON.stringify(omit(data, 'authToken'))
       : data;
 
@@ -68,7 +70,7 @@ export async function invokeEndpoint<T extends any = any>(
   }
 
   try {
-    const result = await fetch(getServerAddr() + path, {
+    const result = await fetch(serverAddr + path, {
       method,
       headers: incomingHeaders as HeadersInit,
       body: contentBody,
@@ -119,7 +121,6 @@ export async function invokeEndpointWithAuth<T extends any = any>(
   props: IInvokeEndpointWithAuthParams
 ) {
   const requestToken = props.token || FimidaraConfig.getConfig().authToken;
-
   if (!requestToken) {
     throw new CredentialsNotProvidedError();
   }
@@ -134,12 +135,12 @@ export async function invokeEndpointWithAuth<T extends any = any>(
 }
 
 export function setEndpointFormData(
-  formData: FormDataType,
+  formData: FormData,
   name: string,
-  data?: string | Blob
+  data?: any
 ) {
   if (data) {
-    formData.set(name, data);
+    formData.append(name, data);
   }
 }
 

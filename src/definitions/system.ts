@@ -22,7 +22,7 @@ export interface IAgent {
 }
 
 export enum AppResourceType {
-  All = '*',
+  // All = '*',
   Workspace = 'workspace',
   CollaborationRequest = 'collaboration-request',
   ProgramAccessToken = 'program-access-token',
@@ -36,7 +36,7 @@ export enum AppResourceType {
 }
 
 export enum BasicCRUDActions {
-  All = '*',
+  // All = '*',
   Create = 'create',
   Read = 'read',
   Update = 'update',
