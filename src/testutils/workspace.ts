@@ -1,16 +1,16 @@
 import faker from '@faker-js/faker';
-import assert = require('assert');
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {
   IGetWorkspaceEndpointParams,
   IUpdateWorkspaceEndpointParams,
-} from '../endpoints';
-import Endpoints from '../endpoints/endpoints';
+} from '../definitions';
+import {IEndpoints} from '../endpoints';
 import {assertEndpointResult, ITestVars} from './utils';
+import assert = require('assert');
 
 export async function getWorkspaceTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetWorkspaceEndpointParams> = {}
 ) {
@@ -25,7 +25,7 @@ export async function getWorkspaceTest(
 }
 
 export async function updateWorkspaceTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IUpdateWorkspaceEndpointParams> = {}
 ) {

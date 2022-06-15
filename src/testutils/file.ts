@@ -2,15 +2,16 @@ import faker from '@faker-js/faker';
 import {createReadStream} from 'fs';
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
-import {UploadFilePublicAccessActions} from '../definitions';
 import {
   IDeleteFileEndpointParams,
   IGetFileDetailsEndpointParams,
   IGetFileEndpointParams,
   IUpdateFileDetailsEndpointParams,
   IUploadFileEndpointParams,
-} from '../endpoints';
-import Endpoints from '../endpoints/endpoints';
+  UploadFilePublicAccessActions,
+} from '../definitions';
+import {} from '../endpoints';
+import {IEndpoints} from '../endpoints/endpoints';
 import {getFilepath} from '../utils';
 import {
   addToCleanupField,
@@ -23,7 +24,7 @@ import assert = require('assert');
 import path = require('path');
 
 export async function deleteFileTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IDeleteFileEndpointParams> = {}
 ) {
@@ -42,7 +43,7 @@ export async function deleteFileTest(
 }
 
 export async function getFileDetailsTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetFileDetailsEndpointParams> = {}
 ) {
@@ -61,7 +62,7 @@ export async function getFileDetailsTest(
 }
 
 export async function updateFileDetailsTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IUpdateFileDetailsEndpointParams> = {}
 ) {
@@ -84,7 +85,7 @@ export async function updateFileDetailsTest(
 }
 
 export async function getFileTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetFileEndpointParams> = {}
 ) {
@@ -103,7 +104,7 @@ export async function getFileTest(
 }
 
 export async function uploadFileTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IUploadFileEndpointParams> = {}
 ) {
@@ -125,7 +126,7 @@ export async function uploadFileTest(
 }
 
 export async function deleteManyFilesByPath(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   filepaths: string[]
 ) {
   await Promise.allSettled(
@@ -133,7 +134,7 @@ export async function deleteManyFilesByPath(
   );
 }
 
-export async function deleteManyFilesById(endpoint: Endpoints, ids: string[]) {
+export async function deleteManyFilesById(endpoint: IEndpoints, ids: string[]) {
   await Promise.allSettled(
     ids.map(fileId => endpoint.files.deleteFile({fileId}))
   );

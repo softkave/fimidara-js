@@ -1,6 +1,7 @@
 import {IAgent} from './system';
+import {IEndpointParamsBase, IEndpointResultBase} from './types';
 
-export enum CollaborationRequestStatusType {
+export enum CollaborationRequestStatusinterface {
   Accepted = 'accepted',
   Declined = 'declined',
   Revoked = 'revoked',
@@ -8,7 +9,7 @@ export enum CollaborationRequestStatusType {
 }
 
 export interface ICollaborationRequestStatus {
-  status: CollaborationRequestStatusType;
+  status: CollaborationRequestStatusinterface;
   date: string;
 }
 
@@ -48,4 +49,84 @@ export interface ICollaborationRequestInput {
 export interface IUpdateCollaborationRequestInput {
   message?: string;
   expires?: string;
+}
+
+export interface IDeleteCollaborationRequestEndpointParams
+  extends IEndpointParamsBase {
+  requestId: string;
+}
+
+export interface IGetWorkspaceCollaborationRequestsEndpointParams
+  extends IEndpointParamsBase {}
+
+export interface IGetWorkspaceCollaborationRequestsEndpointResult
+  extends IEndpointResultBase {
+  requests: ICollaborationRequest[];
+}
+
+export interface IRevokeCollaborationRequestEndpointParams
+  extends IEndpointParamsBase {
+  requestId: string;
+}
+
+export interface IRevokeCollaborationRequestEndpointResult
+  extends IEndpointResultBase {
+  request: ICollaborationRequest;
+}
+
+export interface ISendCollaborationRequestEndpointParams
+  extends IEndpointParamsBase {
+  request: ICollaborationRequestInput;
+}
+
+export interface ISendCollaborationRequestEndpointResult
+  extends IEndpointResultBase {
+  request: ICollaborationRequest;
+}
+
+export interface IUpdateCollaborationRequestEndpointParams
+  extends IEndpointParamsBase {
+  requestId: string;
+  request: IUpdateCollaborationRequestInput;
+}
+
+export interface IUpdateCollaborationRequestEndpointResult
+  extends IEndpointResultBase {
+  request: ICollaborationRequest;
+}
+
+export interface IGetCollaborationRequestEndpointParams
+  extends IEndpointParamsBase {
+  requestId: string;
+}
+
+export interface IGetCollaborationRequestEndpointResult
+  extends IEndpointResultBase {
+  request: ICollaborationRequest;
+}
+
+export interface ICollaborationRequestEndpoints {
+  deleteRequest(
+    props: IDeleteCollaborationRequestEndpointParams
+  ): Promise<IEndpointResultBase>;
+
+  getWorkspaceRequests(
+    props: IGetWorkspaceCollaborationRequestsEndpointParams
+  ): Promise<IGetWorkspaceCollaborationRequestsEndpointResult>;
+
+  sendRequest(
+    props: ISendCollaborationRequestEndpointParams
+  ): Promise<ISendCollaborationRequestEndpointResult>;
+
+  updateRequest(
+    props: IUpdateCollaborationRequestEndpointParams
+  ): Promise<IUpdateCollaborationRequestEndpointResult>;
+
+  revokeRequest(
+    props: IRevokeCollaborationRequestEndpointParams
+  ): Promise<IRevokeCollaborationRequestEndpointResult>;
+
+  getRequest(
+    props: IGetCollaborationRequestEndpointParams
+  ): Promise<IGetCollaborationRequestEndpointResult>;
 }

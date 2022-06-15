@@ -1,13 +1,17 @@
 import {
-  ICollaborationRequest,
-  ICollaborationRequestInput,
-  IUpdateCollaborationRequestInput,
+  IDeleteCollaborationRequestEndpointParams,
+  IGetCollaborationRequestEndpointParams,
+  IGetCollaborationRequestEndpointResult,
+  IGetWorkspaceCollaborationRequestsEndpointParams,
+  IGetWorkspaceCollaborationRequestsEndpointResult,
+  IRevokeCollaborationRequestEndpointParams,
+  IRevokeCollaborationRequestEndpointResult,
+  ISendCollaborationRequestEndpointParams,
+  ISendCollaborationRequestEndpointResult,
+  IUpdateCollaborationRequestEndpointParams,
+  IUpdateCollaborationRequestEndpointResult,
 } from '../definitions/collaborationRequest';
-import {
-  GetEndpointResult,
-  IEndpointParamsBase,
-  IEndpointResultBase,
-} from '../types';
+import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
 const baseURL = '/requests';
@@ -17,59 +21,6 @@ const sendRequestURL = `${baseURL}/sendRequest`;
 const updateRequestURL = `${baseURL}/updateRequest`;
 const revokeRequestURL = `${baseURL}/revokeRequest`;
 const getRequestURL = `${baseURL}/getRequest`;
-
-export interface IDeleteCollaborationRequestEndpointParams
-  extends IEndpointParamsBase {
-  requestId: string;
-}
-
-export interface IGetWorkspaceCollaborationRequestsEndpointParams
-  extends IEndpointParamsBase {
-  workspaceId: string;
-}
-
-export type IGetWorkspaceCollaborationRequestsEndpointResult =
-  GetEndpointResult<{
-    requests: ICollaborationRequest[];
-  }>;
-
-export interface IRevokeCollaborationRequestEndpointParams
-  extends IEndpointParamsBase {
-  requestId: string;
-}
-
-export type IRevokeCollaborationRequestEndpointResult = GetEndpointResult<{
-  request: ICollaborationRequest;
-}>;
-
-export interface ISendCollaborationRequestEndpointParams
-  extends IEndpointParamsBase {
-  workspaceId: string;
-  request: ICollaborationRequestInput;
-}
-
-export type ISendCollaborationRequestEndpointResult = GetEndpointResult<{
-  request: ICollaborationRequest;
-}>;
-
-export interface IUpdateCollaborationRequestEndpointParams
-  extends IEndpointParamsBase {
-  requestId: string;
-  request: IUpdateCollaborationRequestInput;
-}
-
-export type IUpdateCollaborationRequestEndpointResult = GetEndpointResult<{
-  request: ICollaborationRequest;
-}>;
-
-export interface IGetCollaborationRequestEndpointParams
-  extends IEndpointParamsBase {
-  requestId: string;
-}
-
-export type IGetCollaborationRequestEndpointResult = GetEndpointResult<{
-  request: ICollaborationRequest;
-}>;
 
 export default class CollaborationRequestEndpoints extends EndpointsBase {
   async deleteRequest(props: IDeleteCollaborationRequestEndpointParams) {

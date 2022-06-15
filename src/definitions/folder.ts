@@ -1,3 +1,4 @@
+import {IFile} from './file';
 import {
   AppResourceType,
   BasicCRUDActions,
@@ -5,6 +6,7 @@ import {
   IPublicAccessOp,
   IPublicAccessOpInput,
 } from './system';
+import {IEndpointParamsBase, IEndpointResultBase} from './types';
 
 export interface IFolder {
   resourceId: string;
@@ -54,4 +56,59 @@ export function makePublicAccessOpInputs(
     action,
     resourceType: type,
   }));
+}
+
+export interface IAddFolderEndpointParams extends IEndpointParamsBase {
+  folder: INewFolderInput;
+}
+
+export interface IAddFolderEndpointResult extends IEndpointResultBase {
+  folder: IFolder;
+}
+
+export interface IDeleteFolderEndpointParams
+  extends IFolderMatcher,
+    IEndpointParamsBase {}
+
+export interface IGetFolderEndpointParams
+  extends IFolderMatcher,
+    IEndpointParamsBase {}
+
+export interface IGetFolderEndpointResult extends IEndpointResultBase {
+  folder: IFolder;
+}
+
+export interface IListFolderContentEndpointParams
+  extends IFolderMatcher,
+    IEndpointParamsBase {}
+
+export interface IListFolderContentEndpointResult extends IEndpointResultBase {
+  folders: IFolder[];
+  files: IFile[];
+}
+
+export interface IUpdateFolderEndpointParams
+  extends IFolderMatcher,
+    IEndpointParamsBase {
+  folder: IUpdateFolderInput;
+}
+
+export interface IUpdateFolderEndpointResult extends IEndpointResultBase {
+  Folder: IFolder;
+}
+
+export interface IFolderEndpoints {
+  addFolder(props: IAddFolderEndpointParams): Promise<IAddFolderEndpointResult>;
+  listFolderContent(
+    props: IListFolderContentEndpointParams
+  ): Promise<IListFolderContentEndpointResult>;
+
+  getFolder(props: IGetFolderEndpointParams): Promise<IGetFolderEndpointResult>;
+  deleteFolder(
+    props: IDeleteFolderEndpointParams
+  ): Promise<IEndpointResultBase>;
+
+  updateFolder(
+    props: IUpdateFolderEndpointParams
+  ): Promise<IUpdateFolderEndpointResult>;
 }

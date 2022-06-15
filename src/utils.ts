@@ -4,8 +4,8 @@ import {isBoolean, isString, omit} from 'lodash';
 import {getServerAddr} from './addr';
 import FimidaraConfig, {IConfig} from './config';
 import {IAppError} from './definitions/system';
+import {IEndpointParamsBase, IEndpointResultBase} from './definitions/types';
 import {CredentialsNotProvidedError} from './errors';
-import {IEndpointParamsBase, IEndpointResultBase} from './types';
 
 const toAppError = (err: Error | IAppError | string): IAppError => {
   const error = isString(err) ? new Error(err) : err;

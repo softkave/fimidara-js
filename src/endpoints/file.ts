@@ -1,18 +1,17 @@
-import type {Response} from 'node-fetch';
-import type {Readable} from 'stream';
+import type {Blob, Response} from 'node-fetch';
 import {
-  IFile,
-  IFileMatcher,
-  IImageTransformationParams,
-  IUpdateFileDetailsInput,
-  UploadFilePublicAccessActions,
-} from '../definitions/file';
+  IDeleteFileEndpointParams,
+  IGetFileDetailsEndpointParams,
+  IGetFileDetailsEndpointResult,
+  IGetFileEndpointParams,
+  IGetFileEndpointResult,
+  IUpdateFileDetailsEndpointParams,
+  IUpdateFileDetailsEndpointResult,
+  IUploadFileEndpointParams,
+  IUploadFileEndpointResult,
+} from '../definitions';
+import {IEndpointResultBase} from '../definitions/types';
 import {CredentialsNotProvidedError} from '../errors';
-import {
-  GetEndpointResult,
-  IEndpointParamsBase,
-  IEndpointResultBase,
-} from '../types';
 import {
   EndpointsBase,
   HTTP_HEADER_AUTHORIZATION,
@@ -21,8 +20,6 @@ import {
   setEndpointFormData,
   setEndpointParam,
 } from '../utils';
-// import {FormData} from 'formdata-polyfill/esm.min';
-// import FormData from"form-data"
 var FormData = require('form-data');
 const URLSearchParams =
   require('core-js/features/url-search-params') as typeof globalThis['URLSearchParams'];
@@ -55,55 +52,6 @@ function getUploadFilePath(workspaceId: string, filepath: string) {
   params.append(PATH_QUERY_PARAMS_KEY, filepath);
   return uploadFileURL + `?${params.toString()}`;
 }
-
-export interface IGetFileDetailsEndpointParams
-  extends IFileMatcher,
-    IEndpointParamsBase {}
-
-export type IGetFileDetailsEndpointResult = GetEndpointResult<{
-  file: IFile;
-}>;
-
-export interface IDeleteFileEndpointParams
-  extends IFileMatcher,
-    IEndpointParamsBase {}
-
-export interface IGetFileEndpointParams
-  extends Required<Pick<IFileMatcher, 'filepath'>>,
-    IEndpointParamsBase {
-  imageTranformation?: IImageTransformationParams;
-}
-
-export type IGetFileEndpointResult = {
-  // TODO: Look into changing this to a streamable type
-  buffer: ArrayBuffer;
-};
-
-export interface IUpdateFileDetailsEndpointParams
-  extends IFileMatcher,
-    IEndpointParamsBase {
-  file: IUpdateFileDetailsInput;
-}
-
-export type IUpdateFileDetailsEndpointResult = GetEndpointResult<{
-  file: IFile;
-}>;
-
-export interface IUploadFileEndpointParams
-  extends Required<Pick<IFileMatcher, 'filepath'>>,
-    IEndpointParamsBase {
-  description?: string;
-  encoding?: string;
-  extension?: string;
-  mimetype?: string;
-  // data: Blob;
-  data: Readable | ReadableStream;
-  publicAccessActions?: UploadFilePublicAccessActions;
-}
-
-export type IUploadFileEndpointResult = GetEndpointResult<{
-  file: IFile;
-}>;
 
 export default class FileEndpoints extends EndpointsBase {
   async deleteFile(props: IDeleteFileEndpointParams) {
@@ -147,9 +95,9 @@ export default class FileEndpoints extends EndpointsBase {
     });
 
     // TODO: return blob instead of buffer
-    const buffer = await response.arrayBuffer();
+    const blob = (await response.blob()) as Blob;
     return {
-      buffer,
+      body: response.body,
     };
   }
 
@@ -168,17 +116,6 @@ export default class FileEndpoints extends EndpointsBase {
     if (!requestToken) {
       throw new CredentialsNotProvidedError();
     }
-
-    // const res = await axios({
-    //   method: 'post',
-    //   url: getServerAddr() + uploadFileURL,
-    //   // responseType: 'stream',
-    //   headers: {
-    //     [HTTP_HEADER_AUTHORIZATION]: `Bearer ${requestToken}`,
-    //   },
-    //   data: formData,
-    // });
-    // return res.data;
 
     let hd = {};
     if (formData.getHeaders) {

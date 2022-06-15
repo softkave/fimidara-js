@@ -1,17 +1,18 @@
 import faker from '@faker-js/faker';
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
-import {IPresetInput} from '../definitions';
 import {
   IAddProgramAccessTokenEndpointParams,
   IDeleteProgramAccessTokenEndpointParams,
   IGetProgramAccessTokenEndpointParams,
   IGetWorkspaceProgramAccessTokenEndpointParams,
+  IPermissionGroupInput,
   IUpdateProgramAccessTokenEndpointParams,
-} from '../endpoints';
-import Endpoints from '../endpoints/endpoints';
+} from '../definitions';
+import {} from '../endpoints';
+import {IEndpoints} from '../endpoints/endpoints';
 import {cast} from '../utils';
-import {addPresetTest} from './presetPermissionsGroup';
+import {addPermissionGroupTest} from './permissionGroups';
 import {
   addToCleanupField,
   assertEndpointResult,
@@ -21,21 +22,21 @@ import {
 import assert = require('assert');
 
 export async function addProgramTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IAddProgramAccessTokenEndpointParams> = {}
 ) {
-  let assignedPresets = cast<Array<IPresetInput> | undefined>(
-    props.token?.presets
+  let assignedPermissionGroups = cast<Array<IPermissionGroupInput> | undefined>(
+    props.token?.permissionGroups
   );
 
-  if (!assignedPresets) {
-    const presets = await Promise.all([
-      addPresetTest(endpoint, vars),
-      addPresetTest(endpoint, vars),
+  if (!assignedPermissionGroups) {
+    const permissionGroups = await Promise.all([
+      addPermissionGroupTest(endpoint, vars),
+      addPermissionGroupTest(endpoint, vars),
     ]);
-    assignedPresets = presets.map(preset => ({
-      presetId: preset.preset.resourceId,
+    assignedPermissionGroups = permissionGroups.map(permissionGroup => ({
+      permissionGroupId: permissionGroup.permissionGroup.resourceId,
       order: faker.datatype.number({min: 1, max: 10}),
     }));
   }
@@ -44,7 +45,7 @@ export async function addProgramTokenTest(
     token: {
       name: faker.name.firstName(),
       description: faker.lorem.sentence(),
-      presets: assignedPresets,
+      permissionGroups: assignedPermissionGroups,
     },
   };
   const inputs = merge(genInput, props);
@@ -54,7 +55,7 @@ export async function addProgramTokenTest(
 }
 
 export async function getWorkspaceProgramTokensTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetWorkspaceProgramAccessTokenEndpointParams> = {}
 ) {
@@ -73,7 +74,7 @@ export async function getWorkspaceProgramTokensTest(
 }
 
 export async function getTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetProgramAccessTokenEndpointParams> = {}
 ) {
@@ -93,7 +94,7 @@ export async function getTokenTest(
 }
 
 export async function deleteTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IDeleteProgramAccessTokenEndpointParams> = {}
 ) {
@@ -112,13 +113,13 @@ export async function deleteTokenTest(
 }
 
 export async function updateTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IUpdateProgramAccessTokenEndpointParams> = {}
 ) {
   let tokenId = props.tokenId;
-  let assignedPresets = cast<Array<IPresetInput> | undefined>(
-    props.token?.presets
+  let assignedPermissionGroups = cast<Array<IPermissionGroupInput> | undefined>(
+    props.token?.permissionGroups
   );
 
   if (!tokenId) {
@@ -126,23 +127,23 @@ export async function updateTokenTest(
     tokenId = token.token.resourceId;
   }
 
-  if (!assignedPresets) {
-    const presets = await Promise.all([
-      addPresetTest(endpoint, vars),
-      addPresetTest(endpoint, vars),
+  if (!assignedPermissionGroups) {
+    const permissionGroups = await Promise.all([
+      addPermissionGroupTest(endpoint, vars),
+      addPermissionGroupTest(endpoint, vars),
     ]);
-    assignedPresets = presets.map(preset => ({
-      presetId: preset.preset.resourceId,
+    assignedPermissionGroups = permissionGroups.map(permissionGroup => ({
+      permissionGroupId: permissionGroup.permissionGroup.resourceId,
       order: faker.datatype.number({min: 1, max: 10}),
     }));
   }
 
   assert.ok(tokenId);
-  assert.ok(assignedPresets);
+  assert.ok(assignedPermissionGroups);
   const input: IUpdateProgramAccessTokenEndpointParams = {
     tokenId,
     token: {
-      presets: assignedPresets,
+      permissionGroups: assignedPermissionGroups,
       name: faker.name.firstName(),
       description: faker.lorem.sentence(),
     },
@@ -153,7 +154,7 @@ export async function updateTokenTest(
 }
 
 export async function deleteManyProgramTokens(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   ids: string[]
 ) {
   await Promise.allSettled(

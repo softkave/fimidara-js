@@ -1,13 +1,15 @@
 import {
-  INewProgramAccessTokenInput,
-  IProgramAccessToken,
-  IUpdateProgramAccessTokenInput,
-} from '../definitions/programAccessToken';
-import {
-  GetEndpointResult,
-  IEndpointParamsBase,
-  IEndpointResultBase,
-} from '../types';
+  IAddProgramAccessTokenEndpointParams,
+  IAddProgramAccessTokenEndpointResult,
+  IDeleteProgramAccessTokenEndpointParams,
+  IGetProgramAccessTokenEndpointParams,
+  IGetProgramAccessTokenEndpointResult,
+  IGetWorkspaceProgramAccessTokenEndpointParams,
+  IGetWorkspaceProgramAccessTokenEndpointResult,
+  IUpdateProgramAccessTokenEndpointParams,
+  IUpdateProgramAccessTokenEndpointResult,
+} from '../definitions';
+import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
 const baseURL = '/programAccessTokens';
@@ -16,51 +18,6 @@ const getWorkspaceTokensURL = `${baseURL}/getWorkspaceTokens`;
 const getTokenURL = `${baseURL}/getToken`;
 const deleteTokenURL = `${baseURL}/deleteToken`;
 const updateTokenURL = `${baseURL}/updateToken`;
-
-export interface IAddProgramAccessTokenEndpointParams
-  extends IEndpointParamsBase {
-  // workspaceId: string;
-  token: INewProgramAccessTokenInput;
-}
-
-export type IAddProgramAccessTokenEndpointResult = GetEndpointResult<{
-  token: IProgramAccessToken;
-}>;
-
-export interface IDeleteProgramAccessTokenEndpointParams
-  extends IEndpointParamsBase {
-  tokenId?: string;
-  onReferenced?: boolean;
-}
-
-export interface IGetWorkspaceProgramAccessTokenEndpointParams
-  extends IEndpointParamsBase {
-  // workspaceId: string;
-}
-
-export type IGetWorkspaceProgramAccessTokenEndpointResult = GetEndpointResult<{
-  tokens: IProgramAccessToken[];
-}>;
-
-export interface IGetProgramAccessTokenEndpointParams
-  extends IEndpointParamsBase {
-  tokenId: string;
-}
-
-export type IGetProgramAccessTokenEndpointResult = GetEndpointResult<{
-  token: IProgramAccessToken;
-}>;
-
-export interface IUpdateProgramAccessTokenEndpointParams
-  extends IEndpointParamsBase {
-  tokenId?: string;
-  onReferenced?: boolean;
-  token: IUpdateProgramAccessTokenInput;
-}
-
-export type IUpdateProgramAccessTokenEndpointResult = GetEndpointResult<{
-  token: IProgramAccessToken;
-}>;
 
 export default class ProgramAccessTokenEndpoints extends EndpointsBase {
   async addToken(props: IAddProgramAccessTokenEndpointParams) {

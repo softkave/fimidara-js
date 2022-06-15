@@ -4,16 +4,15 @@ import {PartialDeep} from 'type-fest';
 import {
   AppResourceType,
   BasicCRUDActions,
-  makePublicAccessOpInputs,
-} from '../definitions';
-import {
   IAddFolderEndpointParams,
   IDeleteFolderEndpointParams,
   IGetFolderEndpointParams,
   IListFolderContentEndpointParams,
   IUpdateFolderEndpointParams,
-} from '../endpoints';
-import Endpoints from '../endpoints/endpoints';
+  makePublicAccessOpInputs,
+} from '../definitions';
+import {} from '../endpoints';
+import {IEndpoints} from '../endpoints/endpoints';
 import {getFilepath} from '../utils';
 import {uploadFileTest} from './file';
 import {
@@ -26,7 +25,7 @@ import {
 import assert = require('assert');
 
 export async function deleteFolderTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IDeleteFolderEndpointParams> = {}
 ) {
@@ -46,7 +45,7 @@ export async function deleteFolderTest(
 }
 
 export async function getFolderTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetFolderEndpointParams> = {}
 ) {
@@ -66,7 +65,7 @@ export async function getFolderTest(
 }
 
 export async function updateFolderTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IUpdateFolderEndpointParams> = {}
 ) {
@@ -94,7 +93,7 @@ export async function updateFolderTest(
 }
 
 export async function listFolderContentTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IListFolderContentEndpointParams> = {}
 ) {
@@ -136,7 +135,7 @@ export async function listFolderContentTest(
 }
 
 export async function addFolderTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IAddFolderEndpointParams> = {}
 ) {
@@ -154,7 +153,7 @@ export async function addFolderTest(
 }
 
 export async function deleteManyFoldersByPath(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   folderpaths: string[]
 ) {
   await Promise.allSettled(
@@ -163,7 +162,7 @@ export async function deleteManyFoldersByPath(
 }
 
 export async function deleteManyFoldersById(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   ids: string[]
 ) {
   await Promise.allSettled(

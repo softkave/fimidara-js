@@ -1,4 +1,5 @@
 import {AppResourceType} from './system';
+import {IEndpointParamsBase, IEndpointResultBase} from './types';
 
 export interface IResourceBase {
   resourceId: string;
@@ -14,3 +15,12 @@ export interface IGetResourceInputItem {
   resourceId: string;
   resourceType: AppResourceType;
 }
+
+export interface IGetResourcesEndpointParams extends IEndpointParamsBase {
+  workspaceId: string;
+  resources: Array<IGetResourceInputItem>;
+}
+
+export type IGetResourcesEndpointResult = IEndpointResultBase & {
+  resources: IResource[];
+};

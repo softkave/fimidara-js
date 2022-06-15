@@ -1,11 +1,11 @@
 import fimidara from '..';
 import {
-  addPresetTest,
-  deletePresetTest,
-  getPresetTest,
-  getWorkspacePresetsTest,
-  updatePresetTest,
-} from '../testutils/presetPermissionsGroup';
+  addPermissionGroupTest,
+  deletePermissionGroupTest,
+  getPermissionGroupTest,
+  getWorkspacePermissionGroupsTest,
+  updatePermissionGroupTest,
+} from '../testutils/permissionGroups';
 import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
 jest.setTimeout(600000); // 10 minutes
@@ -20,24 +20,24 @@ afterAll(async () => {
   await globalCleanup(fimidara.endpoints, vars);
 });
 
-describe('preset permission group', () => {
-  test('update preset', async () => {
-    await updatePresetTest(fimidara.endpoints, vars);
+describe('permission group permission group', () => {
+  test('update permission group', async () => {
+    await updatePermissionGroupTest(fimidara.endpoints, vars);
   });
 
-  test('delete preset', async () => {
-    await deletePresetTest(fimidara.endpoints, vars);
+  test('delete permission group', async () => {
+    await deletePermissionGroupTest(fimidara.endpoints, vars);
   });
 
-  test('get preset', async () => {
-    await getPresetTest(fimidara.endpoints, vars);
+  test('get permission group', async () => {
+    await getPermissionGroupTest(fimidara.endpoints, vars);
   });
 
-  test('get workspace presets', async () => {
-    await getWorkspacePresetsTest(fimidara.endpoints, vars);
+  test('get workspace permission groups', async () => {
+    await getWorkspacePermissionGroupsTest(fimidara.endpoints, vars);
   });
 
-  test('add preset', async () => {
-    await addPresetTest(fimidara.endpoints, vars);
+  test('add permission group', async () => {
+    await addPermissionGroupTest(fimidara.endpoints, vars);
   });
 });

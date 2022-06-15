@@ -1,4 +1,6 @@
+import {Readable} from 'form-data';
 import {IAgent, IPublicAccessOp} from './system';
+import {IEndpointParamsBase, IEndpointResultBase} from './types';
 
 export interface IFile {
   resourceId: string;
@@ -40,4 +42,71 @@ export interface IFileMatcher {
   filepath?: string;
   fileId?: string;
   // workspaceId?: string;
+}
+
+export interface IGetFileDetailsEndpointParams
+  extends IFileMatcher,
+    IEndpointParamsBase {}
+
+export interface IGetFileDetailsEndpointResult extends IEndpointResultBase {
+  file: IFile;
+}
+
+export interface IDeleteFileEndpointParams
+  extends IFileMatcher,
+    IEndpointParamsBase {}
+
+export interface IGetFileEndpointParams
+  extends Required<Pick<IFileMatcher, 'filepath'>>,
+    IEndpointParamsBase {
+  imageTranformation?: IImageTransformationParams;
+}
+
+export interface IGetFileEndpointResult {
+  body: NodeJS.ReadableStream | ReadableStream;
+}
+
+export interface IUpdateFileDetailsEndpointParams
+  extends IFileMatcher,
+    IEndpointParamsBase {
+  file: IUpdateFileDetailsInput;
+}
+
+export interface IUpdateFileDetailsEndpointResult extends IEndpointResultBase {
+  file: IFile;
+}
+
+export interface IUploadFileEndpointParams
+  extends Required<Pick<IFileMatcher, 'filepath'>>,
+    IEndpointParamsBase {
+  description?: string;
+  encoding?: string;
+  extension?: string;
+  mimetype?: string;
+  // data: Blob;
+  data: Readable | ReadableStream;
+  publicAccessActions?: UploadFilePublicAccessActions;
+}
+
+export interface IUploadFileEndpointResult extends IEndpointResultBase {
+  file: IFile;
+}
+
+export interface IFileEndpoints {
+  deleteFile(props: IDeleteFileEndpointParams): Promise<IEndpointResultBase>;
+  getFileDetails(
+    props: IGetFileDetailsEndpointParams
+  ): Promise<IGetFileDetailsEndpointResult>;
+
+  updateFileDetails(
+    props: IUpdateFileDetailsEndpointParams
+  ): Promise<IUpdateFileDetailsEndpointResult>;
+
+  getFile(props: IGetFileEndpointParams): Promise<IGetFileEndpointResult>;
+  uploadFile(
+    props: IUploadFileEndpointParams
+  ): Promise<IUploadFileEndpointResult>;
+
+  getFetchFilePath(filepath: string, width?: number, height?: number): string;
+  getUploadFilePath(workspaceId: string, filepath: string): string;
 }

@@ -1,13 +1,14 @@
 import FimidaraConfig, {IFimidaraConfig} from './config';
-import Endpoints from './endpoints/endpoints';
+import Endpoints, {IEndpoints} from './endpoints/endpoints';
 
-export * from './config';
 export * from './definitions/index';
 export * from './endpoints/index';
+export {getFilepath} from './utils';
+export {IFimidaraConfig};
 
 export interface IFimidara {
   config: IFimidaraConfig;
-  endpoints: Endpoints;
+  endpoints: IEndpoints;
 }
 
 const endpoints = new Endpoints();

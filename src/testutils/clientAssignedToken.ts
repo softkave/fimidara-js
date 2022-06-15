@@ -1,17 +1,17 @@
 import faker from '@faker-js/faker';
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
-import {IPresetInput} from '../definitions';
 import {
   IAddClientAssignedTokenEndpointParams,
   IDeleteClientAssignedTokenEndpointParams,
   IGetClientAssignedTokenEndpointParams,
   IGetWorkspaceClientAssignedTokensEndpointParams,
+  IPermissionGroupInput,
   IUpdateClientAssignedTokenEndpointParams,
-} from '../endpoints/clientAssignedToken';
-import Endpoints from '../endpoints/endpoints';
+} from '../definitions';
+import {IEndpoints} from '../endpoints';
 import {cast} from '../utils';
-import {addPresetTest} from './presetPermissionsGroup';
+import {addPermissionGroupTest} from './permissionGroups';
 import {
   addToCleanupField,
   assertEndpointResult,
@@ -27,21 +27,21 @@ function getTokenExpiryDate(
 }
 
 export async function addClientTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IAddClientAssignedTokenEndpointParams> = {}
 ) {
-  let assignedPresets = cast<Array<IPresetInput> | undefined>(
-    props.token?.presets
+  let assignedPermissionGroups = cast<Array<IPermissionGroupInput> | undefined>(
+    props.token?.permissionGroups
   );
 
-  if (!assignedPresets) {
-    const presets = await Promise.all([
-      addPresetTest(endpoint, vars),
-      addPresetTest(endpoint, vars),
+  if (!assignedPermissionGroups) {
+    const permissionGroups = await Promise.all([
+      addPermissionGroupTest(endpoint, vars),
+      addPermissionGroupTest(endpoint, vars),
     ]);
-    assignedPresets = presets.map(preset => ({
-      presetId: preset.preset.resourceId,
+    assignedPermissionGroups = permissionGroups.map(permissionGroup => ({
+      permissionGroupId: permissionGroup.permissionGroup.resourceId,
       order: faker.datatype.number({min: 1, max: 10}),
     }));
   }
@@ -50,7 +50,7 @@ export async function addClientTokenTest(
     token: {
       expires: getTokenExpiryDate(),
       providedResourceId: faker.datatype.uuid(),
-      presets: assignedPresets,
+      permissionGroups: assignedPermissionGroups,
     },
   };
   const inputs = merge(genInput, props);
@@ -60,7 +60,7 @@ export async function addClientTokenTest(
 }
 
 export async function getWorkspaceClientTokensTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetWorkspaceClientAssignedTokensEndpointParams> = {}
 ) {
@@ -79,7 +79,7 @@ export async function getWorkspaceClientTokensTest(
 }
 
 export async function getTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IGetClientAssignedTokenEndpointParams> = {}
 ) {
@@ -99,7 +99,7 @@ export async function getTokenTest(
 }
 
 export async function deleteTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IDeleteClientAssignedTokenEndpointParams> = {}
 ) {
@@ -118,13 +118,13 @@ export async function deleteTokenTest(
 }
 
 export async function updateTokenTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IUpdateClientAssignedTokenEndpointParams> = {}
 ) {
   let tokenId = props.tokenId;
-  let assignedPresets = cast<Array<IPresetInput> | undefined>(
-    props.token?.presets
+  let assignedPermissionGroups = cast<Array<IPermissionGroupInput> | undefined>(
+    props.token?.permissionGroups
   );
 
   if (!tokenId) {
@@ -132,23 +132,23 @@ export async function updateTokenTest(
     tokenId = token.token.resourceId;
   }
 
-  if (!assignedPresets) {
-    const presets = await Promise.all([
-      addPresetTest(endpoint, vars),
-      addPresetTest(endpoint, vars),
+  if (!assignedPermissionGroups) {
+    const permissionGroups = await Promise.all([
+      addPermissionGroupTest(endpoint, vars),
+      addPermissionGroupTest(endpoint, vars),
     ]);
-    assignedPresets = presets.map(preset => ({
-      presetId: preset.preset.resourceId,
+    assignedPermissionGroups = permissionGroups.map(permissionGroup => ({
+      permissionGroupId: permissionGroup.permissionGroup.resourceId,
       order: faker.datatype.number({min: 1, max: 10}),
     }));
   }
 
   assert.ok(tokenId);
-  assert.ok(assignedPresets);
+  assert.ok(assignedPermissionGroups);
   const input: IUpdateClientAssignedTokenEndpointParams = {
     tokenId,
     token: {
-      presets: assignedPresets,
+      permissionGroups: assignedPermissionGroups,
       expires: getTokenExpiryDate(),
       providedResourceId: faker.datatype.uuid(),
     },
@@ -159,7 +159,7 @@ export async function updateTokenTest(
 }
 
 export async function deleteManyClientTokens(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   ids: string[]
 ) {
   await Promise.allSettled(

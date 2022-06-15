@@ -1,51 +1,20 @@
-import {IPresetInput} from '../definitions/presets';
-import {ICollaborator} from '../definitions/user';
 import {
-  GetEndpointResult,
-  IEndpointParamsBase,
-  IEndpointResultBase,
-} from '../types';
+  IGetCollaboratorEndpointParams,
+  IGetCollaboratorEndpointResult,
+  IGetWorkspaceCollaboratorsEndpointParams,
+  IGetWorkspaceCollaboratorsEndpointResult,
+  IRemoveCollaboratorEndpointParams,
+  IUpdateCollaboratorPermissionGroupsEndpointParams,
+  IUpdateCollaboratorPermissionGroupsEndpointResult,
+} from '../definitions/collaborator';
+import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
 const baseURL = '/collaborators';
 const removeCollaboratorURL = `${baseURL}/removeCollaborator`;
 const getWorkspaceCollaboratorsURL = `${baseURL}/getWorkspaceCollaborators`;
 const getCollaboratorURL = `${baseURL}/getCollaborator`;
-const updateCollaboratorPresetsURL = `${baseURL}/updateCollaboratorPresets`;
-
-export interface IGetCollaboratorEndpointParams extends IEndpointParamsBase {
-  workspaceId: string;
-  collaboratorId: string;
-}
-
-export type IGetCollaboratorEndpointResult = GetEndpointResult<{
-  collaborator: ICollaborator;
-}>;
-
-export interface IGetWorkspaceCollaboratorsEndpointParams
-  extends IEndpointParamsBase {
-  workspaceId: string;
-}
-
-export type IGetWorkspaceCollaboratorsEndpointResult = GetEndpointResult<{
-  collaborators: ICollaborator[];
-}>;
-
-export interface IRemoveCollaboratorEndpointParams extends IEndpointParamsBase {
-  workspaceId: string;
-  collaboratorId: string;
-}
-
-export interface IUpdateCollaboratorPresetsEndpointParams
-  extends IEndpointParamsBase {
-  workspaceId: string;
-  collaboratorId: string;
-  presets: IPresetInput[];
-}
-
-export type IUpdateCollaboratorPresetsEndpointResult = GetEndpointResult<{
-  collaborator: ICollaborator;
-}>;
+const updateCollaboratorPermissionGroupsURL = `${baseURL}/updateCollaboratorPermissionGroups`;
 
 export default class CollaboratorEndpoints extends EndpointsBase {
   async removeCollaborator(props: IRemoveCollaboratorEndpointParams) {
@@ -76,12 +45,12 @@ export default class CollaboratorEndpoints extends EndpointsBase {
     });
   }
 
-  async updateCollaboratorPresets(
-    props: IUpdateCollaboratorPresetsEndpointParams
+  async updateCollaboratorPermissionGroups(
+    props: IUpdateCollaboratorPermissionGroupsEndpointParams
   ) {
-    return await invokeEndpointWithAuth<IUpdateCollaboratorPresetsEndpointResult>(
+    return await invokeEndpointWithAuth<IUpdateCollaboratorPermissionGroupsEndpointResult>(
       {
-        path: updateCollaboratorPresetsURL,
+        path: updateCollaboratorPermissionGroupsURL,
         data: props,
         token: this.getAuthToken(props),
       }

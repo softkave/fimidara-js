@@ -1,13 +1,13 @@
 import assert = require('assert');
 import {flattenDeep, uniq} from 'lodash';
 import {formatWithOptions} from 'util';
-import Endpoints from '../endpoints/endpoints';
-import {GetEndpointResult} from '../types';
+import {EndpointResult} from '../definitions/types';
+import {IEndpoints} from '../endpoints';
 import {deleteManyClientTokens} from './clientAssignedToken';
 import {deleteManyFilesById, deleteManyFilesByPath} from './file';
 import {deleteManyFoldersByPath} from './folder';
+import {deleteManyPermissionGroups} from './permissionGroups';
 import {deleteManyPermissionItems} from './permissionItem';
-import {deleteManyPresets} from './presetPermissionsGroup';
 import {deleteManyProgramTokens} from './programAccessToken';
 import path = require('path');
 
@@ -17,7 +17,7 @@ export interface ITestVars {
   testFilepath: string;
 
   // for global cleanup
-  cleanupPresetIds: string[];
+  cleanupPermissionGroupIds: string[];
   cleanupClientTokenIds: string[];
   cleanupFileIds: string[];
   cleanupFilepaths: string[];
@@ -26,7 +26,7 @@ export interface ITestVars {
   cleanupProgramTokenIds: string[];
 }
 
-export function assertEndpointResult(result: GetEndpointResult<any>) {
+export function assertEndpointResult(result: EndpointResult<any>) {
   assert(result.errors === undefined);
 }
 
@@ -69,12 +69,12 @@ export function getTestVars(): ITestVars {
     cleanupFolderpaths: [],
     cleanupPermissionItemIds: [],
     cleanupProgramTokenIds: [],
-    cleanupPresetIds: [],
+    cleanupPermissionGroupIds: [],
   };
 }
 
-export async function globalCleanup(endpoint: Endpoints, vars: ITestVars) {
-  const cleanupPresetIds = uniq(vars.cleanupPresetIds);
+export async function globalCleanup(endpoint: IEndpoints, vars: ITestVars) {
+  const cleanupPermissionGroupIds = uniq(vars.cleanupPermissionGroupIds);
   const cleanupClientTokenIds = uniq(vars.cleanupClientTokenIds);
   const cleanupFileIds = uniq(vars.cleanupFileIds);
   const cleanupFilepaths = uniq(vars.cleanupFilepaths);
@@ -82,7 +82,8 @@ export async function globalCleanup(endpoint: Endpoints, vars: ITestVars) {
   const cleanupPermissionItemIds = uniq(vars.cleanupPermissionItemIds);
   const cleanupProgramTokenIds = uniq(vars.cleanupProgramTokenIds);
   const result = await Promise.allSettled([
-    cleanupPresetIds.length && deleteManyPresets(endpoint, cleanupPresetIds),
+    cleanupPermissionGroupIds.length &&
+      deleteManyPermissionGroups(endpoint, cleanupPermissionGroupIds),
     cleanupClientTokenIds.length &&
       deleteManyClientTokens(endpoint, cleanupClientTokenIds),
     cleanupFileIds.length && deleteManyFilesById(endpoint, cleanupFileIds),

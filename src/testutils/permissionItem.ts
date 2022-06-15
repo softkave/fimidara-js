@@ -3,20 +3,19 @@ import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {
   AppResourceType,
-  INewPermissionItemInput,
-  IPermissionItem,
-  PermissionItemAppliesTo,
-} from '../definitions';
-import {
   IAddPermissionItemsEndpointParams,
   IDeletePermissionItemsByIdEndpointParams,
   IGetEntityPermissionItemsEndpointParams,
   IGetResourcePermissionItemsEndpointParams,
+  INewPermissionItemInput,
   INewPermissionItemInputByEntity,
+  IPermissionItem,
   IReplacePermissionItemsByEntityEndpointParams,
   makePermissionItemInputWithActions,
-} from '../endpoints';
-import Endpoints from '../endpoints/endpoints';
+  PermissionItemAppliesTo,
+} from '../definitions';
+import {} from '../endpoints';
+import {IEndpoints} from '../endpoints/endpoints';
 import {cast} from '../utils';
 import {addClientTokenTest} from './clientAssignedToken';
 import {addFolderTest} from './folder';
@@ -32,7 +31,7 @@ export function getItemIds(items: IPermissionItem[]) {
 }
 
 export async function getEntityPermissionItemsTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars
 ) {
   const token = await addClientTokenTest(endpoint, vars);
@@ -60,7 +59,7 @@ export async function getEntityPermissionItemsTest(
 }
 
 export async function getResourcePermissionItemsTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars
 ) {
   const folder01 = await addFolderTest(endpoint, vars);
@@ -92,7 +91,7 @@ export async function getResourcePermissionItemsTest(
 }
 
 export async function deleteItemsByIdTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IDeletePermissionItemsByIdEndpointParams> = {}
 ) {
@@ -112,7 +111,7 @@ export async function deleteItemsByIdTest(
 }
 
 export async function addItemsTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IAddPermissionItemsEndpointParams> = {}
 ) {
@@ -136,7 +135,7 @@ export async function addItemsTest(
 }
 
 export async function replacePermissionItemsByEntityTest(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   vars: ITestVars,
   props: PartialDeep<IReplacePermissionItemsByEntityEndpointParams> = {}
 ) {
@@ -164,7 +163,7 @@ export async function replacePermissionItemsByEntityTest(
 }
 
 export async function deleteManyPermissionItems(
-  endpoint: Endpoints,
+  endpoint: IEndpoints,
   ids: string[]
 ) {
   await endpoint.permissionItems.deleteItemsById({itemIds: ids});

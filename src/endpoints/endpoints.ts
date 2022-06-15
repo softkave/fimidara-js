@@ -3,18 +3,28 @@ import {EndpointsBase} from '../utils';
 import ClientAssignedTokenEndpoints from './clientAssignedToken';
 import FileEndpoints from './file';
 import FolderEndpoints from './folder';
-import WorkspaceEndpoints from './workspace';
+import PermissionGroupEndpoints from './permissionGroups';
 import PermissionItemEndpoints from './permissionItem';
-import PresetPermissionsGroupEndpoints from './presetPermissionsGroup';
 import ProgramAccessTokenEndpoints from './programAccessToken';
+import WorkspaceEndpoints from './workspace';
 
-export default class Endpoints extends EndpointsBase {
+export interface IEndpoints {
   clientTokens: ClientAssignedTokenEndpoints;
   files: FileEndpoints;
   folders: FolderEndpoints;
   workspace: WorkspaceEndpoints;
   permissionItems: PermissionItemEndpoints;
-  presets: PresetPermissionsGroupEndpoints;
+  permissionGroups: PermissionGroupEndpoints;
+  programTokens: ProgramAccessTokenEndpoints;
+}
+
+export default class Endpoints extends EndpointsBase implements IEndpoints {
+  clientTokens: ClientAssignedTokenEndpoints;
+  files: FileEndpoints;
+  folders: FolderEndpoints;
+  workspace: WorkspaceEndpoints;
+  permissionItems: PermissionItemEndpoints;
+  permissionGroups: PermissionGroupEndpoints;
   programTokens: ProgramAccessTokenEndpoints;
 
   constructor(config?: IConfig) {
@@ -24,7 +34,7 @@ export default class Endpoints extends EndpointsBase {
     this.folders = new FolderEndpoints(config);
     this.workspace = new WorkspaceEndpoints(config);
     this.permissionItems = new PermissionItemEndpoints(config);
-    this.presets = new PresetPermissionsGroupEndpoints(config);
+    this.permissionGroups = new PermissionGroupEndpoints(config);
     this.programTokens = new ProgramAccessTokenEndpoints(config);
   }
 }
