@@ -64,7 +64,7 @@ export type IGetPermissionGroupEndpointResult = IEndpointResultBase & {
 export interface IUpdatePermissionGroupEndpointParams
   extends IEndpointParamsBase {
   permissionGroupId: string;
-  permissionGroups: IUpdatePermissionGroupInput;
+  permissionGroup: IUpdatePermissionGroupInput;
 }
 
 export type IUpdatePermissionGroupEndpointResult = IEndpointResultBase & {

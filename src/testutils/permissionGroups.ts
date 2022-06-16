@@ -110,7 +110,7 @@ export async function updatePermissionGroupTest(
 ) {
   let permissionGroupId = props.permissionGroupId;
   let assignedPermissionGroups = cast<Array<IPermissionGroupInput> | undefined>(
-    props.permissionGroups?.permissionGroups
+    props.permissionGroup?.permissionGroups
   );
 
   if (!permissionGroupId) {
@@ -133,7 +133,7 @@ export async function updatePermissionGroupTest(
   assert.ok(assignedPermissionGroups);
   const input: IUpdatePermissionGroupEndpointParams = {
     permissionGroupId: permissionGroupId,
-    permissionGroups: {
+    permissionGroup: {
       name: faker.lorem.words(),
       description: faker.lorem.sentence(),
       permissionGroups: assignedPermissionGroups,

@@ -20,7 +20,7 @@ afterAll(async () => {
   await globalCleanup(fimidara.endpoints, vars);
 });
 
-describe('permission group permission group', () => {
+describe('permission group', () => {
   test('update permission group', async () => {
     await updatePermissionGroupTest(fimidara.endpoints, vars);
   });
