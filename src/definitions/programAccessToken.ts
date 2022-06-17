@@ -32,9 +32,10 @@ export interface IAddProgramAccessTokenEndpointParams
   token: INewProgramAccessTokenInput;
 }
 
-export type IAddProgramAccessTokenEndpointResult = IEndpointResultBase & {
+export interface IAddProgramAccessTokenEndpointResult
+  extends IEndpointResultBase {
   token: IProgramAccessToken;
-};
+}
 
 export interface IDeleteProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
@@ -45,19 +46,20 @@ export interface IDeleteProgramAccessTokenEndpointParams
 export interface IGetWorkspaceProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {}
 
-export type IGetWorkspaceProgramAccessTokenEndpointResult =
-  IEndpointResultBase & {
-    tokens: IProgramAccessToken[];
-  };
+export interface IGetWorkspaceProgramAccessTokenEndpointResult
+  extends IEndpointResultBase {
+  tokens: IProgramAccessToken[];
+}
 
 export interface IGetProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
   tokenId: string;
 }
 
-export type IGetProgramAccessTokenEndpointResult = IEndpointResultBase & {
+export interface IGetProgramAccessTokenEndpointResult
+  extends IEndpointResultBase {
   token: IProgramAccessToken;
-};
+}
 
 export interface IUpdateProgramAccessTokenEndpointParams
   extends IEndpointParamsBase {
@@ -66,6 +68,25 @@ export interface IUpdateProgramAccessTokenEndpointParams
   token: IUpdateProgramAccessTokenInput;
 }
 
-export type IUpdateProgramAccessTokenEndpointResult = IEndpointResultBase & {
+export interface IUpdateProgramAccessTokenEndpointResult
+  extends IEndpointResultBase {
   token: IProgramAccessToken;
-};
+}
+
+export interface IProgramAccessTokenEndpoints {
+  addToken(
+    props: IAddProgramAccessTokenEndpointParams
+  ): Promise<IAddProgramAccessTokenEndpointResult>;
+  getWorkspaceTokens(
+    props: IGetWorkspaceProgramAccessTokenEndpointParams
+  ): Promise<IGetWorkspaceProgramAccessTokenEndpointResult>;
+  getToken(
+    props: IGetProgramAccessTokenEndpointParams
+  ): Promise<IGetProgramAccessTokenEndpointResult>;
+  deleteToken(
+    props: IDeleteProgramAccessTokenEndpointParams
+  ): Promise<IEndpointResultBase>;
+  updateToken(
+    props: IUpdateProgramAccessTokenEndpointParams
+  ): Promise<IUpdateProgramAccessTokenEndpointResult>;
+}

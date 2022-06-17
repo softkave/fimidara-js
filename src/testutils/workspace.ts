@@ -2,10 +2,10 @@ import faker from '@faker-js/faker';
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {
+  IEndpoints,
   IGetWorkspaceEndpointParams,
   IUpdateWorkspaceEndpointParams,
 } from '../definitions';
-import {IEndpoints} from '../endpoints';
 import {assertEndpointResult, ITestVars} from './utils';
 import assert = require('assert');
 

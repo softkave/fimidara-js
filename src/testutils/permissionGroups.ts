@@ -4,13 +4,13 @@ import {PartialDeep} from 'type-fest';
 import {
   IAddPermissionGroupEndpointParams,
   IDeletePermissionGroupEndpointParams,
+  IEndpoints,
   IGetPermissionGroupEndpointParams,
   IGetWorkspaceEndpointParams,
   IGetWorkspacePermissionGroupEndpointParams,
   IPermissionGroupInput,
   IUpdatePermissionGroupEndpointParams,
 } from '../definitions';
-import {IEndpoints} from '../endpoints';
 import {cast} from '../utils';
 import {
   addToCleanupField,

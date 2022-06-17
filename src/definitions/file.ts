@@ -97,16 +97,13 @@ export interface IFileEndpoints {
   getFileDetails(
     props: IGetFileDetailsEndpointParams
   ): Promise<IGetFileDetailsEndpointResult>;
-
   updateFileDetails(
     props: IUpdateFileDetailsEndpointParams
   ): Promise<IUpdateFileDetailsEndpointResult>;
-
   getFile(props: IGetFileEndpointParams): Promise<IGetFileEndpointResult>;
   uploadFile(
     props: IUploadFileEndpointParams
   ): Promise<IUploadFileEndpointResult>;
-
   getFetchFilePath(filepath: string, width?: number, height?: number): string;
   getUploadFilePath(workspaceId: string, filepath: string): string;
 }

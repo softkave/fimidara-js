@@ -1,4 +1,5 @@
 import {IConfig} from '../config';
+import {IEndpoints} from '../definitions/endpoints';
 import {EndpointsBase} from '../utils';
 import ClientAssignedTokenEndpoints from './clientAssignedToken';
 import FileEndpoints from './file';
@@ -7,16 +8,6 @@ import PermissionGroupEndpoints from './permissionGroups';
 import PermissionItemEndpoints from './permissionItem';
 import ProgramAccessTokenEndpoints from './programAccessToken';
 import WorkspaceEndpoints from './workspace';
-
-export interface IEndpoints {
-  clientTokens: ClientAssignedTokenEndpoints;
-  files: FileEndpoints;
-  folders: FolderEndpoints;
-  workspace: WorkspaceEndpoints;
-  permissionItems: PermissionItemEndpoints;
-  permissionGroups: PermissionGroupEndpoints;
-  programTokens: ProgramAccessTokenEndpoints;
-}
 
 export default class Endpoints extends EndpointsBase implements IEndpoints {
   clientTokens: ClientAssignedTokenEndpoints;

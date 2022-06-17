@@ -4,13 +4,12 @@ import {PartialDeep} from 'type-fest';
 import {
   IAddProgramAccessTokenEndpointParams,
   IDeleteProgramAccessTokenEndpointParams,
+  IEndpoints,
   IGetProgramAccessTokenEndpointParams,
   IGetWorkspaceProgramAccessTokenEndpointParams,
   IPermissionGroupInput,
   IUpdateProgramAccessTokenEndpointParams,
 } from '../definitions';
-import {} from '../endpoints';
-import {IEndpoints} from '../endpoints/endpoints';
 import {cast} from '../utils';
 import {addPermissionGroupTest} from './permissionGroups';
 import {

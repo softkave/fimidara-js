@@ -4,12 +4,12 @@ import {PartialDeep} from 'type-fest';
 import {
   IAddClientAssignedTokenEndpointParams,
   IDeleteClientAssignedTokenEndpointParams,
+  IEndpoints,
   IGetClientAssignedTokenEndpointParams,
   IGetWorkspaceClientAssignedTokensEndpointParams,
   IPermissionGroupInput,
   IUpdateClientAssignedTokenEndpointParams,
 } from '../definitions';
-import {IEndpoints} from '../endpoints';
 import {cast} from '../utils';
 import {addPermissionGroupTest} from './permissionGroups';
 import {

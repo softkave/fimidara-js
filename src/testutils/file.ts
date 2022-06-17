@@ -4,14 +4,13 @@ import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {
   IDeleteFileEndpointParams,
+  IEndpoints,
   IGetFileDetailsEndpointParams,
   IGetFileEndpointParams,
   IUpdateFileDetailsEndpointParams,
   IUploadFileEndpointParams,
   UploadFilePublicAccessActions,
 } from '../definitions';
-import {} from '../endpoints';
-import {IEndpoints} from '../endpoints/endpoints';
 import {getFilepath} from '../utils';
 import {
   addToCleanupField,

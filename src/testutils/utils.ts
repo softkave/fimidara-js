@@ -1,8 +1,8 @@
 import assert = require('assert');
 import {flattenDeep, uniq} from 'lodash';
 import {formatWithOptions} from 'util';
+import {IEndpoints} from '../definitions';
 import {EndpointResult} from '../definitions/types';
-import {IEndpoints} from '../endpoints';
 import {deleteManyClientTokens} from './clientAssignedToken';
 import {deleteManyFilesById, deleteManyFilesByPath} from './file';
 import {deleteManyFoldersByPath} from './folder';

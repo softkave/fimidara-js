@@ -5,6 +5,7 @@ import {
   AppResourceType,
   IAddPermissionItemsEndpointParams,
   IDeletePermissionItemsByIdEndpointParams,
+  IEndpoints,
   IGetEntityPermissionItemsEndpointParams,
   IGetResourcePermissionItemsEndpointParams,
   INewPermissionItemInput,
@@ -14,8 +15,6 @@ import {
   makePermissionItemInputWithActions,
   PermissionItemAppliesTo,
 } from '../definitions';
-import {} from '../endpoints';
-import {IEndpoints} from '../endpoints/endpoints';
 import {cast} from '../utils';
 import {addClientTokenTest} from './clientAssignedToken';
 import {addFolderTest} from './folder';

@@ -31,15 +31,24 @@ export interface IGetWorkspaceEndpointParams extends IEndpointParamsBase {
   workspaceId: string;
 }
 
-export type IGetWorkspaceEndpointResult = IEndpointResultBase & {
+export interface IGetWorkspaceEndpointResult extends IEndpointResultBase {
   workspace: IWorkspace;
-};
+}
 
 export interface IUpdateWorkspaceEndpointParams extends IEndpointParamsBase {
   workspaceId: string;
   workspace: IUpdateWorkspaceInput;
 }
 
-export type IUpdateWorkspaceEndpointResult = IEndpointResultBase & {
+export interface IUpdateWorkspaceEndpointResult extends IEndpointResultBase {
   workspace: IWorkspace;
-};
+}
+
+export interface IWorkspaceEndpoints {
+  getWorkspace(
+    props: IGetWorkspaceEndpointParams
+  ): Promise<IGetWorkspaceEndpointResult>;
+  updateWorkspace(
+    props: IUpdateWorkspaceEndpointParams
+  ): Promise<IUpdateWorkspaceEndpointResult>;
+}

@@ -37,9 +37,9 @@ export interface IAddPermissionGroupEndpointParams extends IEndpointParamsBase {
   permissionGroup: INewPermissionGroupInput;
 }
 
-export type IAddPermissionGroupEndpointResult = IEndpointResultBase & {
+export interface IAddPermissionGroupEndpointResult extends IEndpointResultBase {
   permissionGroup: IPermissionGroup;
-};
+}
 
 export interface IDeletePermissionGroupEndpointParams
   extends IEndpointParamsBase {
@@ -49,17 +49,18 @@ export interface IDeletePermissionGroupEndpointParams
 export interface IGetWorkspacePermissionGroupEndpointParams
   extends IEndpointParamsBase {}
 
-export type IGetWorkspacePermissionGroupEndpointResult = IEndpointResultBase & {
+export interface IGetWorkspacePermissionGroupEndpointResult
+  extends IEndpointResultBase {
   permissionGroups: IPermissionGroup[];
-};
+}
 
 export interface IGetPermissionGroupEndpointParams extends IEndpointParamsBase {
   permissionGroupId: string;
 }
 
-export type IGetPermissionGroupEndpointResult = IEndpointResultBase & {
+export interface IGetPermissionGroupEndpointResult extends IEndpointResultBase {
   permissionGroup: IPermissionGroup;
-};
+}
 
 export interface IUpdatePermissionGroupEndpointParams
   extends IEndpointParamsBase {
@@ -67,6 +68,25 @@ export interface IUpdatePermissionGroupEndpointParams
   permissionGroup: IUpdatePermissionGroupInput;
 }
 
-export type IUpdatePermissionGroupEndpointResult = IEndpointResultBase & {
+export interface IUpdatePermissionGroupEndpointResult
+  extends IEndpointResultBase {
   permissionGroup: IPermissionGroup;
-};
+}
+
+export interface IPermissionGroupEndpoints {
+  addPermissionGroup(
+    props: IAddPermissionGroupEndpointParams
+  ): Promise<IAddPermissionGroupEndpointResult>;
+  getWorkspacePermissionGroups(
+    props: IGetWorkspacePermissionGroupEndpointParams
+  ): Promise<IGetWorkspacePermissionGroupEndpointResult>;
+  getPermissionGroup(
+    props: IGetPermissionGroupEndpointParams
+  ): Promise<IGetPermissionGroupEndpointResult>;
+  deletePermissionGroup(
+    props: IDeletePermissionGroupEndpointParams
+  ): Promise<IEndpointResultBase>;
+  updatePermissionGroup(
+    props: IUpdatePermissionGroupEndpointParams
+  ): Promise<IUpdatePermissionGroupEndpointResult>;
+}

@@ -79,19 +79,15 @@ export interface IClientAssignedTokenEndpoints {
   addToken(
     props: IUpdateClientAssignedTokenEndpointParams
   ): Promise<IAddClientAssignedTokenEndpointResult>;
-
   getWorkspaceTokens(
     props: IGetWorkspaceClientAssignedTokensEndpointParams
   ): Promise<IGetWorkspaceClientAssignedTokensEndpointResult>;
-
   getToken(
     props: IGetClientAssignedTokenEndpointParams
   ): Promise<IGetClientAssignedTokenEndpointResult>;
-
   deleteToken(
     props: IDeleteClientAssignedTokenEndpointParams
   ): Promise<IEndpointResultBase>;
-
   updateToken(
     props: IUpdateClientAssignedTokenEndpointParams
   ): Promise<IUpdateClientAssignedTokenEndpointResult>;

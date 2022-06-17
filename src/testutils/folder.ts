@@ -6,13 +6,12 @@ import {
   BasicCRUDActions,
   IAddFolderEndpointParams,
   IDeleteFolderEndpointParams,
+  IEndpoints,
   IGetFolderEndpointParams,
   IListFolderContentEndpointParams,
   IUpdateFolderEndpointParams,
   makePublicAccessOpInputs,
 } from '../definitions';
-import {} from '../endpoints';
-import {IEndpoints} from '../endpoints/endpoints';
 import {getFilepath} from '../utils';
 import {uploadFileTest} from './file';
 import {
