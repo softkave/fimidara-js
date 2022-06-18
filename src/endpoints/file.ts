@@ -1,6 +1,7 @@
 import type {Blob, Response} from 'node-fetch';
 import {
   IDeleteFileEndpointParams,
+  IFileEndpoints,
   IGetFileDetailsEndpointParams,
   IGetFileDetailsEndpointResult,
   IGetFileEndpointParams,
@@ -37,12 +38,17 @@ const WORKSPACE_ID_QUERY_PARAMS_KEY = 'workspaceId';
 const IMAGE_WIDTH_QUERY_PARAMS_KEY = 'w';
 const IMAGE_HEIGHT_QUERY_PARAMS_KEY = 'h';
 
-function getFetchFilePath(filepath: string, width?: number, height?: number) {
+function getFetchFilePath(
+  filepath: string,
+  width?: number | null,
+  height?: number | null,
+  workspaceId?: string | null
+) {
   const params = new URLSearchParams();
-  // params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
   params.append(PATH_QUERY_PARAMS_KEY, filepath);
   setEndpointParam(params, IMAGE_WIDTH_QUERY_PARAMS_KEY, width);
   setEndpointParam(params, IMAGE_HEIGHT_QUERY_PARAMS_KEY, height);
+  setEndpointParam(params, WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
   return getFileURL + `?${params.toString()}`;
 }
 
@@ -53,7 +59,10 @@ function getUploadFilePath(workspaceId: string, filepath: string) {
   return uploadFileURL + `?${params.toString()}`;
 }
 
-export default class FileEndpoints extends EndpointsBase {
+export default class FileEndpoints
+  extends EndpointsBase
+  implements IFileEndpoints
+{
   async deleteFile(props: IDeleteFileEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
       path: deleteFileURL,
@@ -105,9 +114,7 @@ export default class FileEndpoints extends EndpointsBase {
     const formData = new FormData();
     formData.append(UPLOAD_FILE_BLOB_FORMDATA_KEY, props.data);
     formData.append('filepath', props.filepath);
-    // setEndpointFormData(formData, 'workspaceId', props.workspaceId);
     setEndpointFormData(formData, 'description', props.description);
-    // setEndpointFormData(formData, 'fileId', props.fileId);
     setEndpointFormData(formData, 'encoding', props.encoding);
     setEndpointFormData(formData, 'extension', props.extension);
     setEndpointFormData(formData, 'mimetype', props.mimetype);
@@ -117,9 +124,9 @@ export default class FileEndpoints extends EndpointsBase {
       throw new CredentialsNotProvidedError();
     }
 
-    let hd = {};
+    let headers = {};
     if (formData.getHeaders) {
-      hd = formData.getHeaders();
+      headers = formData.getHeaders();
     }
 
     return await invokeEndpoint<IUploadFileEndpointResult>({
@@ -127,7 +134,7 @@ export default class FileEndpoints extends EndpointsBase {
       data: formData,
       headers: {
         [HTTP_HEADER_AUTHORIZATION]: `Bearer ${requestToken}`,
-        ...hd,
+        ...headers,
       },
       omitContentTypeHeader: true,
     });

@@ -1,4 +1,5 @@
 import {
+  ICollaborationRequestEndpoints,
   IDeleteCollaborationRequestEndpointParams,
   IGetCollaborationRequestEndpointParams,
   IGetCollaborationRequestEndpointResult,
@@ -22,7 +23,10 @@ const updateRequestURL = `${baseURL}/updateRequest`;
 const revokeRequestURL = `${baseURL}/revokeRequest`;
 const getRequestURL = `${baseURL}/getRequest`;
 
-export default class CollaborationRequestEndpoints extends EndpointsBase {
+export default class CollaborationRequestEndpoints
+  extends EndpointsBase
+  implements ICollaborationRequestEndpoints
+{
   async deleteRequest(props: IDeleteCollaborationRequestEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
       path: deleteRequestURL,

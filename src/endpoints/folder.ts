@@ -2,6 +2,7 @@ import {
   IAddFolderEndpointParams,
   IAddFolderEndpointResult,
   IDeleteFolderEndpointParams,
+  IFolderEndpoints,
   IGetFolderEndpointParams,
   IGetFolderEndpointResult,
   IListFolderContentEndpointParams,
@@ -19,7 +20,10 @@ const getFolderURL = `${baseURL}/getFolder`;
 const deleteFolderURL = `${baseURL}/deleteFolder`;
 const updateFolderURL = `${baseURL}/updateFolder`;
 
-export default class FolderEndpoints extends EndpointsBase {
+export default class FolderEndpoints
+  extends EndpointsBase
+  implements IFolderEndpoints
+{
   async addFolder(props: IAddFolderEndpointParams) {
     return invokeEndpointWithAuth<IAddFolderEndpointResult>({
       path: addFolderURL,

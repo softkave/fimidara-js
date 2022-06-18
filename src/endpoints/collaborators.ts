@@ -1,4 +1,5 @@
 import {
+  ICollaboratorEndpoints,
   IGetCollaboratorEndpointParams,
   IGetCollaboratorEndpointResult,
   IGetWorkspaceCollaboratorsEndpointParams,
@@ -16,7 +17,10 @@ const getWorkspaceCollaboratorsURL = `${baseURL}/getWorkspaceCollaborators`;
 const getCollaboratorURL = `${baseURL}/getCollaborator`;
 const updateCollaboratorPermissionGroupsURL = `${baseURL}/updateCollaboratorPermissionGroups`;
 
-export default class CollaboratorEndpoints extends EndpointsBase {
+export default class CollaboratorEndpoints
+  extends EndpointsBase
+  implements ICollaboratorEndpoints
+{
   async removeCollaborator(props: IRemoveCollaboratorEndpointParams) {
     return await invokeEndpointWithAuth<IEndpointResultBase>({
       path: removeCollaboratorURL,

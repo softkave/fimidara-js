@@ -36,7 +36,7 @@ export async function getEntityPermissionItemsTest(
   const token = await addClientTokenTest(endpoint, vars);
   const folder01 = await addFolderTest(endpoint, vars);
   const folder02 = await addFolderTest(endpoint, vars);
-  const items = await addItemsTest(endpoint, vars, {
+  await addItemsTest(endpoint, vars, {
     items: makePermissionItemInputWithActions<INewPermissionItemInput>({
       appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
       grantAccess: true,
@@ -64,7 +64,7 @@ export async function getResourcePermissionItemsTest(
   const folder01 = await addFolderTest(endpoint, vars);
   const folder02 = await addFolderTest(endpoint, vars);
   const token = await addClientTokenTest(endpoint, vars);
-  const items = await addItemsTest(endpoint, vars, {
+  await addItemsTest(endpoint, vars, {
     items: makePermissionItemInputWithActions<INewPermissionItemInput>({
       appliesTo: PermissionItemAppliesTo.OwnerAndChildren,
       grantAccess: true,

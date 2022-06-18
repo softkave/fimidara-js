@@ -12,7 +12,7 @@ const toAppError = (err: Error | IAppError | string): IAppError => {
   return {
     name: error.name,
     message: error.message,
-    action: (error as any).action,
+    // action: (error as any).action,
     field: (error as any).field,
   };
 };

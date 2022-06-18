@@ -1,9 +1,16 @@
 import {merge} from 'lodash';
 
+/** @category Config */
 export interface IConfig {
+  /**
+   * Auth token. Can be a program access token or a client assigned token.
+   *
+   * @todo support user tokens.
+   */
   authToken?: string;
 }
 
+/** @category Config */
 export interface IFimidaraConfig {
   setToken: (token: string) => void;
   setConfig: (params: Partial<IConfig>) => void;

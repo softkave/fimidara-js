@@ -13,7 +13,7 @@
     "posttest": "npm.cmd run lint",
     "test": "env-cmd -f \".env.test\" jest --config=jest.config.test.ts --detectOpenHandles",
     "local-test": "env-cmd -f \".env.local-test\" jest --config=jest.config.test.ts --detectOpenHandles",
-    "doc": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
+    "doc": "typedoc"
   },
   "author": "",
   "license": "MIT",

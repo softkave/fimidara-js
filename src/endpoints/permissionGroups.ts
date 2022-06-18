@@ -6,6 +6,7 @@ import {
   IGetPermissionGroupEndpointResult,
   IGetWorkspacePermissionGroupEndpointParams,
   IGetWorkspacePermissionGroupEndpointResult,
+  IPermissionGroupEndpoints,
   IUpdatePermissionGroupEndpointParams,
   IUpdatePermissionGroupEndpointResult,
 } from '../definitions';
@@ -19,7 +20,10 @@ const getPermissionGroupURL = `${baseURL}/getPermissionGroup`;
 const deletePermissionGroupURL = `${baseURL}/deletePermissionGroup`;
 const updatePermissionGroupURL = `${baseURL}/updatePermissionGroup`;
 
-export default class PermissionGroupEndpoints extends EndpointsBase {
+export default class PermissionGroupEndpoints
+  extends EndpointsBase
+  implements IPermissionGroupEndpoints
+{
   async addPermissionGroup(props: IAddPermissionGroupEndpointParams) {
     return invokeEndpointWithAuth<IAddPermissionGroupEndpointResult>({
       path: addPermissionGroupURL,

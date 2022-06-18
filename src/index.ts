@@ -7,6 +7,7 @@ export * from './endpoints/index';
 export {getFilepath} from './utils';
 export {IFimidaraConfig, IConfig};
 
+/** @category Fimidara */
 export interface IFimidara {
   config: IFimidaraConfig;
   endpoints: IEndpoints;

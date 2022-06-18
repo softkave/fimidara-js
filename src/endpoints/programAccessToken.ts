@@ -6,6 +6,7 @@ import {
   IGetProgramAccessTokenEndpointResult,
   IGetWorkspaceProgramAccessTokenEndpointParams,
   IGetWorkspaceProgramAccessTokenEndpointResult,
+  IProgramAccessTokenEndpoints,
   IUpdateProgramAccessTokenEndpointParams,
   IUpdateProgramAccessTokenEndpointResult,
 } from '../definitions';
@@ -19,7 +20,10 @@ const getTokenURL = `${baseURL}/getToken`;
 const deleteTokenURL = `${baseURL}/deleteToken`;
 const updateTokenURL = `${baseURL}/updateToken`;
 
-export default class ProgramAccessTokenEndpoints extends EndpointsBase {
+export default class ProgramAccessTokenEndpoints
+  extends EndpointsBase
+  implements IProgramAccessTokenEndpoints
+{
   async addToken(props: IAddProgramAccessTokenEndpointParams) {
     return invokeEndpointWithAuth<IAddProgramAccessTokenEndpointResult>({
       path: addTokenURL,

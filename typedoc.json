@@ -1,0 +1,16 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "doc",
+  "plugin": ["typedoc-plugin-markdown"],
+  "categoryOrder": [
+    "Fimidara",
+    "Workspace",
+    "Folder",
+    "File",
+    "Program access token",
+    "Client assigned token",
+    "Permission group",
+    "Permission item"
+  ]
+}

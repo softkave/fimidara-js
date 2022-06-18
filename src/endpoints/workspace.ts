@@ -3,6 +3,7 @@ import {
   IGetWorkspaceEndpointResult,
   IUpdateWorkspaceEndpointParams,
   IUpdateWorkspaceEndpointResult,
+  IWorkspaceEndpoints,
 } from '../definitions';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
@@ -10,7 +11,10 @@ const baseURL = '/workspaces';
 const getWorkspaceURL = `${baseURL}/getWorkspace`;
 const updateWorkspaceURL = `${baseURL}/updateWorkspace`;
 
-export default class WorkspaceEndpoints extends EndpointsBase {
+export default class WorkspaceEndpoints
+  extends EndpointsBase
+  implements IWorkspaceEndpoints
+{
   async getWorkspace(props: IGetWorkspaceEndpointParams) {
     return await invokeEndpointWithAuth<IGetWorkspaceEndpointResult>({
       path: getWorkspaceURL,

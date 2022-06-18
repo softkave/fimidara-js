@@ -6,6 +6,7 @@ import {
   IGetEntityPermissionItemsEndpointResult,
   IGetResourcePermissionItemsEndpointParams,
   IGetResourcePermissionItemsEndpointResult,
+  IPermissionItemEndpoints,
   IReplacePermissionItemsByEntityEndpointParams,
   IReplacePermissionItemsByEntityEndpointResult,
 } from '../definitions';
@@ -19,7 +20,10 @@ const getEntityPermissionItemsURL = `${baseURL}/getEntityPermissionItems`;
 const getResourcePermissionItemsURL = `${baseURL}/getResourcePermissionItems`;
 const replacePermissionItemsByEntityURL = `${baseURL}/replaceItemsByEntity`;
 
-export default class PermissionItemEndpoints extends EndpointsBase {
+export default class PermissionItemEndpoints
+  extends EndpointsBase
+  implements IPermissionItemEndpoints
+{
   async addItems(props: IAddPermissionItemsEndpointParams) {
     return invokeEndpointWithAuth<IAddPermissionItemsEndpointResult>({
       path: addItemsURL,
