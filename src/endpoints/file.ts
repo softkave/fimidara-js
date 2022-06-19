@@ -25,12 +25,12 @@ var FormData = require('form-data');
 const URLSearchParams =
   require('core-js/features/url-search-params') as typeof globalThis['URLSearchParams'];
 
-const baseURL = '/files';
-const deleteFileURL = `${baseURL}/deleteFile`;
-const getFileDetailsURL = `${baseURL}/getFileDetails`;
-const updateFileDetailsURL = `${baseURL}/updateFileDetails`;
-const uploadFileURL = `${baseURL}/uploadFile`;
-const getFileURL = `${baseURL}/getFile`;
+const basePath = '/files';
+const deleteFilePath = `${basePath}/deleteFile`;
+const getFileDetailsPath = `${basePath}/getFileDetails`;
+const updateFileDetailsPath = `${basePath}/updateFileDetails`;
+const uploadFilePath = `${basePath}/uploadFile`;
+const getFilePath = `${basePath}/getFile`;
 
 const UPLOAD_FILE_BLOB_FORMDATA_KEY = 'data';
 const PATH_QUERY_PARAMS_KEY = 'filepath';
@@ -38,7 +38,7 @@ const WORKSPACE_ID_QUERY_PARAMS_KEY = 'workspaceId';
 const IMAGE_WIDTH_QUERY_PARAMS_KEY = 'w';
 const IMAGE_HEIGHT_QUERY_PARAMS_KEY = 'h';
 
-function getFetchFilePath(
+function getFetchFileURL(
   filepath: string,
   width?: number | null,
   height?: number | null,
@@ -49,14 +49,14 @@ function getFetchFilePath(
   setEndpointParam(params, IMAGE_WIDTH_QUERY_PARAMS_KEY, width);
   setEndpointParam(params, IMAGE_HEIGHT_QUERY_PARAMS_KEY, height);
   setEndpointParam(params, WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
-  return getFileURL + `?${params.toString()}`;
+  return getFilePath + `?${params.toString()}`;
 }
 
-function getUploadFilePath(workspaceId: string, filepath: string) {
+function getUploadFileURL(workspaceId: string, filepath: string) {
   const params = new URLSearchParams();
   params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
   params.append(PATH_QUERY_PARAMS_KEY, filepath);
-  return uploadFileURL + `?${params.toString()}`;
+  return uploadFilePath + `?${params.toString()}`;
 }
 
 export default class FileEndpoints
@@ -65,7 +65,7 @@ export default class FileEndpoints
 {
   async deleteFile(props: IDeleteFileEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
-      path: deleteFileURL,
+      path: deleteFilePath,
       data: props,
       token: this.getAuthToken(props),
       method: 'DELETE',
@@ -74,7 +74,7 @@ export default class FileEndpoints
 
   async getFileDetails(props: IGetFileDetailsEndpointParams) {
     return invokeEndpointWithAuth<IGetFileDetailsEndpointResult>({
-      path: getFileDetailsURL,
+      path: getFileDetailsPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -82,7 +82,7 @@ export default class FileEndpoints
 
   async updateFileDetails(props: IUpdateFileDetailsEndpointParams) {
     return await invokeEndpointWithAuth<IUpdateFileDetailsEndpointResult>({
-      path: updateFileDetailsURL,
+      path: updateFileDetailsPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -91,7 +91,7 @@ export default class FileEndpoints
   async getFile(
     props: IGetFileEndpointParams
   ): Promise<IGetFileEndpointResult> {
-    const url = getFetchFilePath(
+    const url = getFetchFileURL(
       props.filepath,
       props.imageTranformation?.width,
       props.imageTranformation?.height
@@ -101,6 +101,7 @@ export default class FileEndpoints
       token: this.getAuthToken(props),
       returnFetchResponse: true,
       method: 'GET',
+      omitServerAddr: true,
     });
 
     // TODO: return blob instead of buffer
@@ -130,7 +131,7 @@ export default class FileEndpoints
     }
 
     return await invokeEndpoint<IUploadFileEndpointResult>({
-      path: uploadFileURL,
+      path: uploadFilePath,
       data: formData,
       headers: {
         [HTTP_HEADER_AUTHORIZATION]: `Bearer ${requestToken}`,
@@ -140,6 +141,6 @@ export default class FileEndpoints
     });
   }
 
-  public getFetchFilePath = getFetchFilePath;
-  public getUploadFilePath = getUploadFilePath;
+  public getFetchFileURL = getFetchFileURL;
+  public getUploadFileURL = getUploadFileURL;
 }

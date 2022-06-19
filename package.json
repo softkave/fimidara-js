@@ -1,8 +1,21 @@
 {
   "name": "fimidara",
-  "version": "1.0.0-pre-alpha",
-  "description": "Fimidara file management system js sdk",
-  "main": "index.js",
+  "version": "1.0.0",
+  "description": "Fimidara file storage service js sdk",
+  "main": "build/src/index.js",
+  "author": "Softkave",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/softkave/fimidara-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/softkave/fimidara-js/issues"
+  },
+  "homepage": "https://github.com/softkave/fimidara-js",
+  "files": [
+    "build/src/!(__tests__|testutils)"
+  ],
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
@@ -13,10 +26,8 @@
     "posttest": "npm.cmd run lint",
     "test": "env-cmd -f \".env.test\" jest --config=jest.config.test.ts --detectOpenHandles",
     "local-test": "env-cmd -f \".env.local-test\" jest --config=jest.config.test.ts --detectOpenHandles",
-    "doc": "typedoc"
+    "docs": "typedoc"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "core-js": "^3.21.1",
     "cross-fetch": "^3.1.5",
@@ -36,7 +47,6 @@
     "ts-node": "^10.8.1",
     "type-fest": "^2.13.0",
     "typedoc": "^0.22.17",
-    "typedoc-plugin-markdown": "^3.12.1",
     "typescript": "^4.0.3"
   }
 }

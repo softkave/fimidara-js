@@ -7,7 +7,7 @@ let vars: ITestVars;
 
 beforeAll(async () => {
   vars = getTestVars();
-  fimidara.config.setToken(vars.authToken);
+  fimidara.config.setAuthToken(vars.authToken);
 });
 
 afterAll(async () => {

@@ -1,8 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts"],
-  "out": "doc",
-  "plugin": ["typedoc-plugin-markdown"],
+  "out": "docs",
   "categoryOrder": [
     "Fimidara",
     "Workspace",

@@ -13,12 +13,12 @@ import {
 import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = '/permissionItems';
-const addItemsURL = `${baseURL}/addItems`;
-const deleteItemsByIdURL = `${baseURL}/deleteItemsById`;
-const getEntityPermissionItemsURL = `${baseURL}/getEntityPermissionItems`;
-const getResourcePermissionItemsURL = `${baseURL}/getResourcePermissionItems`;
-const replacePermissionItemsByEntityURL = `${baseURL}/replaceItemsByEntity`;
+const basePath = '/permissionItems';
+const addItemsPath = `${basePath}/addItems`;
+const deleteItemsByIdPath = `${basePath}/deleteItemsById`;
+const getEntityPermissionItemsPath = `${basePath}/getEntityPermissionItems`;
+const getResourcePermissionItemsPath = `${basePath}/getResourcePermissionItems`;
+const replacePermissionItemsByEntityPath = `${basePath}/replaceItemsByEntity`;
 
 export default class PermissionItemEndpoints
   extends EndpointsBase
@@ -26,7 +26,7 @@ export default class PermissionItemEndpoints
 {
   async addItems(props: IAddPermissionItemsEndpointParams) {
     return invokeEndpointWithAuth<IAddPermissionItemsEndpointResult>({
-      path: addItemsURL,
+      path: addItemsPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -34,7 +34,7 @@ export default class PermissionItemEndpoints
 
   async deleteItemsById(props: IDeletePermissionItemsByIdEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
-      path: deleteItemsByIdURL,
+      path: deleteItemsByIdPath,
       data: props,
       token: this.getAuthToken(props),
       method: 'DELETE',
@@ -46,7 +46,7 @@ export default class PermissionItemEndpoints
   ) {
     return await invokeEndpointWithAuth<IGetResourcePermissionItemsEndpointResult>(
       {
-        path: getResourcePermissionItemsURL,
+        path: getResourcePermissionItemsPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -58,7 +58,7 @@ export default class PermissionItemEndpoints
   ) {
     return await invokeEndpointWithAuth<IGetEntityPermissionItemsEndpointResult>(
       {
-        path: getEntityPermissionItemsURL,
+        path: getEntityPermissionItemsPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -70,7 +70,7 @@ export default class PermissionItemEndpoints
   ) {
     return await invokeEndpointWithAuth<IReplacePermissionItemsByEntityEndpointResult>(
       {
-        path: replacePermissionItemsByEntityURL,
+        path: replacePermissionItemsByEntityPath,
         data: props,
         token: this.getAuthToken(props),
       }

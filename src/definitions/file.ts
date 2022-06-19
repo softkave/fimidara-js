@@ -169,7 +169,7 @@ export interface IFileEndpoints {
   ): Promise<IUploadFileEndpointResult>;
 
   /** Returns a URL for getting the file associated with the filepath if it exists. Useful for getting full profile image URLs or in other instances where you need to fetch a file using a URL. */
-  getFetchFilePath(
+  getFetchFileURL(
     filepath: string,
     width?: number,
     height?: number,
@@ -179,5 +179,5 @@ export interface IFileEndpoints {
   ): string;
 
   /** Returns a URL to which a file can be uploaded. Useful for getting full URLs when you're using code that require a URL to upload data to. The upload has to be `multipart/form-data` formatted after {@link IUploadFileEndpointParams}. */
-  getUploadFilePath(workspaceId: string, filepath: string): string;
+  getUploadFileURL(workspaceId: string, filepath: string): string;
 }

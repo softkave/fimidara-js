@@ -13,12 +13,12 @@ import {
 import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = '/programAccessTokens';
-const addTokenURL = `${baseURL}/addToken`;
-const getWorkspaceTokensURL = `${baseURL}/getWorkspaceTokens`;
-const getTokenURL = `${baseURL}/getToken`;
-const deleteTokenURL = `${baseURL}/deleteToken`;
-const updateTokenURL = `${baseURL}/updateToken`;
+const basePath = '/programAccessTokens';
+const addTokenPath = `${basePath}/addToken`;
+const getWorkspaceTokensPath = `${basePath}/getWorkspaceTokens`;
+const getTokenPath = `${basePath}/getToken`;
+const deleteTokenPath = `${basePath}/deleteToken`;
+const updateTokenPath = `${basePath}/updateToken`;
 
 export default class ProgramAccessTokenEndpoints
   extends EndpointsBase
@@ -26,7 +26,7 @@ export default class ProgramAccessTokenEndpoints
 {
   async addToken(props: IAddProgramAccessTokenEndpointParams) {
     return invokeEndpointWithAuth<IAddProgramAccessTokenEndpointResult>({
-      path: addTokenURL,
+      path: addTokenPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -37,7 +37,7 @@ export default class ProgramAccessTokenEndpoints
   ) {
     return await invokeEndpointWithAuth<IGetWorkspaceProgramAccessTokenEndpointResult>(
       {
-        path: getWorkspaceTokensURL,
+        path: getWorkspaceTokensPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -46,7 +46,7 @@ export default class ProgramAccessTokenEndpoints
 
   async getToken(props: IGetProgramAccessTokenEndpointParams) {
     return await invokeEndpointWithAuth<IGetProgramAccessTokenEndpointResult>({
-      path: getTokenURL,
+      path: getTokenPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -54,7 +54,7 @@ export default class ProgramAccessTokenEndpoints
 
   async deleteToken(props: IDeleteProgramAccessTokenEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
-      path: deleteTokenURL,
+      path: deleteTokenPath,
       data: props,
       token: this.getAuthToken(props),
       method: 'DELETE',
@@ -64,7 +64,7 @@ export default class ProgramAccessTokenEndpoints
   async updateToken(props: IUpdateProgramAccessTokenEndpointParams) {
     return await invokeEndpointWithAuth<IUpdateProgramAccessTokenEndpointResult>(
       {
-        path: updateTokenURL,
+        path: updateTokenPath,
         data: props,
         token: this.getAuthToken(props),
       }

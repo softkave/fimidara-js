@@ -13,12 +13,12 @@ import {
 import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = '/clientAssignedTokens';
-const addTokenURL = `${baseURL}/addToken`;
-const getWorkspaceTokensURL = `${baseURL}/getWorkspaceTokens`;
-const getTokenURL = `${baseURL}/getToken`;
-const deleteTokenURL = `${baseURL}/deleteToken`;
-const updateTokenURL = `${baseURL}/updateToken`;
+const basePath = '/clientAssignedTokens';
+const addTokenPath = `${basePath}/addToken`;
+const getWorkspaceTokensPath = `${basePath}/getWorkspaceTokens`;
+const getTokenPath = `${basePath}/getToken`;
+const deleteTokenPath = `${basePath}/deleteToken`;
+const updateTokenPath = `${basePath}/updateToken`;
 
 export default class ClientAssignedTokenEndpoints
   extends EndpointsBase
@@ -26,7 +26,7 @@ export default class ClientAssignedTokenEndpoints
 {
   async addToken(props: IAddClientAssignedTokenEndpointParams) {
     return invokeEndpointWithAuth<IAddClientAssignedTokenEndpointResult>({
-      path: addTokenURL,
+      path: addTokenPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -37,7 +37,7 @@ export default class ClientAssignedTokenEndpoints
   ) {
     return await invokeEndpointWithAuth<IGetWorkspaceClientAssignedTokensEndpointResult>(
       {
-        path: getWorkspaceTokensURL,
+        path: getWorkspaceTokensPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -46,7 +46,7 @@ export default class ClientAssignedTokenEndpoints
 
   async getToken(props: IGetClientAssignedTokenEndpointParams) {
     return await invokeEndpointWithAuth<IGetClientAssignedTokenEndpointResult>({
-      path: getTokenURL,
+      path: getTokenPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -54,7 +54,7 @@ export default class ClientAssignedTokenEndpoints
 
   async deleteToken(props: IDeleteClientAssignedTokenEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
-      path: deleteTokenURL,
+      path: deleteTokenPath,
       data: props,
       token: this.getAuthToken(props),
       method: 'DELETE',
@@ -64,7 +64,7 @@ export default class ClientAssignedTokenEndpoints
   async updateToken(props: IUpdateClientAssignedTokenEndpointParams) {
     return await invokeEndpointWithAuth<IUpdateClientAssignedTokenEndpointResult>(
       {
-        path: updateTokenURL,
+        path: updateTokenPath,
         data: props,
         token: this.getAuthToken(props),
       }

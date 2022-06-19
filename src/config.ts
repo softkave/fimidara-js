@@ -12,14 +12,14 @@ export interface IConfig {
 
 /** @category Config */
 export interface IFimidaraConfig {
-  setToken: (token: string) => void;
+  setAuthToken: (token: string) => void;
   setConfig: (params: Partial<IConfig>) => void;
   getConfig: () => IConfig;
 }
 
 const config: IConfig = {};
 const FimidaraConfig: IFimidaraConfig = {
-  setToken(token: string) {
+  setAuthToken(token: string) {
     config.authToken = token;
   },
 

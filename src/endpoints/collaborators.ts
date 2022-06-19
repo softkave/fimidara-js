@@ -11,11 +11,11 @@ import {
 import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = '/collaborators';
-const removeCollaboratorURL = `${baseURL}/removeCollaborator`;
-const getWorkspaceCollaboratorsURL = `${baseURL}/getWorkspaceCollaborators`;
-const getCollaboratorURL = `${baseURL}/getCollaborator`;
-const updateCollaboratorPermissionGroupsURL = `${baseURL}/updateCollaboratorPermissionGroups`;
+const basePath = '/collaborators';
+const removeCollaboratorPath = `${basePath}/removeCollaborator`;
+const getWorkspaceCollaboratorsPath = `${basePath}/getWorkspaceCollaborators`;
+const getCollaboratorPath = `${basePath}/getCollaborator`;
+const updateCollaboratorPermissionGroupsPath = `${basePath}/updateCollaboratorPermissionGroups`;
 
 export default class CollaboratorEndpoints
   extends EndpointsBase
@@ -23,7 +23,7 @@ export default class CollaboratorEndpoints
 {
   async removeCollaborator(props: IRemoveCollaboratorEndpointParams) {
     return await invokeEndpointWithAuth<IEndpointResultBase>({
-      path: removeCollaboratorURL,
+      path: removeCollaboratorPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -34,7 +34,7 @@ export default class CollaboratorEndpoints
   ) {
     return await invokeEndpointWithAuth<IGetWorkspaceCollaboratorsEndpointResult>(
       {
-        path: getWorkspaceCollaboratorsURL,
+        path: getWorkspaceCollaboratorsPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -43,7 +43,7 @@ export default class CollaboratorEndpoints
 
   async getCollaborator(props: IGetCollaboratorEndpointParams) {
     return invokeEndpointWithAuth<IGetCollaboratorEndpointResult>({
-      path: getCollaboratorURL,
+      path: getCollaboratorPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -54,7 +54,7 @@ export default class CollaboratorEndpoints
   ) {
     return await invokeEndpointWithAuth<IUpdateCollaboratorPermissionGroupsEndpointResult>(
       {
-        path: updateCollaboratorPermissionGroupsURL,
+        path: updateCollaboratorPermissionGroupsPath,
         data: props,
         token: this.getAuthToken(props),
       }

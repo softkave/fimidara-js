@@ -45,6 +45,9 @@ export interface IInvokeEndpointParams {
 
   // Defaults to true
   throwOnBodyError?: boolean;
+
+  // Defaults to false
+  omitServerAddr?: boolean;
 }
 
 export async function invokeEndpoint<T extends any = any>(
@@ -70,7 +73,8 @@ export async function invokeEndpoint<T extends any = any>(
   }
 
   try {
-    const result = await fetch(serverAddr + path, {
+    const endpointAddr = props.omitServerAddr ? path : serverAddr + path;
+    const result = await fetch(endpointAddr, {
       method,
       headers: incomingHeaders as HeadersInit,
       body: contentBody,

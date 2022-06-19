@@ -13,12 +13,12 @@ import {
 import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = '/folders';
-const addFolderURL = `${baseURL}/addFolder`;
-const listFolderContentURL = `${baseURL}/listFolderContent`;
-const getFolderURL = `${baseURL}/getFolder`;
-const deleteFolderURL = `${baseURL}/deleteFolder`;
-const updateFolderURL = `${baseURL}/updateFolder`;
+const basePath = '/folders';
+const addFolderPath = `${basePath}/addFolder`;
+const listFolderContentPath = `${basePath}/listFolderContent`;
+const getFolderPath = `${basePath}/getFolder`;
+const deleteFolderPath = `${basePath}/deleteFolder`;
+const updateFolderPath = `${basePath}/updateFolder`;
 
 export default class FolderEndpoints
   extends EndpointsBase
@@ -26,7 +26,7 @@ export default class FolderEndpoints
 {
   async addFolder(props: IAddFolderEndpointParams) {
     return invokeEndpointWithAuth<IAddFolderEndpointResult>({
-      path: addFolderURL,
+      path: addFolderPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -34,7 +34,7 @@ export default class FolderEndpoints
 
   async listFolderContent(props: IListFolderContentEndpointParams) {
     return await invokeEndpointWithAuth<IListFolderContentEndpointResult>({
-      path: listFolderContentURL,
+      path: listFolderContentPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -42,7 +42,7 @@ export default class FolderEndpoints
 
   async getFolder(props: IGetFolderEndpointParams) {
     return await invokeEndpointWithAuth<IGetFolderEndpointResult>({
-      path: getFolderURL,
+      path: getFolderPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -50,7 +50,7 @@ export default class FolderEndpoints
 
   async deleteFolder(props: IDeleteFolderEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
-      path: deleteFolderURL,
+      path: deleteFolderPath,
       data: props,
       token: this.getAuthToken(props),
       method: 'DELETE',
@@ -59,7 +59,7 @@ export default class FolderEndpoints
 
   async updateFolder(props: IUpdateFolderEndpointParams) {
     return await invokeEndpointWithAuth<IUpdateFolderEndpointResult>({
-      path: updateFolderURL,
+      path: updateFolderPath,
       data: props,
       token: this.getAuthToken(props),
     });

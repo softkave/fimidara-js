@@ -13,12 +13,12 @@ import {
 import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = '/permissionGroups';
-const addPermissionGroupURL = `${baseURL}/addPermissionGroup`;
-const getWorkspacePermissionGroupsURL = `${baseURL}/getWorkspacePermissionGroups`;
-const getPermissionGroupURL = `${baseURL}/getPermissionGroup`;
-const deletePermissionGroupURL = `${baseURL}/deletePermissionGroup`;
-const updatePermissionGroupURL = `${baseURL}/updatePermissionGroup`;
+const basePath = '/permissionGroups';
+const addPermissionGroupPath = `${basePath}/addPermissionGroup`;
+const getWorkspacePermissionGroupsPath = `${basePath}/getWorkspacePermissionGroups`;
+const getPermissionGroupPath = `${basePath}/getPermissionGroup`;
+const deletePermissionGroupPath = `${basePath}/deletePermissionGroup`;
+const updatePermissionGroupPath = `${basePath}/updatePermissionGroup`;
 
 export default class PermissionGroupEndpoints
   extends EndpointsBase
@@ -26,7 +26,7 @@ export default class PermissionGroupEndpoints
 {
   async addPermissionGroup(props: IAddPermissionGroupEndpointParams) {
     return invokeEndpointWithAuth<IAddPermissionGroupEndpointResult>({
-      path: addPermissionGroupURL,
+      path: addPermissionGroupPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -37,7 +37,7 @@ export default class PermissionGroupEndpoints
   ) {
     return await invokeEndpointWithAuth<IGetWorkspacePermissionGroupEndpointResult>(
       {
-        path: getWorkspacePermissionGroupsURL,
+        path: getWorkspacePermissionGroupsPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -46,7 +46,7 @@ export default class PermissionGroupEndpoints
 
   async getPermissionGroup(props: IGetPermissionGroupEndpointParams) {
     return await invokeEndpointWithAuth<IGetPermissionGroupEndpointResult>({
-      path: getPermissionGroupURL,
+      path: getPermissionGroupPath,
       data: props,
       token: this.getAuthToken(props),
     });
@@ -54,7 +54,7 @@ export default class PermissionGroupEndpoints
 
   async deletePermissionGroup(props: IDeletePermissionGroupEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
-      path: deletePermissionGroupURL,
+      path: deletePermissionGroupPath,
       data: props,
       token: this.getAuthToken(props),
       method: 'DELETE',
@@ -63,7 +63,7 @@ export default class PermissionGroupEndpoints
 
   async updatePermissionGroup(props: IUpdatePermissionGroupEndpointParams) {
     return await invokeEndpointWithAuth<IUpdatePermissionGroupEndpointResult>({
-      path: updatePermissionGroupURL,
+      path: updatePermissionGroupPath,
       data: props,
       token: this.getAuthToken(props),
     });

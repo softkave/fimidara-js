@@ -15,13 +15,13 @@ import {
 import {IEndpointResultBase} from '../definitions/types';
 import {EndpointsBase, invokeEndpointWithAuth} from '../utils';
 
-const baseURL = '/requests';
-const deleteRequestURL = `${baseURL}/deleteRequest`;
-const getWorkspaceRequestsURL = `${baseURL}/getWorkspaceRequests`;
-const sendRequestURL = `${baseURL}/sendRequest`;
-const updateRequestURL = `${baseURL}/updateRequest`;
-const revokeRequestURL = `${baseURL}/revokeRequest`;
-const getRequestURL = `${baseURL}/getRequest`;
+const basePath = '/requests';
+const deleteRequestPath = `${basePath}/deleteRequest`;
+const getWorkspaceRequestsPath = `${basePath}/getWorkspaceRequests`;
+const sendRequestPath = `${basePath}/sendRequest`;
+const updateRequestPath = `${basePath}/updateRequest`;
+const revokeRequestPath = `${basePath}/revokeRequest`;
+const getRequestPath = `${basePath}/getRequest`;
 
 export default class CollaborationRequestEndpoints
   extends EndpointsBase
@@ -29,7 +29,7 @@ export default class CollaborationRequestEndpoints
 {
   async deleteRequest(props: IDeleteCollaborationRequestEndpointParams) {
     return invokeEndpointWithAuth<IEndpointResultBase>({
-      path: deleteRequestURL,
+      path: deleteRequestPath,
       data: props,
       token: this.getAuthToken(props),
       method: 'DELETE',
@@ -41,7 +41,7 @@ export default class CollaborationRequestEndpoints
   ) {
     return invokeEndpointWithAuth<IGetWorkspaceCollaborationRequestsEndpointResult>(
       {
-        path: getWorkspaceRequestsURL,
+        path: getWorkspaceRequestsPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -51,7 +51,7 @@ export default class CollaborationRequestEndpoints
   async sendRequest(props: ISendCollaborationRequestEndpointParams) {
     return await invokeEndpointWithAuth<ISendCollaborationRequestEndpointResult>(
       {
-        path: sendRequestURL,
+        path: sendRequestPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -61,7 +61,7 @@ export default class CollaborationRequestEndpoints
   async updateRequest(props: IUpdateCollaborationRequestEndpointParams) {
     return await invokeEndpointWithAuth<IUpdateCollaborationRequestEndpointResult>(
       {
-        path: updateRequestURL,
+        path: updateRequestPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -71,7 +71,7 @@ export default class CollaborationRequestEndpoints
   async revokeRequest(props: IRevokeCollaborationRequestEndpointParams) {
     return await invokeEndpointWithAuth<IRevokeCollaborationRequestEndpointResult>(
       {
-        path: revokeRequestURL,
+        path: revokeRequestPath,
         data: props,
         token: this.getAuthToken(props),
       }
@@ -81,7 +81,7 @@ export default class CollaborationRequestEndpoints
   async getRequest(props: IGetCollaborationRequestEndpointParams) {
     return await invokeEndpointWithAuth<IGetCollaborationRequestEndpointResult>(
       {
-        path: getRequestURL,
+        path: getRequestPath,
         data: props,
         token: this.getAuthToken(props),
       }

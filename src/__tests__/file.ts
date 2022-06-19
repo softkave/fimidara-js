@@ -13,7 +13,7 @@ let vars: ITestVars;
 jest.setTimeout(600000); // 10 minutes
 beforeAll(async () => {
   vars = getTestVars();
-  fimidara.config.setToken(vars.authToken);
+  fimidara.config.setAuthToken(vars.authToken);
 });
 
 afterAll(async () => {
