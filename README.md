@@ -1,6 +1,7 @@
 # Fimidara JS SDK
 
 JS SDK for [Fimidara](https://www.fimidara.com), a file storage service.
+[Docs](https://softkave.github.io/fimidara-js/)
 
 ## Installation
 
@@ -8,7 +9,7 @@ JS SDK for [Fimidara](https://www.fimidara.com), a file storage service.
 
 ## Usage
 
-The type of the default export can be found [here](./interfaces/IFimidara.html).
+The type of the default export can be found [here](https://softkave.github.io/fimidara-js/interfaces/IFimidara.html).
 
 ```typescript
 // import fimidara

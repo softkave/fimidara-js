@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/softkave/fimidara-js",
   "files": [
-    "build/src/!(__tests__|testutils)"
+    "build/src/!(__tests__|testutils)**/*.+(js|d.ts)"
   ],
   "scripts": {
     "lint": "gts lint",
@@ -26,7 +26,9 @@
     "posttest": "npm.cmd run lint",
     "test": "env-cmd -f \".env.test\" jest --config=jest.config.test.ts --detectOpenHandles",
     "local-test": "env-cmd -f \".env.local-test\" jest --config=jest.config.test.ts --detectOpenHandles",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "show-packlist": "npx npm-packlist",
+    "publish": "npm run compile && npm publish"
   },
   "dependencies": {
     "core-js": "^3.21.1",
