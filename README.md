@@ -1,7 +1,7 @@
 # Fimidara JS SDK
 
 JS SDK for [Fimidara](https://www.fimidara.com), a file storage service.
-[Docs](https://softkave.github.io/fimidara-js/)
+[Docs](https://softkave.github.io/fimidara-js/).
 
 ## Installation
 
