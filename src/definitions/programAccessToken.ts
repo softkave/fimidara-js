@@ -9,7 +9,8 @@ import {IEndpointParamsBase, IEndpointResultBase} from './types';
 export interface IProgramAccessToken {
   resourceId: string;
 
-  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will match 'myresourcename'. */
+  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will
+   * match 'myresourcename'. */
   name: string;
   description?: string;
   createdAt: string;
@@ -27,11 +28,16 @@ export interface IProgramAccessToken {
 
 /** @category Program access token */
 export interface INewProgramAccessTokenInput {
-  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will match 'myresourcename'. */
+  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will
+   * match 'myresourcename'. */
   name: string;
   description?: string;
 
-  /** Permission groups to assign to the token. When updating a token's permission groups, it will replace existing groups, meaning if you want to add a new permission group, you should include the existing groups and the new one. Also, if you want to remove a permission group, pass the existing permission groups without the group you want to remove. */
+  /** Permission groups to assign to the token. When updating a token's
+   * permission groups, it will replace existing groups, meaning if you want to
+   * add a new permission group, you should include the existing groups and the
+   * new one. Also, if you want to remove a permission group, pass the existing
+   * permission groups without the group you want to remove. */
   permissionGroups?: IPermissionGroupInput[];
 }
 

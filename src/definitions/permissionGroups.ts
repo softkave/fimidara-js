@@ -7,7 +7,8 @@ export interface IAssignedPermissionGroup {
   assignedAt: string;
   assignedBy: IAgent;
 
-  /** Determines the weight of the permission group when evaluating permission items. Lower values will override permission groups with higher values. */
+  /** Determines the weight of the permission group when evaluating permission
+   * items. Lower values will override permission groups with higher values. */
   order: number;
 }
 
@@ -20,11 +21,14 @@ export interface IPermissionGroup {
   lastUpdatedAt?: string;
   lastUpdatedBy?: IAgent;
 
-  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will match 'myresourcename'. */
+  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will
+   * match 'myresourcename'. */
   name: string;
   description?: string;
 
-  /** Permission groups assigned to this group. It allows you to compose permission groups so that a group can inherit the permissions of other groups. */
+  /** Permission groups assigned to this group. It allows you to compose
+   * permission groups so that a group can inherit the permissions of other
+   * groups. */
   permissionGroups: IAssignedPermissionGroup[];
 }
 
@@ -32,17 +36,24 @@ export interface IPermissionGroup {
 export interface IPermissionGroupInput {
   permissionGroupId: string;
 
-  /** Determines the weight of the permission group when evaluating permission items. Lower values will override permission groups with higher values. */
+  /** Determines the weight of the permission group when evaluating permission
+   * items. Lower values will override permission groups with higher values. */
   order: number;
 }
 
 /** @category Permission group */
 export interface INewPermissionGroupInput {
-  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will match 'myresourcename'. */
+  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will
+   * match 'myresourcename'. */
   name: string;
   description?: string;
 
-  /** Existing permission groups to assign to this group. When updating a group's assigned permission groups, it will replace existing groups, meaning if you want to add a new permission group, you should include the existing groups and the new one. Also, if you want to remove a permission group, pass the existing permission groups without the group you want to remove. */
+  /** Existing permission groups to assign to this group. When updating a
+   * group's assigned permission groups, it will replace existing groups,
+   * meaning if you want to add a new permission group, you should include the
+   * existing groups and the new one. Also, if you want to remove a permission
+   * group, pass the existing permission groups without the group you want to
+   * remove. */
   permissionGroups?: IPermissionGroupInput[];
 }
 

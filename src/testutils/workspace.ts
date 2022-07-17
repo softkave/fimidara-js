@@ -2,6 +2,7 @@ import faker from '@faker-js/faker';
 import {merge} from 'lodash';
 import {PartialDeep} from 'type-fest';
 import {
+  getRootnameFromName,
   IEndpoints,
   IGetWorkspaceEndpointParams,
   IUpdateWorkspaceEndpointParams,
@@ -29,10 +30,12 @@ export async function updateWorkspaceTest(
   vars: ITestVars,
   props: PartialDeep<IUpdateWorkspaceEndpointParams> = {}
 ) {
+  const defaultCompanyName = faker.company.companyName();
   const genInput: IUpdateWorkspaceEndpointParams = {
     workspaceId: vars.workspaceId,
     workspace: {
-      name: faker.company.companyName(),
+      name: defaultCompanyName,
+      rootname: getRootnameFromName(defaultCompanyName),
     },
   };
   const input: IUpdateWorkspaceEndpointParams = merge(genInput, props);

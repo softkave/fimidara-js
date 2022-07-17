@@ -15,29 +15,42 @@ export interface IFolder {
   /** Immediate parent folder ID if present. */
   parentId?: string;
 
-  /** Sorted list of parent folder IDs. 2nd ot the last item is the immediate parent folder if present, and the last will be the folder's own ID. */
+  /**
+   * Sorted list of parent folder IDs. 2nd ot the last item is the immediate
+   * parent folder if present, and the last will be the folder's own ID.
+   * */
   idPath: string[];
 
-  /** Sorted list of parent folder names. 2nd ot the last item is the immediate parent folder if present, and the last will be the folder's own name. */
+  /**
+   * Sorted list of parent folder names. 2nd ot the last item is the immediate
+   * parent folder if present, and the last will be the folder's own name.
+   * */
   namePath: string[];
   createdBy: IAgent;
   createdAt: Date | string;
   lastUpdatedBy?: IAgent;
   lastUpdatedAt?: Date | string;
 
-  /** Folder name. Folder names are case sensitive, meaning 'MyFolderName' will **not** match 'myfoldername'. */
+  /** Folder name. Folder names are case sensitive, meaning 'MyFolderName' will
+   * **not** match 'myfoldername'. */
   name: string;
   description?: string;
 
-  /** A list of public actions that can be performed on the folder, i.e, this list contains the list of actions an unauthorized or unauthenticated agent can perform on the folder. This is useful when you want a folder crawable or it's content accessible by the general internet. */
+  /** A list of public actions that can be performed on the folder, i.e, this
+   * list contains the list of actions an unauthorized or unauthenticated agent
+   * can perform on the folder. This is useful when you want a folder crawable
+   * or it's content accessible by the general internet. */
   publicAccessOps: IPublicAccessOp[];
 }
 
 /** @category Folder */
 export interface IFolderMatcher {
   /**
-   * Folder path. Optional if `folderId` is set.
-   * Folder names are case sensitive, meaning 'MyFolderName' will **not** match 'myfoldername'.
+   * Folder path. Optional if `folderId` is set. Folder names are case
+   * sensitive, meaning 'MyFolderName' will **not** match 'myfoldername'.
+   *
+   * Valid characters are:
+   * /[A-Za-z0-9\/._-]/
    */
   folderpath?: string;
 
@@ -48,15 +61,19 @@ export interface IFolderMatcher {
 /** @category Folder */
 export interface INewFolderInput {
   /**
-   * Folder path. Example, `/path/to/files`. The parent folders will be created if they do not exist, for example, in the path `/path/to/files`, if `/path`, `/to`, and `/files` do not exist, they will be created.
+   * Folder path. Example, `/path/to/files`. The parent folders will be created
+   * if they do not exist, for example, in the path `/path/to/files`, if
+   * `/path`, `/to`, and `/files` do not exist, they will be created.
    *
-   * Folder names are case sensitive, meaning 'MyFolderName' will **not** match 'myfoldername'.
+   * Folder names are case sensitive, meaning 'MyFolderName' will **not** match
+   * 'myfoldername'.
    */
   folderpath: string;
   description?: string;
 
   /**
-   * List of public access actions allowed on this folder and it's children files.
+   * List of public access actions allowed on this folder and it's children
+   * files.
    */
   publicAccessOps?: IPublicAccessOpInput[];
 }
@@ -66,7 +83,11 @@ export interface IUpdateFolderInput {
   description?: string;
 
   /**
-   * List of public access actions allowed on this folder and it's children files. Will replace existing list of public access actions. Meaning if you want to add a new public access action, you need to pass it with the existing list, and if you want to remove an existing public access action, you need to pass the existing list without the action.
+   * List of public access actions allowed on this folder and it's children
+   * files. Will replace existing list of public access actions. Meaning if you
+   * want to add a new public access action, you need to pass it with the
+   * existing list, and if you want to remove an existing public access action,
+   * you need to pass the existing list without the action.
    */
   publicAccessOps?: IPublicAccessOpInput[];
 }

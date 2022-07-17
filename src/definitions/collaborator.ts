@@ -51,7 +51,11 @@ export interface IUpdateCollaboratorPermissionGroupsEndpointParams
   extends IEndpointParamsBase {
   collaboratorId: string;
 
-  /** Permission groups to assign to the user. When updating a user's permission groups, it will replace existing groups, meaning if you want to add a new permission group, you should include the existing groups and the new one. Also, if you want to remove a permission group, pass the existing permission groups without the group you want to remove. */
+  /** Permission groups to assign to the user. When updating a user's permission
+   * groups, it will replace existing groups, meaning if you want to add a new
+   * permission group, you should include the existing groups and the new one.
+   * Also, if you want to remove a permission group, pass the existing
+   * permission groups without the group you want to remove. */
   permissionGroups: IPermissionGroupInput[];
 }
 

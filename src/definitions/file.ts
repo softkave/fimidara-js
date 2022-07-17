@@ -10,10 +10,15 @@ export interface IFile {
   /** Immediate parent folder ID if present. */
   folderId?: string;
 
-  /** Sorted list of parent folder IDs. 2nd ot the last item is the immediate parent folder if present, and the last will be the file's own ID. */
+  /**
+   * Sorted list of parent folder IDs. 2nd ot the last item is the immediate
+   * parent folder if present, and the last will be the file's own ID. */
   idPath: string[];
 
-  /** Sorted list of parent folder names. 2nd ot the last item is the immediate parent folder if present, and the last will be the file's own name. */
+  /**
+   * Sorted list of parent folder names. 2nd ot the last item is the immediate
+   * parent folder if present, and the last will be the file's own name.
+   * */
   namePath: string[];
   mimetype?: string;
   encoding?: string;
@@ -23,14 +28,18 @@ export interface IFile {
   lastUpdatedBy?: IAgent;
   lastUpdatedAt?: Date | string;
 
-  /** File name without the extension. File names are case sensitive, meaning 'MyFileName' will **not** match 'myfilename'. */
+  /** File name without the extension. File names are case sensitive, meaning
+   * 'MyFileName' will **not** match 'myfilename'. */
   name: string;
 
   /** File extension. Empty string if file was uploaded without one. */
   extension: string;
   description?: string;
 
-  /** A list of public actions that can be performed on the file, i.e, this list contains the list of actions an unauthorized or unauthenticated agent can perform on the file. This is useful for public files like profile pictures, css, html, and js files, etc. */
+  /** A list of public actions that can be performed on the file, i.e, this list
+   * contains the list of actions an unauthorized or unauthenticated agent can
+   * perform on the file. This is useful for public files like profile pictures,
+   * css, html, and js files, etc. */
   publicAccessOps: IPublicAccessOp[];
 }
 
@@ -64,9 +73,17 @@ export enum UploadFilePublicAccessActions {
 /** @category File */
 export interface IFileMatcher {
   /**
-   * File path including the file extension if present. `fileId` is optional if `filepath` is provided. Example, `/path/to/file.txt`. When used to upload a file, the parent folders will also be created if they do not exist, for example, in the file path `/path/to/file.txt`, if `/path` and `/to` do not exist, they will be created.
+   * File path including the file extension if present. `fileId` is optional if
+   * `filepath` is provided. Example, `/path/to/file.txt`. When used to upload a
+   * file, the parent folders will also be created if they do not exist, for
+   * example, in the file path `/path/to/file.txt`, if `/path` and `/to` do not
+   * exist, they will be created.
    *
-   * File and folder names are case sensitive, meaning 'MyFileName' will **not** match 'myfilename'.
+   * File and folder names are case sensitive, meaning 'MyFileName' will **not**
+   * match 'myfilename'.
+   *
+   * Valid characters are:
+   * /[A-Za-z0-9\/._-]/
    */
   filepath?: string;
 
@@ -93,15 +110,18 @@ export interface IDeleteFileEndpointParams
 export interface IGetFileEndpointParams
   extends Required<Pick<IFileMatcher, 'filepath'>>,
     IEndpointParamsBase {
-  /** Optional image transformation options. Will be applied if the file is an image. */
+  /** Optional image transformation options. Will be applied if the file is an
+   * image. */
   imageTranformation?: IImageTransformationParams;
 }
 
 /** @category File */
 export interface IGetFileEndpointResult {
   /**
-   * [Readable](https://nodejs.org/api/stream.html#class-streamreadable) for Node.js,
-   * [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) in the browser
+   * [Readable](https://nodejs.org/api/stream.html#class-streamreadable) for
+   * Node.js,
+   * [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
+   * in the browser
    */
   body: NodeJS.ReadableStream | ReadableStream;
 }
@@ -125,18 +145,22 @@ export interface IUploadFileEndpointParams
   description?: string;
   encoding?: string;
 
-  /** File extension. Can be passed separately or included in the filepath, for example, `/path/to/file.txt`. */
+  /** File extension. Can be passed separately or included in the filepath, for
+   * example, `/path/to/file.txt`. */
   extension?: string;
   mimetype?: string;
 
   /**
-   * [Readable](https://nodejs.org/api/stream.html#class-streamreadable) for Node.js,
-   * [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) in the browser
+   * [Readable](https://nodejs.org/api/stream.html#class-streamreadable) for
+   * Node.js,
+   * [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
+   * in the browser
    */
   data: Readable | ReadableStream;
 
   /**
-   * Determines the public actions that will be allowed on this file if the operation succeeds.
+   * Determines the public actions that will be allowed on this file if the
+   * operation succeeds.
    */
   publicAccessActions?: UploadFilePublicAccessActions;
 }
@@ -150,12 +174,14 @@ export interface IUploadFileEndpointResult extends IEndpointResultBase {
 export interface IFileEndpoints {
   deleteFile(props: IDeleteFileEndpointParams): Promise<IEndpointResultBase>;
 
-  /** Returns file details without the binary. Call `getFile` to retrieve the file binary. */
+  /** Returns file details without the binary. Call `getFile` to retrieve the
+   * file binary. */
   getFileDetails(
     props: IGetFileDetailsEndpointParams
   ): Promise<IGetFileDetailsEndpointResult>;
 
-  /** Updates file details not the binary. Call `uploadFile` on an existing file to update the file binary. */
+  /** Updates file details not the binary. Call `uploadFile` on an existing file
+   * to update the file binary. */
   updateFileDetails(
     props: IUpdateFileDetailsEndpointParams
   ): Promise<IUpdateFileDetailsEndpointResult>;
@@ -163,21 +189,30 @@ export interface IFileEndpoints {
   /** Returns the file binary, not the file details. */
   getFile(props: IGetFileEndpointParams): Promise<IGetFileEndpointResult>;
 
-  /** Uploads a new file if the file does not exist, and replaces an existing file if the file does. To update the file details, call `updateFileDetails`. */
+  /** Uploads a new file if the file does not exist, and replaces an existing
+   * file if the file does. To update the file details, call
+   * `updateFileDetails`. */
   uploadFile(
     props: IUploadFileEndpointParams
   ): Promise<IUploadFileEndpointResult>;
 
-  /** Returns a URL for getting the file associated with the filepath if it exists. Useful for getting full profile image URLs or in other instances where you need to fetch a file using a URL. */
+  /** Returns a URL for getting the file associated with the filepath if it
+   * exists. Useful for getting full profile image URLs or in other instances
+   * where you need to fetch a file using a URL. */
   getFetchFileURL(
     filepath: string,
     width?: number,
     height?: number,
 
-    /** Required if you'll be using the generated URL without a program access or client assigned token, for example, when fetching a public file using the `src` attribute of an `<img />` tag. */
+    /** Required if you'll be using the generated URL without a program access
+     * or client assigned token, for example, when fetching a public file using
+     * the `src` attribute of an `<img />` tag. */
     workspaceId?: string | null
   ): string;
 
-  /** Returns a URL to which a file can be uploaded. Useful for getting full URLs when you're using code that require a URL to upload data to. The upload has to be `multipart/form-data` formatted after {@link IUploadFileEndpointParams}. */
+  /** Returns a URL to which a file can be uploaded. Useful for getting full
+   * URLs when you're using code that require a URL to upload data to. The
+   * upload has to be `multipart/form-data` formatted after
+   * {@link IUploadFileEndpointParams}. */
   getUploadFileURL(workspaceId: string, filepath: string): string;
 }

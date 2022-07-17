@@ -6,10 +6,14 @@ export enum WorkspaceBillStatus {
   /** Workspace is OK and operations will continue as normal. */
   Ok = 'ok',
 
-  /** Workspace is in the grace period. Grace period is the time given to the workspace to pay it's bill for the previous billing period. During this time, operations will still continue as normal. */
+  /** Workspace is in the grace period. Grace period is the time given to the
+   * workspace to pay it's bill for the previous billing period. During this
+   * time, operations will still continue as normal. */
   GracePeriod = 'grace-period',
 
-  /** The bill for the previous billing period is overdue, and operations will not be served. Meaning API calls will fail with a `UsageLimitExceededError` error until the workspace's bill is resolved. */
+  /** The bill for the previous billing period is overdue, and operations will
+   * not be served. Meaning API calls will fail with a `UsageLimitExceededError`
+   * error until the workspace's bill is resolved. */
   BillOverdue = 'bill-overdue',
 }
 
@@ -21,17 +25,38 @@ export interface IWorkspace {
   lastUpdatedBy: IAgent;
   lastUpdatedAt: Date | string;
 
-  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will match 'myresourcename'. */
+  /**
+   * Unique workspace name, not case sensitive. Meaning, 'My Workspace Name'
+   * will match 'my workspace name'.
+   * */
   name: string;
+
+  /**
+   * Unique workspace root name, not case sensitive. Meaning,
+   * 'My-Workspace-Name' will match 'my-workspace-name'. Used for namespacing
+   * when working with files and folders. For example
+   * "/my-workspace-name/my-file.txt"
+   * */
+  rootname: string;
   description?: string;
 
   /**
-   * The public permission group ID.
-   * The public permission group is the permission group assigned to unauthenticated or unauthorized agents. For example, if a `GET` `HTTP` request is made for a file without the `Authentication` header, or authentication or authorization fails for any reason, the calling agent will be assigned the public permission group while the server processes the request. The permission group is also assigned to all agents when processing a request but given the least weight. Meaning if an agent does not explicitly have a access to a file, but the public permission group has access to it, i.e, the file is designated public, the agent will be able to access the file.
+   * The public permission group ID. The public permission group is the
+   * permission group assigned to unauthenticated or unauthorized agents. For
+   * example, if a `GET` `HTTP` request is made for a file without the
+   * `Authentication` header, or authentication or authorization fails for any
+   * reason, the calling agent will be assigned the public permission group
+   * while the server processes the request. The permission group is also
+   * assigned to all agents when processing a request but given the least
+   * weight. Meaning if an agent does not explicitly have a access to a file,
+   * but the public permission group has access to it, i.e, the file is
+   * designated public, the agent will be able to access the file.
    *
-   * This permission group is auto-generated when the workspace is created, and this field is its ID.
+   * This permission group is auto-generated when the workspace is created, and
+   * this field is its ID.
    *
-   * You can add permission items to this permission to make resources publicly accessible.
+   * You can add permission items to this permission to make resources publicly
+   * accessible.
    */
   publicPermissionGroupId?: string;
   billStatusAssignedAt: Date | string;
@@ -42,8 +67,19 @@ export interface IWorkspace {
 
 /** @category Workspace */
 export interface INewWorkspaceInput {
-  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will match 'myresourcename'. */
+  /** Unique resource name, not case sensitive. Meaning, 'MyResourceName' will
+   * match 'myresourcename'. */
   name: string;
+
+  /**
+   * Unique workspace root name, not case sensitive. Meaning,
+   * 'My-Workspace-Name' will match 'my-workspace-name'. Used for namespaceing
+   * files when fetching or creating files. For example
+   * "/my-workspace-name/my-file.txt"
+   *
+   * Valid characters are: /[A-Za-z0-9._-]/
+   * */
+  rootname: string;
   description?: string;
 }
 
@@ -79,4 +115,8 @@ export interface IWorkspaceEndpoints {
   updateWorkspace(
     props: IUpdateWorkspaceEndpointParams
   ): Promise<IUpdateWorkspaceEndpointResult>;
+}
+
+export function getRootnameFromName(name: string): string {
+  return name.replace(/[^a-zA-Z0-9._-]/, '').replace(/\s/g, '-');
 }
