@@ -2,7 +2,7 @@ import fimidara from '..';
 import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 import {getWorkspaceTest, updateWorkspaceTest} from '../testutils/workspace';
 
-jest.setTimeout(600000); // 10 minutes
+jest.setTimeout(60000); // 1 minutes
 let vars: ITestVars;
 
 beforeAll(async () => {

@@ -93,4 +93,9 @@ export interface IAppError extends Error {
 
   /** Offending value when the error type is a validation error. */
   // value?: any;
+
+  /**
+   * Client-side stack trace.
+   * */
+  stack?: string;
 }

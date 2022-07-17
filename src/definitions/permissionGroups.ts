@@ -77,8 +77,7 @@ export interface IDeletePermissionGroupEndpointParams
 }
 
 /** @category Permission group */
-export interface IGetWorkspacePermissionGroupEndpointParams
-  extends IEndpointParamsBase {}
+export type IGetWorkspacePermissionGroupEndpointParams = IEndpointParamsBase;
 
 /** @category Permission group */
 export interface IGetWorkspacePermissionGroupEndpointResult

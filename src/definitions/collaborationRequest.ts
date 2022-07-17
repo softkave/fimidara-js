@@ -64,8 +64,8 @@ export interface IDeleteCollaborationRequestEndpointParams
 }
 
 /** @category Collaboration request */
-export interface IGetWorkspaceCollaborationRequestsEndpointParams
-  extends IEndpointParamsBase {}
+export type IGetWorkspaceCollaborationRequestsEndpointParams =
+  IEndpointParamsBase;
 
 /** @category Collaboration request */
 export interface IGetWorkspaceCollaborationRequestsEndpointResult

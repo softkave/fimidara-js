@@ -13,11 +13,12 @@ const toAppError = (err: Error | IAppError | string): IAppError => {
     name: error.name,
     message: error.message,
     // action: (error as any).action,
-    field: (error as any).field,
+    field: (error as IAppError).field,
+    stack: error.stack,
   };
 };
 
-export const toAppErrorsArray = (err: any) => {
+export const toAppErrorsArray = (err: Error | IAppError | string) => {
   if (!err) {
     return [];
   } else if (Array.isArray(err)) {
@@ -111,7 +112,7 @@ export async function invokeEndpoint<T extends any = any>(
     }
 
     throw new Error(result.statusText);
-  } catch (error) {
+  } catch (error: any) {
     const errors = toAppErrorsArray(error);
     throw errors;
   }

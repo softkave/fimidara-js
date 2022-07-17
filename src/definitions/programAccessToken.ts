@@ -64,8 +64,7 @@ export interface IDeleteProgramAccessTokenEndpointParams
 }
 
 /** @category Program access token */
-export interface IGetWorkspaceProgramAccessTokenEndpointParams
-  extends IEndpointParamsBase {}
+export type IGetWorkspaceProgramAccessTokenEndpointParams = IEndpointParamsBase;
 
 /** @category Program access token */
 export interface IGetWorkspaceProgramAccessTokenEndpointResult

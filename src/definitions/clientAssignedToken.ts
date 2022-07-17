@@ -73,8 +73,8 @@ export interface IDeleteClientAssignedTokenEndpointParams
 }
 
 /** @category Client assigned token */
-export interface IGetWorkspaceClientAssignedTokensEndpointParams
-  extends IEndpointParamsBase {}
+export type IGetWorkspaceClientAssignedTokensEndpointParams =
+  IEndpointParamsBase;
 
 /** @category Client assigned token */
 export interface IGetWorkspaceClientAssignedTokensEndpointResult

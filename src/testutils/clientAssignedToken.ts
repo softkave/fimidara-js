@@ -64,10 +64,11 @@ export async function getWorkspaceClientTokensTest(
   vars: ITestVars,
   props: PartialDeep<IGetWorkspaceClientAssignedTokensEndpointParams> = {}
 ) {
-  const tokens = await Promise.all([
+  await Promise.all([
     addClientTokenTest(endpoint, vars),
     addClientTokenTest(endpoint, vars),
   ]);
+
   const genInput: IGetWorkspaceClientAssignedTokensEndpointParams = {};
   const input: IGetWorkspaceClientAssignedTokensEndpointParams = merge(
     genInput,

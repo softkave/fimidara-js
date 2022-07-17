@@ -123,7 +123,7 @@ export interface IGetFileEndpointResult {
    * [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
    * in the browser
    */
-  body: NodeJS.ReadableStream | ReadableStream;
+  body: NodeJS.ReadableStream | ReadableStream | null;
 }
 
 /** @category File */

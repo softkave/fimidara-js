@@ -1,4 +1,4 @@
-import type {Blob, Response} from 'node-fetch';
+import {getServerAddr} from '../addr';
 import {
   IDeleteFileEndpointParams,
   IFileEndpoints,
@@ -21,7 +21,7 @@ import {
   setEndpointFormData,
   setEndpointParam,
 } from '../utils';
-var FormData = require('form-data');
+const FormData = require('form-data');
 const URLSearchParams =
   require('core-js/features/url-search-params') as typeof globalThis['URLSearchParams'];
 
@@ -49,14 +49,14 @@ function getFetchFileURL(
   setEndpointParam(params, IMAGE_WIDTH_QUERY_PARAMS_KEY, width);
   setEndpointParam(params, IMAGE_HEIGHT_QUERY_PARAMS_KEY, height);
   setEndpointParam(params, WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
-  return getFilePath + `?${params.toString()}`;
+  return getServerAddr() + getFilePath + `?${params.toString()}`;
 }
 
 function getUploadFileURL(workspaceId: string, filepath: string) {
   const params = new URLSearchParams();
   params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
   params.append(PATH_QUERY_PARAMS_KEY, filepath);
-  return uploadFilePath + `?${params.toString()}`;
+  return getServerAddr() + uploadFilePath + `?${params.toString()}`;
 }
 
 export default class FileEndpoints
@@ -96,6 +96,7 @@ export default class FileEndpoints
       props.imageTranformation?.width,
       props.imageTranformation?.height
     );
+
     const response = await invokeEndpointWithAuth<Response>({
       path: url,
       token: this.getAuthToken(props),
@@ -104,8 +105,6 @@ export default class FileEndpoints
       omitServerAddr: true,
     });
 
-    // TODO: return blob instead of buffer
-    const blob = (await response.blob()) as Blob;
     return {
       body: response.body,
     };

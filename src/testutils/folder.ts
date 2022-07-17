@@ -103,7 +103,7 @@ export async function listFolderContentTest(
   }
 
   assert.ok(folderpath);
-  const contentFolders = await Promise.all([
+  await Promise.all([
     addFolderTest(endpoint, vars, {
       folder: {
         folderpath: makeTestFilepath(`${folderpath}/folder1`),
@@ -116,7 +116,7 @@ export async function listFolderContentTest(
     }),
   ]);
 
-  const contentFiles = await Promise.all([
+  await Promise.all([
     uploadFileTest(endpoint, vars, {
       filepath: makeTestFilepath(`${folderpath}/file1`),
     }),

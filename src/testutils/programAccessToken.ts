@@ -58,15 +58,17 @@ export async function getWorkspaceProgramTokensTest(
   vars: ITestVars,
   props: PartialDeep<IGetWorkspaceProgramAccessTokenEndpointParams> = {}
 ) {
-  const tokens = await Promise.all([
+  await Promise.all([
     addProgramTokenTest(endpoint, vars),
     addProgramTokenTest(endpoint, vars),
   ]);
+
   const genInput: IGetWorkspaceProgramAccessTokenEndpointParams = {};
   const input: IGetWorkspaceProgramAccessTokenEndpointParams = merge(
     genInput,
     props
   );
+
   const result = await endpoint.programTokens.getWorkspaceTokens(input);
   assertEndpointResult(result);
   return result;

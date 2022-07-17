@@ -1,6 +1,6 @@
 {
   "name": "fimidara",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Fimidara file storage service js sdk",
   "main": "build/src/index.js",
   "author": "Softkave",
@@ -16,6 +16,9 @@
   "files": [
     "build/src/!(__tests__|testutils)**/*.+(js|d.ts)"
   ],
+  "engines": {
+    "node": ">=12.9.0"
+  },
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
@@ -25,7 +28,6 @@
     "pretest": "npm.cmd run compile",
     "posttest": "npm.cmd run lint",
     "test": "env-cmd -f \".env.test\" jest --config=jest.config.test.ts --detectOpenHandles",
-    "local-test": "env-cmd -f \".env.local-test\" jest --config=jest.config.test.ts --detectOpenHandles",
     "docs": "typedoc",
     "show-packlist": "npx npm-packlist",
     "publish-to-npm": "npm publish"

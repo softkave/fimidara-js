@@ -70,6 +70,7 @@ export async function updateFileDetailsTest(
     const file = await uploadFileTest(endpoint, vars);
     filepath = getFilepath(file.file.namePath);
   }
+
   assert.ok(filepath);
   const input: IUpdateFileDetailsEndpointParams = {
     filepath,
@@ -78,6 +79,7 @@ export async function updateFileDetailsTest(
       mimetype: faker.system.mimeType(),
     },
   };
+
   const result = await endpoint.files.updateFileDetails(input);
   assertEndpointResult(result);
   return result;
@@ -93,10 +95,12 @@ export async function getFileTest(
     const file = await uploadFileTest(endpoint, vars);
     filepath = getFilepath(file.file.namePath);
   }
+
   assert.ok(filepath);
   const input: IGetFileEndpointParams = {
     filepath,
   };
+
   const result = await endpoint.files.getFile(input);
   assertEndpointResult(result);
   return result;
@@ -118,6 +122,7 @@ export async function uploadFileTest(
     mimetype: faker.system.mimeType(),
     publicAccessActions: UploadFilePublicAccessActions.ReadUpdateAndDelete,
   };
+
   const inputs = merge(genInput, props);
   const result = await endpoint.files.uploadFile(inputs);
   addToCleanupField(vars, 'cleanupFilepaths', result.file.resourceId);

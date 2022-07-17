@@ -32,8 +32,7 @@ export interface IGetCollaboratorEndpointResult extends IEndpointResultBase {
 }
 
 /** @category Collaborator */
-export interface IGetWorkspaceCollaboratorsEndpointParams
-  extends IEndpointParamsBase {}
+export type IGetWorkspaceCollaboratorsEndpointParams = IEndpointParamsBase;
 
 /** @category Collaborator */
 export interface IGetWorkspaceCollaboratorsEndpointResult

@@ -8,7 +8,7 @@ import {
 } from '../testutils/permissionItem';
 import {getTestVars, globalCleanup, ITestVars} from '../testutils/utils';
 
-jest.setTimeout(600000); // 10 minutes
+jest.setTimeout(60000); // 1 minutes
 let vars: ITestVars;
 
 beforeAll(async () => {
