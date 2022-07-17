@@ -9,7 +9,7 @@ JS SDK for [Fimidara](https://www.fimidara.com), a file storage service.
 
 ## Usage
 
-The type of the default export can be found [here](https://softkave.github.io/fimidara-js/interfaces/IFimidara.html).
+The type of the default export can be found [here](https://softkave.github.io/fimidara-js/interfaces/IFimidara.html), and the modules can be found [here](https://softkave.github.io/fimidara-js/modules.html).
 
 ```typescript
 // import fimidara
