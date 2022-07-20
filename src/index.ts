@@ -4,7 +4,7 @@ import Endpoints from './endpoints/endpoints';
 
 export * from './definitions/index';
 export * from './endpoints/index';
-export {getFilepath} from './utils';
+export {addRootnameToPath, getFilepath} from './utils';
 export {IFimidaraConfig, IConfig};
 
 /** @category Fimidara */

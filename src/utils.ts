@@ -1,6 +1,6 @@
 import {fetch} from 'cross-fetch';
 import {OutgoingHttpHeaders} from 'http';
-import {isBoolean, isString, omit} from 'lodash';
+import {isArray, isBoolean, isString, last, omit} from 'lodash';
 import {getServerAddr} from './addr';
 import FimidaraConfig, {IConfig} from './config';
 import {IAppError} from './definitions/system';
@@ -181,6 +181,26 @@ export function cast<T>(value: any) {
   return value as T;
 }
 
-export function getFilepath(filepath: string[]) {
-  return filepath.join('/');
+export function getFilepath(workspaceRootname: string, filepath: string[]) {
+  return addRootnameToPath(filepath, workspaceRootname).join('/');
+}
+
+export function addRootnameToPath<
+  T extends string | string[] = string | string[]
+>(
+  /**
+   * File or folder path without the rootname
+   */
+  path: T,
+  workspaceRootname: string | string[]
+): T {
+  const rootname = isArray(workspaceRootname)
+    ? last(workspaceRootname)
+    : workspaceRootname;
+
+  if (isArray(path)) {
+    return <T>[rootname, ...path];
+  }
+
+  return <T>`${rootname}/${path}`;
 }

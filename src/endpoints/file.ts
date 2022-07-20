@@ -1,3 +1,4 @@
+import path = require('path');
 import {getServerAddr} from '../addr';
 import {
   IDeleteFileEndpointParams,
@@ -33,30 +34,53 @@ const uploadFilePath = `${basePath}/uploadFile`;
 const getFilePath = `${basePath}/getFile`;
 
 const UPLOAD_FILE_BLOB_FORMDATA_KEY = 'data';
-const PATH_QUERY_PARAMS_KEY = 'filepath';
-const WORKSPACE_ID_QUERY_PARAMS_KEY = 'workspaceId';
 const IMAGE_WIDTH_QUERY_PARAMS_KEY = 'w';
 const IMAGE_HEIGHT_QUERY_PARAMS_KEY = 'h';
 
-function getFetchFileURL(
+/** Returns a URL for getting the file associated with the filepath if it
+ * exists. Useful for getting full profile image URLs or in other instances
+ * where you need to fetch a file using a URL. */
+export function getFetchFileURL(
+  /**
+   * File path including the workspace rootname, for example:
+   * `/workspace-rootname/path/to/file.txt`.
+   */
   filepath: string,
-  width?: number | null,
-  height?: number | null,
-  workspaceId?: string | null
+
+  /**
+   * Optional image transformation options. Will be applied if the file is an
+   * image.
+   */
+  width?: number,
+
+  /**
+   * Optional image transformation options. Will be applied if the file is an
+   * image.
+   */
+  height?: number
 ) {
   const params = new URLSearchParams();
-  params.append(PATH_QUERY_PARAMS_KEY, filepath);
   setEndpointParam(params, IMAGE_WIDTH_QUERY_PARAMS_KEY, width);
   setEndpointParam(params, IMAGE_HEIGHT_QUERY_PARAMS_KEY, height);
-  setEndpointParam(params, WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
-  return getServerAddr() + getFilePath + `?${params.toString()}`;
+  return (
+    getServerAddr() +
+    path.normalize(`${getFilePath}/${filepath}`) +
+    `?${params.toString()}`
+  );
 }
 
-function getUploadFileURL(workspaceId: string, filepath: string) {
-  const params = new URLSearchParams();
-  params.append(WORKSPACE_ID_QUERY_PARAMS_KEY, workspaceId);
-  params.append(PATH_QUERY_PARAMS_KEY, filepath);
-  return getServerAddr() + uploadFilePath + `?${params.toString()}`;
+/** Returns a URL to which a file can be uploaded. Useful for getting full
+ * URLs when you're using code that require a URL to upload data to. The
+ * upload has to be `multipart/form-data` formatted after
+ * {@link IUploadFileEndpointParams}. */
+export function getUploadFileURL(
+  /**
+   * File path including the workspace rootname, for example:
+   * `/workspace-rootname/path/to/file.txt`.
+   */
+  filepath: string
+) {
+  return getServerAddr() + path.normalize(`${uploadFilePath}/${filepath}`);
 }
 
 export default class FileEndpoints
@@ -113,12 +137,11 @@ export default class FileEndpoints
   async uploadFile(props: IUploadFileEndpointParams) {
     const formData = new FormData();
     formData.append(UPLOAD_FILE_BLOB_FORMDATA_KEY, props.data);
-    formData.append('filepath', props.filepath);
+    // formData.append('filepath', props.filepath);
     setEndpointFormData(formData, 'description', props.description);
     setEndpointFormData(formData, 'encoding', props.encoding);
     setEndpointFormData(formData, 'extension', props.extension);
     setEndpointFormData(formData, 'mimetype', props.mimetype);
-
     const requestToken = this.getAuthToken(props);
     if (!requestToken) {
       throw new CredentialsNotProvidedError();
@@ -129,8 +152,9 @@ export default class FileEndpoints
       headers = formData.getHeaders();
     }
 
+    const callPath = getUploadFileURL(props.filepath);
     return await invokeEndpoint<IUploadFileEndpointResult>({
-      path: uploadFilePath,
+      path: callPath,
       data: formData,
       headers: {
         [HTTP_HEADER_AUTHORIZATION]: `Bearer ${requestToken}`,
@@ -139,7 +163,4 @@ export default class FileEndpoints
       omitContentTypeHeader: true,
     });
   }
-
-  public getFetchFileURL = getFetchFileURL;
-  public getUploadFileURL = getUploadFileURL;
 }

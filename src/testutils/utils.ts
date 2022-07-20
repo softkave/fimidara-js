@@ -13,6 +13,7 @@ import path = require('path');
 
 export interface ITestVars {
   workspaceId: string;
+  workspaceRootname: string;
   authToken: string;
   testFilepath: string;
 
@@ -48,19 +49,22 @@ export function removeFromCleanupField(
   vars[field] = vars[field].filter(id => !ids.includes(id));
 }
 
-export function makeTestFilepath(filepath: string) {
-  return path.posix.normalize(filepath);
+export function makeTestFilepath(workspaceRootname: string, filepath: string) {
+  return path.posix.normalize('/' + workspaceRootname + '/' + filepath);
 }
 
 export function getTestVars(): ITestVars {
   const workspaceId = process.env.FIMIDARA_TEST_WORKSPACE_ID;
   const authToken = process.env.FIMIDARA_TEST_AUTH_TOKEN;
   const testFilepath = process.env.FIMIDARA_TEST_FILEPATH;
+  const workspaceRootname = process.env.FIMIDARA_TEST_WORKSPACE_ROOTNAME;
   assert.ok(workspaceId);
   assert.ok(authToken);
   assert.ok(testFilepath);
+  assert.ok(workspaceRootname);
   return {
     workspaceId,
+    workspaceRootname,
     authToken,
     testFilepath,
     cleanupClientTokenIds: [],

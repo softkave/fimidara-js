@@ -196,24 +196,4 @@ export interface IFileEndpoints {
   uploadFile(
     props: IUploadFileEndpointParams
   ): Promise<IUploadFileEndpointResult>;
-
-  /** Returns a URL for getting the file associated with the filepath if it
-   * exists. Useful for getting full profile image URLs or in other instances
-   * where you need to fetch a file using a URL. */
-  getFetchFileURL(
-    filepath: string,
-    width?: number,
-    height?: number,
-
-    /** Required if you'll be using the generated URL without a program access
-     * or client assigned token, for example, when fetching a public file using
-     * the `src` attribute of an `<img />` tag. */
-    workspaceId?: string | null
-  ): string;
-
-  /** Returns a URL to which a file can be uploaded. Useful for getting full
-   * URLs when you're using code that require a URL to upload data to. The
-   * upload has to be `multipart/form-data` formatted after
-   * {@link IUploadFileEndpointParams}. */
-  getUploadFileURL(workspaceId: string, filepath: string): string;
 }

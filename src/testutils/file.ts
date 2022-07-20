@@ -30,12 +30,14 @@ export async function deleteFileTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(file.file.namePath);
+    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
   }
+
   assert.ok(filepath);
   const input: IDeleteFileEndpointParams = {
     filepath,
   };
+
   const result = await endpoint.files.deleteFile(input);
   assertEndpointResult(result);
   removeFromCleanupField(vars, 'cleanupFilepaths', filepath);
@@ -49,12 +51,14 @@ export async function getFileDetailsTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(file.file.namePath);
+    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
   }
+
   assert.ok(filepath);
   const input: IGetFileDetailsEndpointParams = {
     filepath,
   };
+
   const result = await endpoint.files.getFileDetails(input);
   assertEndpointResult(result);
   return result;
@@ -68,7 +72,7 @@ export async function updateFileDetailsTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(file.file.namePath);
+    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
   }
 
   assert.ok(filepath);
@@ -93,7 +97,7 @@ export async function getFileTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(file.file.namePath);
+    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
   }
 
   assert.ok(filepath);
@@ -111,14 +115,14 @@ export async function uploadFileTest(
   vars: ITestVars,
   props: PartialDeep<IUploadFileEndpointParams> = {}
 ) {
-  const filepath = path.normalize(process.cwd() + vars.testFilepath);
+  const incomingFilepath = path.normalize(process.cwd() + vars.testFilepath);
   const genInput: IUploadFileEndpointParams = {
     // data: blobFromSync(filepath).stream(),
-    data: createReadStream(filepath),
+    data: createReadStream(incomingFilepath),
     description: faker.lorem.sentence(),
     encoding: 'base64',
     // extension: faker.system.fileExt(),
-    filepath: makeTestFilepath(faker.system.filePath()),
+    filepath: makeTestFilepath(vars.workspaceRootname, faker.system.filePath()),
     mimetype: faker.system.mimeType(),
     publicAccessActions: UploadFilePublicAccessActions.ReadUpdateAndDelete,
   };

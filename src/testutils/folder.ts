@@ -31,13 +31,14 @@ export async function deleteFolderTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(folder.folder.namePath);
+    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
   }
 
   assert.ok(folderpath);
   const input: IDeleteFolderEndpointParams = {
     folderpath,
   };
+
   const result = await endpoint.folders.deleteFolder(input);
   assertEndpointResult(result);
   removeFromCleanupField(vars, 'cleanupFolderpaths', folderpath);
@@ -51,13 +52,14 @@ export async function getFolderTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(folder.folder.namePath);
+    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
   }
 
   assert.ok(folderpath);
   const input: IGetFolderEndpointParams = {
     folderpath,
   };
+
   const result = await endpoint.folders.getFolder(input);
   assertEndpointResult(result);
   return result;
@@ -71,7 +73,7 @@ export async function updateFolderTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(folder.folder.namePath);
+    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
   }
 
   assert.ok(folderpath);
@@ -86,6 +88,7 @@ export async function updateFolderTest(
       ],
     },
   };
+
   const result = await endpoint.folders.updateFolder(input);
   assertEndpointResult(result);
   return result;
@@ -99,35 +102,42 @@ export async function listFolderContentTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(folder.folder.namePath);
+    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
   }
 
   assert.ok(folderpath);
   await Promise.all([
     addFolderTest(endpoint, vars, {
       folder: {
-        folderpath: makeTestFilepath(`${folderpath}/folder1`),
+        folderpath: makeTestFilepath(
+          vars.workspaceRootname,
+          `${folderpath}/folder1`
+        ),
       },
     }),
     addFolderTest(endpoint, vars, {
       folder: {
-        folderpath: makeTestFilepath(`${folderpath}/folder2`),
+        folderpath: makeTestFilepath(
+          vars.workspaceRootname,
+          `${folderpath}/folder2`
+        ),
       },
     }),
   ]);
 
   await Promise.all([
     uploadFileTest(endpoint, vars, {
-      filepath: makeTestFilepath(`${folderpath}/file1`),
+      filepath: makeTestFilepath(vars.workspaceRootname, `${folderpath}/file1`),
     }),
     uploadFileTest(endpoint, vars, {
-      filepath: makeTestFilepath(`${folderpath}/file2`),
+      filepath: makeTestFilepath(vars.workspaceRootname, `${folderpath}/file2`),
     }),
   ]);
 
   const input: IListFolderContentEndpointParams = {
     folderpath,
   };
+
   const result = await endpoint.folders.listFolderContent(input);
   assertEndpointResult(result);
   return result;
@@ -141,10 +151,14 @@ export async function addFolderTest(
   const genInput: IAddFolderEndpointParams = {
     folder: {
       description: faker.lorem.sentence(),
-      folderpath: makeTestFilepath(faker.system.directoryPath()),
+      folderpath: makeTestFilepath(
+        vars.workspaceRootname,
+        faker.system.directoryPath()
+      ),
       publicAccessOps: makePublicAccessOpInputs(AppResourceType.File),
     },
   };
+
   const inputs = merge(genInput, props);
   const result = await endpoint.folders.addFolder(inputs);
   addToCleanupField(vars, 'cleanupFolderpaths', result.folder.resourceId);
