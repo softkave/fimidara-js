@@ -74,16 +74,17 @@ export enum UploadFilePublicAccessActions {
 export interface IFileMatcher {
   /**
    * File path including the file extension if present. `fileId` is optional if
-   * `filepath` is provided. Example, `/path/to/file.txt`. When used to upload a
-   * file, the parent folders will also be created if they do not exist, for
-   * example, in the file path `/path/to/file.txt`, if `/path` and `/to` do not
-   * exist, they will be created.
+   * `filepath` is provided. Example, `/workspace-rootname/path/to/file.txt`.
+   * When used to upload a file, the parent folders will also be created if they
+   * do not exist, for example, in the file path `/path/to/file.txt`, if `/path`
+   * and `/to` do not exist, they will be created. The filepath should include
+   * the workspace rootname, for example:
+   * `/workspace-rootname/folderpath/filepath`.
    *
    * File and folder names are case sensitive, meaning 'MyFileName' will **not**
    * match 'myfilename'.
    *
-   * Valid characters are:
-   * /[A-Za-z0-9\/._-]/
+   * Valid characters are: /[A-Za-z0-9\/._-]/
    */
   filepath?: string;
 

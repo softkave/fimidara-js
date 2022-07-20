@@ -47,10 +47,11 @@ export interface IFolder {
 export interface IFolderMatcher {
   /**
    * Folder path. Optional if `folderId` is set. Folder names are case
-   * sensitive, meaning 'MyFolderName' will **not** match 'myfoldername'.
+   * sensitive, meaning 'MyFolderName' will **not** match 'myfoldername'. The
+   * folderpath should include the workspace rootname, for example:
+   * `/workspace-rootname/folderpath`.
    *
-   * Valid characters are:
-   * /[A-Za-z0-9\/._-]/
+   * Valid characters are: /[A-Za-z0-9\/._-]/
    */
   folderpath?: string;
 
@@ -61,12 +62,12 @@ export interface IFolderMatcher {
 /** @category Folder */
 export interface INewFolderInput {
   /**
-   * Folder path. Example, `/path/to/files`. The parent folders will be created
-   * if they do not exist, for example, in the path `/path/to/files`, if
-   * `/path`, `/to`, and `/files` do not exist, they will be created.
-   *
-   * Folder names are case sensitive, meaning 'MyFolderName' will **not** match
-   * 'myfoldername'.
+   * Folder path. Example, `/workspace-rootname/path/to/files`. The parent
+   * folders will be created if they do not exist, for example, in the path
+   * `/path/to/files`, if the folders `/path`, `/to`, and `/files` do not exist,
+   * they will be created. The folderpath should include the workspace
+   * rootname, for example: `/workspace-rootname/folderpath`. Folder names are
+   * case sensitive, meaning 'MyFolderName' will **not** match 'myfoldername'.
    */
   folderpath: string;
   description?: string;
