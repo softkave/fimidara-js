@@ -5,7 +5,6 @@ import {
   IEndpoints,
   IGetWorkspaceEndpointParams,
   IUpdateWorkspaceEndpointParams,
-  makeRootnameFromName,
 } from '../definitions';
 import {assertEndpointResult, ITestVars} from './utils';
 import assert = require('assert');
@@ -35,7 +34,7 @@ export async function updateWorkspaceTest(
     workspaceId: vars.workspaceId,
     workspace: {
       name: defaultCompanyName,
-      rootname: makeRootnameFromName(defaultCompanyName),
+      // rootname: makeRootnameFromName(defaultCompanyName),
     },
   };
   const input: IUpdateWorkspaceEndpointParams = merge(genInput, props);

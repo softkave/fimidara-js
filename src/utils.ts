@@ -181,8 +181,8 @@ export function cast<T>(value: any) {
   return value as T;
 }
 
-export function getFilepath(workspaceRootname: string, filepath: string[]) {
-  return addRootnameToPath(filepath, workspaceRootname).join('/');
+export function filePathListToString(filepath: string[]) {
+  return filepath.join('/');
 }
 
 export function addRootnameToPath<

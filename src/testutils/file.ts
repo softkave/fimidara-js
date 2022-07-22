@@ -11,7 +11,7 @@ import {
   IUploadFileEndpointParams,
   UploadFilePublicAccessActions,
 } from '../definitions';
-import {getFilepath} from '../utils';
+import {addRootnameToPath, filePathListToString} from '../utils';
 import {
   addToCleanupField,
   assertEndpointResult,
@@ -30,7 +30,10 @@ export async function deleteFileTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
+    filepath = addRootnameToPath(
+      filePathListToString(file.file.namePath),
+      vars.workspaceRootname
+    );
   }
 
   assert.ok(filepath);
@@ -51,7 +54,10 @@ export async function getFileDetailsTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
+    filepath = addRootnameToPath(
+      filePathListToString(file.file.namePath),
+      vars.workspaceRootname
+    );
   }
 
   assert.ok(filepath);
@@ -72,7 +78,10 @@ export async function updateFileDetailsTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
+    filepath = addRootnameToPath(
+      filePathListToString(file.file.namePath),
+      vars.workspaceRootname
+    );
   }
 
   assert.ok(filepath);
@@ -97,7 +106,10 @@ export async function getFileTest(
   let filepath = props.filepath;
   if (!filepath) {
     const file = await uploadFileTest(endpoint, vars);
-    filepath = getFilepath(vars.workspaceRootname, file.file.namePath);
+    filepath = addRootnameToPath(
+      filePathListToString(file.file.namePath),
+      vars.workspaceRootname
+    );
   }
 
   assert.ok(filepath);
@@ -129,7 +141,7 @@ export async function uploadFileTest(
 
   const inputs = merge(genInput, props);
   const result = await endpoint.files.uploadFile(inputs);
-  addToCleanupField(vars, 'cleanupFilepaths', result.file.resourceId);
+  addToCleanupField(vars, 'cleanupFileIds', result.file.resourceId);
   return result;
 }
 

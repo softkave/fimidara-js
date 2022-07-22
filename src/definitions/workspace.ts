@@ -84,7 +84,9 @@ export interface INewWorkspaceInput {
 }
 
 /** @category Workspace */
-export type IUpdateWorkspaceInput = Partial<INewWorkspaceInput>;
+export type IUpdateWorkspaceInput = Partial<
+  Omit<INewWorkspaceInput, 'rootname'>
+>;
 
 /** @category Workspace */
 export interface IGetWorkspaceEndpointParams extends IEndpointParamsBase {
@@ -119,7 +121,7 @@ export interface IWorkspaceEndpoints {
 
 export function makeRootnameFromName(name: string): string {
   return name
-    .replace(/[^a-zA-Z0-9._-]/, '')
-    .replace(/\s/g, '-')
+    .replace(/[^a-zA-Z0-9._-]/g, ' ')
+    .replace(/[\s-]+/g, '-')
     .toLowerCase();
 }

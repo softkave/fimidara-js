@@ -12,7 +12,7 @@ import {
   IUpdateFolderEndpointParams,
   makePublicAccessOpInputs,
 } from '../definitions';
-import {getFilepath} from '../utils';
+import {addRootnameToPath, filePathListToString} from '../utils';
 import {uploadFileTest} from './file';
 import {
   addToCleanupField,
@@ -31,7 +31,10 @@ export async function deleteFolderTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
+    folderpath = addRootnameToPath(
+      filePathListToString(folder.folder.namePath),
+      vars.workspaceRootname
+    );
   }
 
   assert.ok(folderpath);
@@ -52,7 +55,10 @@ export async function getFolderTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
+    folderpath = addRootnameToPath(
+      filePathListToString(folder.folder.namePath),
+      vars.workspaceRootname
+    );
   }
 
   assert.ok(folderpath);
@@ -73,7 +79,10 @@ export async function updateFolderTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
+    folderpath = addRootnameToPath(
+      filePathListToString(folder.folder.namePath),
+      vars.workspaceRootname
+    );
   }
 
   assert.ok(folderpath);
@@ -102,7 +111,7 @@ export async function listFolderContentTest(
   let folderpath = props.folderpath;
   if (!folderpath) {
     const folder = await addFolderTest(endpoint, vars);
-    folderpath = getFilepath(vars.workspaceRootname, folder.folder.namePath);
+    folderpath = filePathListToString(folder.folder.namePath);
   }
 
   assert.ok(folderpath);
@@ -135,7 +144,7 @@ export async function listFolderContentTest(
   ]);
 
   const input: IListFolderContentEndpointParams = {
-    folderpath,
+    folderpath: addRootnameToPath(folderpath, vars.workspaceRootname),
   };
 
   const result = await endpoint.folders.listFolderContent(input);
@@ -161,7 +170,7 @@ export async function addFolderTest(
 
   const inputs = merge(genInput, props);
   const result = await endpoint.folders.addFolder(inputs);
-  addToCleanupField(vars, 'cleanupFolderpaths', result.folder.resourceId);
+  addToCleanupField(vars, 'cleanupFolderIds', result.folder.resourceId);
   return result;
 }
 

@@ -5,7 +5,7 @@ import {IEndpoints} from '../definitions';
 import {EndpointResult} from '../definitions/types';
 import {deleteManyClientTokens} from './clientAssignedToken';
 import {deleteManyFilesById, deleteManyFilesByPath} from './file';
-import {deleteManyFoldersByPath} from './folder';
+import {deleteManyFoldersById, deleteManyFoldersByPath} from './folder';
 import {deleteManyPermissionGroups} from './permissionGroups';
 import {deleteManyPermissionItems} from './permissionItem';
 import {deleteManyProgramTokens} from './programAccessToken';
@@ -22,6 +22,7 @@ export interface ITestVars {
   cleanupClientTokenIds: string[];
   cleanupFileIds: string[];
   cleanupFilepaths: string[];
+  cleanupFolderIds: string[];
   cleanupFolderpaths: string[];
   cleanupPermissionItemIds: string[];
   cleanupProgramTokenIds: string[];
@@ -70,6 +71,7 @@ export function getTestVars(): ITestVars {
     cleanupClientTokenIds: [],
     cleanupFileIds: [],
     cleanupFilepaths: [],
+    cleanupFolderIds: [],
     cleanupFolderpaths: [],
     cleanupPermissionItemIds: [],
     cleanupProgramTokenIds: [],
@@ -85,6 +87,7 @@ export async function globalCleanup(endpoint: IEndpoints, vars: ITestVars) {
   const cleanupFolderpaths = uniq(vars.cleanupFolderpaths);
   const cleanupPermissionItemIds = uniq(vars.cleanupPermissionItemIds);
   const cleanupProgramTokenIds = uniq(vars.cleanupProgramTokenIds);
+  const cleanupFolderIds = uniq(vars.cleanupFolderIds);
   const result = await Promise.allSettled([
     cleanupPermissionGroupIds.length &&
       deleteManyPermissionGroups(endpoint, cleanupPermissionGroupIds),
@@ -99,6 +102,8 @@ export async function globalCleanup(endpoint: IEndpoints, vars: ITestVars) {
       deleteManyPermissionItems(endpoint, cleanupPermissionItemIds),
     cleanupProgramTokenIds.length &&
       deleteManyProgramTokens(endpoint, cleanupProgramTokenIds),
+    cleanupFolderIds.length &&
+      deleteManyFoldersById(endpoint, cleanupFolderIds),
   ]);
 
   const errors = result.filter(r => r.status === 'rejected');

@@ -64,7 +64,7 @@ export function getFetchFileURL(
   setEndpointParam(params, IMAGE_HEIGHT_QUERY_PARAMS_KEY, height);
   return (
     getServerAddr() +
-    path.normalize(`${getFilePath}/${filepath}`) +
+    path.posix.normalize(`${getFilePath}/${filepath}`) +
     `?${params.toString()}`
   );
 }
@@ -80,7 +80,9 @@ export function getUploadFileURL(
    */
   filepath: string
 ) {
-  return getServerAddr() + path.normalize(`${uploadFilePath}/${filepath}`);
+  return (
+    getServerAddr() + path.posix.normalize(`${uploadFilePath}/${filepath}`)
+  );
 }
 
 export default class FileEndpoints
@@ -120,6 +122,8 @@ export default class FileEndpoints
       props.imageTranformation?.width,
       props.imageTranformation?.height
     );
+
+    console.log('Fetching file from URL:', url);
 
     const response = await invokeEndpointWithAuth<Response>({
       path: url,
@@ -161,6 +165,7 @@ export default class FileEndpoints
         ...headers,
       },
       omitContentTypeHeader: true,
+      omitServerAddr: true,
     });
   }
 }
