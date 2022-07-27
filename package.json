@@ -30,7 +30,7 @@
     "test": "env-cmd -f \".env.test\" jest --config=jest.config.test.ts --detectOpenHandles",
     "docs": "typedoc",
     "show-packlist": "npx npm-packlist",
-    "publish-to-npm": "npm publish"
+    "publish-to-npm": "npm run compile && npm publish"
   },
   "dependencies": {
     "core-js": "^3.21.1",
